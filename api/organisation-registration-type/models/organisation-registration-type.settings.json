@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "organisation_registration_types",
+  "info": {
+    "name": "Organisation Registration Type"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "reg_type": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
+}
