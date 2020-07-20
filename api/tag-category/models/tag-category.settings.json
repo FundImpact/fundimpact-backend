@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tag_categories",
+  "info": {
+    "name": "Tag Category"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "organisation": {
+      "model": "organisation"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

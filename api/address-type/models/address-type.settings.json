@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "address_types",
+  "info": {
+    "name": "Address Type"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "address_type": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
+}
