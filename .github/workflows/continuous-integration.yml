@@ -31,7 +31,11 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
-
+        
+      - name: Create env
+        run: 
+          mv .github/workflows/envfile .env
+      
       - name: Install Dependencies if not Cached
         run: 
           npm install
