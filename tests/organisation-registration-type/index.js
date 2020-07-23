@@ -7,7 +7,7 @@ beforeAll(async done => {
   let params = {
       reg_type: 'test_type' + randomNum()
   }
-  const ogt = await strapi.query('organisation-registration-type').create(params);
+  await strapi.query('organisation-registration-type').create(params);
   done();
 });
 describe("Module: Organisation Registration Type", () => {
