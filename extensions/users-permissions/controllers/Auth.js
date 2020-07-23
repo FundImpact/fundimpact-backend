@@ -141,9 +141,16 @@ module.exports = {
         account_no:params.username
       });
       params.account = account.id;
+
+
+
       const user = await strapi.query('user', 'users-permissions').create(params);
-      console.log("params", params, user, account);
       
+      params.organisation.account = params.account;
+      const organisation = await strapi.query('organisation').create(params.organisation);
+      
+      user.organisation = organisation;
+
       const jwt = strapi.plugins['users-permissions'].services.jwt.issue(
         _.pick(user.toJSON ? user.toJSON() : user, ['id'])
       );
@@ -214,7 +221,6 @@ module.exports = {
         });
       }
     } catch (err) {
-        console.log("catch",err);
         
       const adminError = _.includes(err.message, 'username') ?
         {
