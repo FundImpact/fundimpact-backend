@@ -31,4 +31,4 @@ it('strapi is defined', async done => {
 });
 
 require('./auth');
-require('./organisation-registration-type');
+// require('./organisation-registration-type');
