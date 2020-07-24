@@ -30,6 +30,7 @@ describe("Module: Auth", () => {
         expect(data.body.user.account).toBeDefined();
         expect(data.body.user.role).toBeDefined();
         expect(data.body.user.organisation).toBeDefined();
+        expect(data.body.user.organisation.workspace).toBeDefined();
         done();
       }).catch(err => {
         done(err);
