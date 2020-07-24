@@ -12,9 +12,13 @@
     "username": {
       "type": "string",
       "minLength": 3,
-      "unique": true,
+      "unique": false,
       "configurable": false,
-      "required": true
+      "required": false
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3
     },
     "email": {
       "type": "email",

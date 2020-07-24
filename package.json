@@ -29,7 +29,8 @@
     "strapi-plugin-users-permissions": "3.0.5",
     "strapi-provider-upload-aws-s3": "^3.1.1",
     "strapi-utils": "3.0.5",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "uuid": "^8.2.0"
   },
   "author": {
     "name": "A Strapi developer"

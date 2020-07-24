@@ -8131,7 +8131,6 @@
             "items": {
               "required": [
                 "id",
-                "username",
                 "email"
               ],
               "properties": {
@@ -8139,6 +8138,9 @@
                   "type": "string"
                 },
                 "username": {
+                  "type": "string"
+                },
+                "name": {
                   "type": "string"
                 },
                 "email": {
@@ -8202,7 +8204,6 @@
       "UsersPermissionsUser": {
         "required": [
           "id",
-          "username",
           "email"
         ],
         "properties": {
@@ -8210,6 +8211,10 @@
             "type": "string"
           },
           "username": {
+            "type": "string",
+            "minLength": 3
+          },
+          "name": {
             "type": "string",
             "minLength": 3
           },
@@ -8284,11 +8289,14 @@
       },
       "NewUsersPermissionsUser": {
         "required": [
-          "username",
           "email"
         ],
         "properties": {
           "username": {
+            "type": "string",
+            "minLength": 3
+          },
+          "name": {
             "type": "string",
             "minLength": 3
           },
