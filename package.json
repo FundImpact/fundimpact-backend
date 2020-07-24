@@ -28,7 +28,8 @@
     "strapi-plugin-upload": "3.0.5",
     "strapi-plugin-users-permissions": "3.0.5",
     "strapi-utils": "3.0.5",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "uuid": "^8.2.0"
   },
   "author": {
     "name": "A Strapi developer"
