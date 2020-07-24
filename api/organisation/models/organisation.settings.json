@@ -21,11 +21,11 @@
     },
     "short_name": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "legal_name": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "description": {
       "type": "richtext"

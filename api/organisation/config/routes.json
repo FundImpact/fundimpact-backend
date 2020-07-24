@@ -5,7 +5,7 @@
       "path": "/organisations",
       "handler": "organisation.find",
       "config": {
-        "policies": []
+        "policies": ["addFilter"]
       }
     },
     {

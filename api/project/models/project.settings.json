@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "workspaces",
+  "collectionName": "projects",
   "info": {
-    "name": "Workspace"
+    "name": "Project"
   },
   "options": {
     "increments": true,
@@ -14,14 +14,22 @@
       "required": true
     },
     "short_name": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "description": {
       "type": "richtext"
     },
-    "organisation": {
-      "model": "organisation"
+    "icon": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "workspace": {
+      "model": "workspace"
     }
   }
 }
