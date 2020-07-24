@@ -151,6 +151,14 @@ module.exports = {
       
       user.organisation = organisation;
 
+      let workSpaceParams = {
+        organisation: organisation.id,
+        name:"DEFAULT",
+        short_name: "DEFAULT"
+      };
+      const workspace = await strapi.query('workspace').create(workSpaceParams);
+      user.organisation.workspace = workspace;
+
       const jwt = strapi.plugins['users-permissions'].services.jwt.issue(
         _.pick(user.toJSON ? user.toJSON() : user, ['id'])
       );
