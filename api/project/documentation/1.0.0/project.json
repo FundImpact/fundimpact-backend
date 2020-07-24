@@ -1,6 +1,6 @@
 {
   "paths": {
-    "/workspaces": {
+    "/projects": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -12,7 +12,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Workspace"
+                    "$ref": "#/components/schemas/Project"
                   }
                 }
               }
@@ -51,7 +51,7 @@
         },
         "summary": "",
         "tags": [
-          "Workspace"
+          "Project"
         ],
         "parameters": [
           {
@@ -201,7 +201,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Workspace"
+                  "$ref": "#/components/schemas/Project"
                 }
               }
             }
@@ -239,7 +239,7 @@
         },
         "summary": "",
         "tags": [
-          "Workspace"
+          "Project"
         ],
         "requestBody": {
           "description": "",
@@ -247,14 +247,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewWorkspace"
+                "$ref": "#/components/schemas/NewProject"
               }
             }
           }
         }
       }
     },
-    "/workspaces/count": {
+    "/projects/count": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -306,12 +306,12 @@
         },
         "summary": "",
         "tags": [
-          "Workspace"
+          "Project"
         ],
         "parameters": []
       }
     },
-    "/workspaces/{id}": {
+    "/projects/{id}": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -321,7 +321,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Workspace"
+                  "$ref": "#/components/schemas/Project"
                 }
               }
             }
@@ -359,7 +359,7 @@
         },
         "summary": "",
         "tags": [
-          "Workspace"
+          "Project"
         ],
         "parameters": [
           {
@@ -383,7 +383,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Workspace"
+                  "$ref": "#/components/schemas/Project"
                 }
               }
             }
@@ -421,7 +421,7 @@
         },
         "summary": "",
         "tags": [
-          "Workspace"
+          "Project"
         ],
         "requestBody": {
           "description": "",
@@ -429,7 +429,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewWorkspace"
+                "$ref": "#/components/schemas/NewProject"
               }
             }
           }
@@ -495,7 +495,7 @@
         },
         "summary": "",
         "tags": [
-          "Workspace"
+          "Project"
         ],
         "parameters": [
           {
@@ -514,11 +514,10 @@
   },
   "components": {
     "schemas": {
-      "Workspace": {
+      "Project": {
         "required": [
           "id",
-          "name",
-          "short_name"
+          "name"
         ],
         "properties": {
           "id": {
@@ -533,21 +532,75 @@
           "description": {
             "type": "string"
           },
-          "organisation": {
+          "icon": {
             "required": [
               "id",
               "name",
-              "short_name",
-              "legal_name"
+              "hash",
+              "mime",
+              "size",
+              "url",
+              "provider"
             ],
             "properties": {
               "id": {
                 "type": "string"
               },
-              "account": {
+              "name": {
                 "type": "string"
               },
-              "organisation_registration_type": {
+              "alternativeText": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              },
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              },
+              "formats": {
+                "type": "object"
+              },
+              "hash": {
+                "type": "string"
+              },
+              "ext": {
+                "type": "string"
+              },
+              "mime": {
+                "type": "string"
+              },
+              "size": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "previewUrl": {
+                "type": "string"
+              },
+              "provider": {
+                "type": "string"
+              },
+              "provider_metadata": {
+                "type": "object"
+              },
+              "related": {
+                "type": "string"
+              }
+            }
+          },
+          "workspace": {
+            "required": [
+              "id",
+              "name",
+              "short_name"
+            ],
+            "properties": {
+              "id": {
                 "type": "string"
               },
               "name": {
@@ -556,20 +609,19 @@
               "short_name": {
                 "type": "string"
               },
-              "legal_name": {
+              "description": {
                 "type": "string"
               },
-              "description": {
+              "organisation": {
                 "type": "string"
               }
             }
           }
         }
       },
-      "NewWorkspace": {
+      "NewProject": {
         "required": [
-          "name",
-          "short_name"
+          "name"
         ],
         "properties": {
           "name": {
@@ -581,7 +633,7 @@
           "description": {
             "type": "string"
           },
-          "organisation": {
+          "workspace": {
             "type": "string"
           }
         }
@@ -590,7 +642,7 @@
   },
   "tags": [
     {
-      "name": "Workspace"
+      "name": "Project"
     }
   ]
 }

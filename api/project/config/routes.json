@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/workspaces",
-      "handler": "workspace.find",
-      "config": {
-        "policies": ["addFilter"]
-      }
-    },
-    {
-      "method": "GET",
-      "path": "/workspaces/count",
-      "handler": "workspace.count",
+      "path": "/projects",
+      "handler": "project.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/workspaces/:id",
-      "handler": "workspace.findOne",
+      "path": "/projects/count",
+      "handler": "project.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/projects/:id",
+      "handler": "project.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/workspaces",
-      "handler": "workspace.create",
+      "path": "/projects",
+      "handler": "project.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/workspaces/:id",
-      "handler": "workspace.update",
+      "path": "/projects/:id",
+      "handler": "project.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/workspaces/:id",
-      "handler": "workspace.delete",
+      "path": "/projects/:id",
+      "handler": "project.delete",
       "config": {
         "policies": []
       }
