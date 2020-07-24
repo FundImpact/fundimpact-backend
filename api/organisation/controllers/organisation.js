@@ -23,17 +23,15 @@ module.exports = {
    *
    * @return {Object}
    */
-
+    
     async create(ctx) {
         try {
             let params = ctx.request.body;
             params['account'] = ctx.state.user.account;
             const organisation = await strapi.query('organisation').create(params);
-            console.log("organisation", organisation)
             const sanitizedOrg = sanitizeEntity(organisation.toJSON ? organisation.toJSON() : organisation, {
                 model: strapi.query('organisation').model,
             });
-            console.log("sanitizedOrg", sanitizedOrg)
             return ctx.send({
                 organisation: sanitizedOrg,
             });
@@ -46,12 +44,9 @@ module.exports = {
         try {
             const { id } = ctx.params;
             let entity = await strapi.query('organisation').update({ id }, ctx.request.body);
-            console.log("entity" , entity)
-
             const updateOrg = sanitizeEntity(entity.toJSON ? entity.toJSON() : entity, {
                 model: strapi.query('organisation').model,
             });
-            console.log("updateOrg", updateOrg)
             return ctx.send({
                 organisation: updateOrg,
             });

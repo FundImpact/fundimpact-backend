@@ -1,10 +1,7 @@
 module.exports = async (ctx, next) => {
     try{
-        let orgs = await strapi.query('organisation').find({
-            account: ctx.state.user.account
-        });
         Object.assign(ctx.query, {
-            organisation_in: orgs.map(m => m.id)
+            account: ctx.state.user.account
         });
         return await next();
     }catch(err){

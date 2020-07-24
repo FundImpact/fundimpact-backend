@@ -5,7 +5,7 @@
       "path": "/projects",
       "handler": "project.find",
       "config": {
-        "policies": []
+        "policies": ["addFilter"]
       }
     },
     {

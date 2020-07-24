@@ -517,9 +517,7 @@
       "Organisation": {
         "required": [
           "id",
-          "name",
-          "short_name",
-          "legal_name"
+          "name"
         ],
         "properties": {
           "id": {
@@ -575,9 +573,7 @@
       },
       "NewOrganisation": {
         "required": [
-          "name",
-          "short_name",
-          "legal_name"
+          "name"
         ],
         "properties": {
           "account": {

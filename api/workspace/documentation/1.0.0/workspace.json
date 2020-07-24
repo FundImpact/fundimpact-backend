@@ -536,9 +536,7 @@
           "organisation": {
             "required": [
               "id",
-              "name",
-              "short_name",
-              "legal_name"
+              "name"
             ],
             "properties": {
               "id": {
