@@ -7,10 +7,13 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "test": "jest --forceExit --detectOpenHandles"
   },
   "devDependencies": {},
   "dependencies": {
+    "jest": "^26.1.0",
+    "jest-junit": "^11.0.1",
     "knex": "<0.20.0",
     "pg": "^8.3.0",
     "sqlite3": "latest",
@@ -24,7 +27,8 @@
     "strapi-plugin-graphql": "3.0.5",
     "strapi-plugin-upload": "3.0.5",
     "strapi-plugin-users-permissions": "3.0.5",
-    "strapi-utils": "3.0.5"
+    "strapi-utils": "3.0.5",
+    "supertest": "^4.0.2"
   },
   "author": {
     "name": "A Strapi developer"
@@ -35,6 +39,14 @@
   "engines": {
     "node": ">=10.0.0",
     "npm": ">=6.0.0"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      ".tmp",
+      ".cache"
+    ],
+    "testEnvironment": "node"
   },
   "license": "MIT"
 }
