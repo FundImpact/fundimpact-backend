@@ -25,20 +25,23 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     env:
-      MIX_ENV: test
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
-
+        
+      - name: Create env
+        run: 
+          mv .github/workflows/envfile .env
+      
       - name: Install Dependencies if not Cached
         run: 
           npm install
       
-      - name: run npm
+      - name: test
         run: 
-          npm start
+          npm test
 
       - name: Code coverage
         run: bash <(curl -s https://codecov.io/bash)
