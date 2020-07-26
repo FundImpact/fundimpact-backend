@@ -383,7 +383,6 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.log("err" , err)
       const adminError = _.includes({
         id: 'Auth.form.error.email.taken',
         message: 'Email already taken'

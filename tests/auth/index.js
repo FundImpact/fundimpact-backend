@@ -4,6 +4,7 @@ function getMockData(mockUserCred) {
     "username": mockUserCred.username,
     "password": mockUserCred.password,
     "email": `${mockUserCred.username}@dhwaniris.com`,
+    "role": strapi.role.authenticated,
     "organisation": {
       "organisation_registration_type": "1",
       "name": "Dhwani",
@@ -12,8 +13,14 @@ function getMockData(mockUserCred) {
     }
   }
 }
+
+
 // user mock data
 describe("Module: Auth", () => {
+  it("Role : User Role defined" , async done =>{
+    expect(strapi.role).toBeDefined();
+    done();
+  })
   it('Register: should register user with organisation and return jwt token, account, organisation', async done => {
     let mockData = getMockData(strapi.mockUserCred);
     await request(strapi.server) // app server is an instance of Class: http.Server
@@ -43,7 +50,7 @@ describe("Module: Auth", () => {
       .set('accept', 'application/json')
       .set('Content-Type', 'application/json')
       .send({
-        identifier: mockData.username,
+        email: mockData.email,
         password: mockData.password
       })
       .expect('Content-Type', /json/)

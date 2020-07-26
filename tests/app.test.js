@@ -8,6 +8,7 @@ let mockUserCred;
 /** this code is called once before any test is called */
 beforeAll(async done => {
     await setupStrapi(); // singleton so it can be called many times
+    require('./init')();
     done();
 });
 
@@ -30,5 +31,6 @@ it('strapi is defined', async done => {
   done();
 });
 
+require('./organisation-registration-type');
 require('./auth');
-// require('./organisation-registration-type');
+require('./organization')
