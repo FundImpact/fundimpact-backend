@@ -52,6 +52,7 @@ module.exports = {
   resolver: {
     Query: {
       orgProject: {
+        policies : ['application::project.addFilter'],
         resolver: 'application::project.project.find',
       },
       // role: {
@@ -119,7 +120,6 @@ module.exports = {
       createOrgProject:  async (obj, options, { context }) => {
           context.params = _.toPlainObject(options.input);
           context.request.body = _.toPlainObject(options);
-          console.log(context , options)
           return await strapi.controllers.project.create(context);
       },
       //   updateUser: {
