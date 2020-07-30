@@ -30,6 +30,7 @@ module.exports = {
       }
 
       // The identifier is required.
+      console.log("params" , params)
       if (!params.email) {
         return ctx.badRequest(
           null,
@@ -61,7 +62,7 @@ module.exports = {
 
       // Check if the user exists.
       const user = await strapi.query('user', 'users-permissions').findOne(query);
-
+      console.log("user" , user)
       if (!user) {
         return ctx.badRequest(
           null,

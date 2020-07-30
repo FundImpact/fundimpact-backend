@@ -24,6 +24,7 @@ let permissionJson = {
 
 
 module.exports = async () => {
+    console.log("strapi.plugins" , strapi.plugins)
     strapi.role = {
         "authenticated": "1",
         "public": "2"

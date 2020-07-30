@@ -53,5 +53,5 @@ module.exports = {
         } catch (err) {
             return ctx.badRequest(null, formatError(err.message));
         }
-    }
+    },
 };
