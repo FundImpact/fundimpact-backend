@@ -17,41 +17,4 @@ const formatError = error => [{
     }]
 },];
 
-module.exports = {
-    /**
-   * Create a record.
-   *
-   * @return {Object}
-   */
-    
-    async create(ctx) {
-        try {
-            let params = ctx.request.body;
-            params['account'] = ctx.state.user.account;
-            const organisation = await strapi.query('organisation').create(params);
-            const sanitizedOrg = sanitizeEntity(organisation.toJSON ? organisation.toJSON() : organisation, {
-                model: strapi.query('organisation').model,
-            });
-            return ctx.send({
-                organisation: sanitizedOrg,
-            });
-        } catch (error) {
-            return ctx.badRequest(null, formatError(error.message));
-        }
-    },
-
-    async update(ctx) {
-        try {
-            const { id } = ctx.params;
-            let entity = await strapi.query('organisation').update({ id }, ctx.request.body);
-            const updateOrg = sanitizeEntity(entity.toJSON ? entity.toJSON() : entity, {
-                model: strapi.query('organisation').model,
-            });
-            return ctx.send({
-                organisation: updateOrg,
-            });
-        } catch (err) {
-            return ctx.badRequest(null, formatError(err.message));
-        }
-    },
-};
+module.exports = {};
