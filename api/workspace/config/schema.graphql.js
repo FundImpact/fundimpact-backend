@@ -41,8 +41,6 @@ module.exports = {
             }) => {
               context.params = _.toPlainObject(options);
               context.request.body = _.toPlainObject(options.input);
-              console.log(context.params, context.request.body);
-              
               return await strapi.controllers.workspace.update(context);
             }
         }
