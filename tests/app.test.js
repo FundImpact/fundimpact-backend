@@ -8,7 +8,7 @@ let mockUserCred;
 /** this code is called once before any test is called */
 beforeAll(async done => {
     await setupStrapi(); // singleton so it can be called many times
-    require('./init')();
+    await require('./init')();
     done();
 });
 

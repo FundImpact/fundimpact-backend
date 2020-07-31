@@ -25,9 +25,10 @@ describe("Module: Organisation", () => {
             .send(mockData)
             .expect(200)
             .then(data => {
-                organisation_id = data.body.organisation.id;
-                expect(data.body.organisation).toBeDefined();
-                expect(data.body.organisation.account).toBeDefined();
+                organisation_id = data.body.id;
+                expect(data.body).toBeDefined();
+                expect(data.body.account).toBeDefined();
+                expect(data.body.organisation_registration_type).toBeDefined();
                 done();
             }).catch(err => {
                 done(err);
@@ -37,13 +38,14 @@ describe("Module: Organisation", () => {
     it("Update : update organisation and return account , organisation", async done => {
         let mockData = getMockData();
         await request(strapi.server) // app server is an instance of Class: http.Server
-            .put('/organisations/' + organisation_id )
+            .put('/organisations/' + organisation_id)
             .set('Authorization', `Bearer ${strapi.mockUserCred.jwt}`)
             .send(mockData)
             .expect(200)
             .then(data => {
-                expect(data.body.organisation).toBeDefined();
-                expect(data.body.organisation.account).toBeDefined();
+                expect(data.body).toBeDefined();
+                expect(data.body.account).toBeDefined();
+                expect(data.body.organisation_registration_type).toBeDefined();
                 done();
             }).catch(err => {
                 done(err);
