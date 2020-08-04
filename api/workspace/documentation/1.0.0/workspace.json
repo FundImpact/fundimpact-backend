@@ -532,35 +532,6 @@
           },
           "description": {
             "type": "string"
-          },
-          "organisation": {
-            "required": [
-              "id",
-              "name"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "account": {
-                "type": "string"
-              },
-              "organisation_registration_type": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "short_name": {
-                "type": "string"
-              },
-              "legal_name": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              }
-            }
           }
         }
       },
@@ -577,9 +548,6 @@
             "type": "string"
           },
           "description": {
-            "type": "string"
-          },
-          "organisation": {
             "type": "string"
           }
         }

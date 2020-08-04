@@ -19,9 +19,6 @@
     },
     "description": {
       "type": "richtext"
-    },
-    "organisation": {
-      "model": "organisation"
     }
   }
 }

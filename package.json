@@ -5,7 +5,7 @@
   "description": "A Strapi application",
   "scripts": {
     "develop": "strapi develop",
-    "start": "strapi start",
+    "start": "AUTORELOAD=false strapi start",
     "build": "strapi build",
     "strapi": "strapi",
     "test": "jest --forceExit --detectOpenHandles"

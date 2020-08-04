@@ -611,9 +611,6 @@
               },
               "description": {
                 "type": "string"
-              },
-              "organisation": {
-                "type": "string"
               }
             }
           }
