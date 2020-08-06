@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "connection": "default",
+  "collectionName": "organizations",
+  "info": {
+    "name": "organization"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "contact": {
+      "plugin": "crm-plugin",
+      "model": "contact",
+      "via": "organization"
+    },
+    "address": {
+      "type": "text"
+    }
+  }
+}
