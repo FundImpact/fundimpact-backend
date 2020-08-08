@@ -23,16 +23,39 @@ module.exports = {
 
             type OrganizationList {
                 id: ID!
-                name: String,
-                contact: String,
-                created_at: String,
-                updated_at: String
+                name: String
+                contact: String
+                address: String
+                account : AccountDetails
+                organisation_registration_type : OrganizationRegistrationType
+                short_name : String
+                legal_name : String
+                description : String
+                contact_type: String
             }
+
+            type AccountDetails {
+                id : ID!
+                account_no : Int
+                name : String
+                description : String
+            }
+
+
+            type OrganizationRegistrationType {
+                id : ID!
+                reg_type : String
+            }
+
 
             input AddContactInput {
                 name: String
-                phone: String
-                email: String
+                address: String
+                account : String
+                organisation_registration_type : Int
+                short_name : String
+                legal_name : String
+                description : String
                 contact_type: String
             }
     `,
@@ -57,6 +80,7 @@ module.exports = {
                         ...context.params,
                     };
                     context.request.body = _.toPlainObject(options.input);
+                    console.log("context" , context.params , context.request.body)
                     let result = await strapi.plugins['crm-plugin'].controllers.contact.create(context);
                     //let output = context.body.toJSON ? context.body.toJSON() : context.body;
                     console.log("result" , result)
