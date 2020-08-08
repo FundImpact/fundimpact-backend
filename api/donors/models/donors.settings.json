@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "Donor",
+  "info": {
+    "name": "Donor"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "legal_name": {
+      "type": "string"
+    },
+    "shortname": {
+      "type": "string"
+    },
+    "organization_id": {
+      "plugin": "crm-plugin",
+      "model": "organization"
+    },
+    "currency_id": {
+      "model": "currencie"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/buget-category-organizations",
+      "handler": "buget-category-organization.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/buget-category-organizations/count",
+      "handler": "buget-category-organization.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/buget-category-organizations/:id",
+      "handler": "buget-category-organization.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/buget-category-organizations",
+      "handler": "buget-category-organization.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/buget-category-organizations/:id",
+      "handler": "buget-category-organization.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/buget-category-organizations/:id",
+      "handler": "buget-category-organization.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/organisation-currencies",
+      "handler": "organisation-currency.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/organisation-currencies/count",
+      "handler": "organisation-currency.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/organisation-currencies/:id",
+      "handler": "organisation-currency.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/organisation-currencies",
+      "handler": "organisation-currency.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/organisation-currencies/:id",
+      "handler": "organisation-currency.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/organisation-currencies/:id",
+      "handler": "organisation-currency.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
