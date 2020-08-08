@@ -21,6 +21,23 @@
     },
     "address": {
       "type": "text"
+    },
+    "account": {
+      "model": "account"
+    },
+    "organisation_registration_type": {
+      "model": "organisation-registration-type"
+    },
+    "short_name": {
+      "type": "string",
+      "required": false
+    },
+    "legal_name": {
+      "type": "string",
+      "required": false
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }
