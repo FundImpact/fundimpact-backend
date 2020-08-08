@@ -15,12 +15,12 @@ function getMockData() {
 
 let organisation_id = '';
 
-describe("Module: Organisation", () => {
-    it('Create: create organisation and return account, organisation', async done => {
+describe("Module: Organization", () => {
+    it('Create: create organization and return account, organization', async done => {
         let mockData = getMockData();
 
         await request(strapi.server) // app server is an instance of Class: http.Server
-            .post('/organisations')
+            .post('/organizations')
             .set('Authorization', `Bearer ${strapi.mockUserCred.jwt}`)
             .send(mockData)
             .expect(200)
@@ -35,10 +35,10 @@ describe("Module: Organisation", () => {
             });
     })
 
-    it("Update : update organisation and return account , organisation", async done => {
+    it("Update : update organization and return account , organization", async done => {
         let mockData = getMockData();
         await request(strapi.server) // app server is an instance of Class: http.Server
-            .put('/organisations/' + organisation_id)
+            .put('/organizations/' + organisation_id)
             .set('Authorization', `Bearer ${strapi.mockUserCred.jwt}`)
             .send(mockData)
             .expect(200)

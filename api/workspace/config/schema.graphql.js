@@ -4,8 +4,7 @@ module.exports = {
     type OrgWorkspace {
       id: ID!,
       name: String!,
-      short_name: String!,
-      organisation: Organisation
+      short_name: String!
     }
     input OrgWorkspaceInput {
         organisation:ID!,

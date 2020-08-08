@@ -30,7 +30,6 @@ module.exports = {
       }
 
       // The identifier is required.
-      console.log("params" , params)
       if (!params.email) {
         return ctx.badRequest(
           null,
@@ -62,7 +61,6 @@ module.exports = {
 
       // Check if the user exists.
       const user = await strapi.query('user', 'users-permissions').findOne(query);
-      console.log("user" , user)
       if (!user) {
         return ctx.badRequest(
           null,
@@ -302,7 +300,10 @@ module.exports = {
       const user = await strapi.query('user', 'users-permissions').create(params);
 
       params.organisation.account = params.account;
-      const organisation = await strapi.query('organisation').create(params.organisation);
+
+      const organisation  = await strapi.query('organization', "crm-plugin").create(params.organisation);
+      
+      //const organisation = await strapi.query('organisation').create(params.organisation);
 
       user.organisation = organisation;
 
