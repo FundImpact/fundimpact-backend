@@ -299,21 +299,21 @@ module.exports = {
       params.account = account.id;
       const user = await strapi.query('user', 'users-permissions').create(params);
 
-      params.organisation.account = params.account;
+      params.organization.account = params.account;
 
-      const organisation  = await strapi.query('organization', "crm-plugin").create(params.organisation);
+      const organization  = await strapi.query('organization', "crm-plugin").create(params.organization);
       
-      //const organisation = await strapi.query('organisation').create(params.organisation);
+      //const organization = await strapi.query('organization').create(params.organization);
 
-      user.organisation = organisation;
+      user.organization = organization;
 
       let workSpaceParams = {
-        organisation: organisation.id,
+        organization: organization.id,
         name:"DEFAULT",
         short_name: "DEFAULT"
       };
       const workspace = await strapi.query('workspace').create(workSpaceParams);
-      user.organisation.workspace = workspace;
+      user.organization.workspace = workspace;
 
       const jwt = strapi.plugins['users-permissions'].services.jwt.issue(
         _.pick(user.toJSON ? user.toJSON() : user, ['id'])

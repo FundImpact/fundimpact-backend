@@ -10,49 +10,23 @@ module.exports = {
         UsersPermissionsPermission: true, // Make this type NOT queriable.
     },
     definition: /* GraphQL */ `
-            type ContactList {
-                id: ID!
-                name: String
-                phone: String
-                email: String
-                contact_type: String
-                organization: OrganizationList
-                created_at: String
-                updated_at: String
-            }
-
             type OrganizationList {
                 id: ID!
                 name: String
                 contact: String
                 address: String
-                account : AccountDetails
-                organisation_registration_type : OrganizationRegistrationType
+                account : Account
+                organisation_registration_type : OrganisationRegistrationType
                 short_name : String
                 legal_name : String
                 description : String
                 contact_type: String
             }
-
-            type AccountDetails {
-                id : ID!
-                account_no : Int
-                name : String
-                description : String
-            }
-
-
-            type OrganizationRegistrationType {
-                id : ID!
-                reg_type : String
-            }
-
-
-            input AddContactInput {
+            input OrganisationInput {
                 name: String
                 address: String
-                account : String
-                organisation_registration_type : Int
+                account : ID
+                organisation_registration_type : ID
                 short_name : String
                 legal_name : String
                 description : String
@@ -60,46 +34,31 @@ module.exports = {
             }
     `,
     query: `
-    contactList: [ContactList]
+    organisationList: [OrganizationList]
     `,
     mutation: `
-        addContactDetail(input: AddContactInput): ContactList,
-        updateContactDetail(id: ID!, input: ContactInput): ContactList
+        organisationUpdate(id: ID!, input: OrganisationInput): OrganizationList
     `,
     resolver: {
         Query: {
-            contactList: {
-                resolver: 'plugins::crm-plugin.contact.find',
+            organisationList: {
+                resolverOf: 'plugins::crm-plugin.organization.find',
+                resolver: async (obj, options, {
+                    context
+                  }) =>{
+                    Object.assign(context.query,{account:context.state.user.account})
+                    return await strapi.plugins['crm-plugin'].controllers.organization.find(context);
+                }
             },
         },
         Mutation: {
-            addContactDetail: {
-                resolverOf: 'plugins::crm-plugin.contact.create',
-                resolver: async (obj, options, { context }) => {
-                    context.params = {
-                        ...context.params,
-                    };
-                    context.request.body = _.toPlainObject(options.input);
-                    console.log("context" , context.params , context.request.body)
-                    let result = await strapi.plugins['crm-plugin'].controllers.contact.create(context);
-                    //let output = context.body.toJSON ? context.body.toJSON() : context.body;
-                    console.log("result" , result)
-                    //checkBadRequest(output);
-                    return result;
-                },
-            },
-            updateContactDetail : {
-                resolverOf: 'plugins::crm-plugin.contact.update',
-                resolver: async (obj, options, { context }) => {
-                    context.params = { id : options.id};
-                    context.request.body = _.toPlainObject(options.input);
-                    let result = await strapi.plugins['crm-plugin'].controllers.contact.update(context);
-                    //let output = context.body.toJSON ? context.body.toJSON() : context.body;
-                    console.log("result" , result)
-                    //checkBadRequest(output);
-                    return result;
-                }
-            }
+            organisationUpdate: async (obj, options, {
+                context
+              }) => {
+                context.params = _.toPlainObject(options);
+                context.request.body = _.toPlainObject(options.input);
+                return await strapi.plugins['crm-plugin'].controllers.organization.update(context);
+              }
         }
     },
 };

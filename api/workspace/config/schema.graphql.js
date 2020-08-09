@@ -5,9 +5,10 @@ module.exports = {
       id: ID!,
       name: String!,
       short_name: String!
+      organization:CrmPluginOrganization
     }
     input OrgWorkspaceInput {
-        organisation:ID!,
+        organization:ID!,
         name: String!,
         short_name: String,
         description:String
