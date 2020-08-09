@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "buget_category_organization",
+  "info": {
+    "name": "bugetCategoryOrganization"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "organization_id": {
+      "plugin": "crm-plugin",
+      "model": "organization"
+    },
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "currency",
+  "info": {
+    "name": "currency"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "country": {
+      "plugin": "crm-plugin",
+      "model": "country"
+    }
+  }
+}
