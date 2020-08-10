@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/budget-targets-projects",
+      "handler": "budget-targets-project.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-targets-projects/count",
+      "handler": "budget-targets-project.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-targets-projects/:id",
+      "handler": "budget-targets-project.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/budget-targets-projects",
+      "handler": "budget-targets-project.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/budget-targets-projects/:id",
+      "handler": "budget-targets-project.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/budget-targets-projects/:id",
+      "handler": "budget-targets-project.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

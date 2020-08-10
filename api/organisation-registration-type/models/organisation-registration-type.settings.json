@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "organisation_registration_types",
+  "collectionName": "organization_registration_types",
   "info": {
-    "name": "Organisation Registration Type"
+    "name": "Organization Registration Type"
   },
   "options": {
     "increments": true,
