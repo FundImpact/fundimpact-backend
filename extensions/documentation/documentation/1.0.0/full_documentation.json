@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "08/10/2020 3:14:19 PM"
+    "x-generation-date": "08/10/2020 7:02:16 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -6818,7 +6818,7 @@
         ]
       }
     },
-    "/organisation-registration-types": {
+    "/organization-registration-types": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -6870,7 +6870,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "parameters": [
           {
@@ -7062,7 +7062,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "requestBody": {
           "description": "",
@@ -7070,14 +7070,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewOrganisation-registration-type"
+                "$ref": "#/components/schemas/NewOrganization-registration-type"
               }
             }
           }
         }
       }
     },
-    "/organisation-registration-types/count": {
+    "/organization-registration-types/count": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -7129,12 +7129,12 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "parameters": []
       }
     },
-    "/organisation-registration-types/{id}": {
+    "/organization-registration-types/{id}": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -7186,7 +7186,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "parameters": [
           {
@@ -7252,7 +7252,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "requestBody": {
           "description": "",
@@ -7260,7 +7260,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewOrganisation-registration-type"
+                "$ref": "#/components/schemas/NewOrganization-registration-type"
               }
             }
           }
@@ -7326,7 +7326,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "parameters": [
           {
@@ -11671,9 +11671,6 @@
               "account": {
                 "type": "string"
               },
-              "organisation_registration_type": {
-                "type": "string"
-              },
               "short_name": {
                 "type": "string"
               },
@@ -11681,6 +11678,9 @@
                 "type": "string"
               },
               "description": {
+                "type": "string"
+              },
+              "organization_registration_type": {
                 "type": "string"
               }
             }
@@ -11867,9 +11867,6 @@
               "account": {
                 "type": "string"
               },
-              "organisation_registration_type": {
-                "type": "string"
-              },
               "short_name": {
                 "type": "string"
               },
@@ -11877,6 +11874,9 @@
                 "type": "string"
               },
               "description": {
+                "type": "string"
+              },
+              "organization_registration_type": {
                 "type": "string"
               }
             }
@@ -11969,9 +11969,6 @@
               "account": {
                 "type": "string"
               },
-              "organisation_registration_type": {
-                "type": "string"
-              },
               "short_name": {
                 "type": "string"
               },
@@ -11979,6 +11976,9 @@
                 "type": "string"
               },
               "description": {
+                "type": "string"
+              },
+              "organization_registration_type": {
                 "type": "string"
               }
             }
@@ -12119,9 +12119,6 @@
               "account": {
                 "type": "string"
               },
-              "organisation_registration_type": {
-                "type": "string"
-              },
               "short_name": {
                 "type": "string"
               },
@@ -12129,6 +12126,9 @@
                 "type": "string"
               },
               "description": {
+                "type": "string"
+              },
+              "organization_registration_type": {
                 "type": "string"
               }
             }
@@ -12161,7 +12161,7 @@
           }
         }
       },
-      "Organisation-registration-type": {
+      "Organization-registration-type": {
         "required": [
           "id",
           "reg_type"
@@ -12175,7 +12175,7 @@
           }
         }
       },
-      "NewOrganisation-registration-type": {
+      "NewOrganization-registration-type": {
         "required": [
           "reg_type"
         ],
@@ -12430,9 +12430,6 @@
               "account": {
                 "type": "string"
               },
-              "organisation_registration_type": {
-                "type": "string"
-              },
               "short_name": {
                 "type": "string"
               },
@@ -12440,6 +12437,9 @@
                 "type": "string"
               },
               "description": {
+                "type": "string"
+              },
+              "organization_registration_type": {
                 "type": "string"
               }
             }

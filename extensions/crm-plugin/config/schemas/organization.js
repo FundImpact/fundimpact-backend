@@ -6,9 +6,6 @@ const _ = require('lodash');
  * @throws ApolloError if the body is a bad request
  */
 module.exports = {
-    type: {
-        UsersPermissionsPermission: true, // Make this type NOT queriable.
-    },
     definition: /* GraphQL */ `
             type OrganizationList {
                 id: ID!
@@ -41,7 +38,7 @@ module.exports = {
     `,
     resolver: {
         Query: {
-            organizationList: {
+            organisationList: {
                 resolverOf: 'plugins::crm-plugin.organization.find',
                 resolver: async (obj, options, {
                     context
@@ -52,7 +49,7 @@ module.exports = {
             },
         },
         Mutation: {
-            organizationUpdate: async (obj, options, {
+            organisationUpdate: async (obj, options, {
                 context
               }) => {
                 context.params = _.toPlainObject(options);

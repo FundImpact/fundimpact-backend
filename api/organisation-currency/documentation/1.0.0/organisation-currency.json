@@ -557,9 +557,6 @@
               "account": {
                 "type": "string"
               },
-              "organisation_registration_type": {
-                "type": "string"
-              },
               "short_name": {
                 "type": "string"
               },
@@ -567,6 +564,9 @@
                 "type": "string"
               },
               "description": {
+                "type": "string"
+              },
+              "organization_registration_type": {
                 "type": "string"
               }
             }
