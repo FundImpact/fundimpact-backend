@@ -560,40 +560,12 @@
                 "type": "string"
               }
             }
-          },
-          "donor": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "legal_name": {
-                "type": "string"
-              },
-              "shortname": {
-                "type": "string"
-              },
-              "organization_id": {
-                "type": "string"
-              },
-              "currency_id": {
-                "type": "string"
-              }
-            }
           }
         }
       },
       "NewProject-donor": {
         "properties": {
           "project": {
-            "type": "string"
-          },
-          "donor": {
             "type": "string"
           }
         }

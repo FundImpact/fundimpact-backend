@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/donors",
-      "handler": "donors.find",
+      "path": "/currencies",
+      "handler": "currency.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/donors/count",
-      "handler": "donors.count",
+      "path": "/currencies/count",
+      "handler": "currency.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/donors/:id",
-      "handler": "donors.findOne",
+      "path": "/currencies/:id",
+      "handler": "currency.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/donors",
-      "handler": "donors.create",
+      "path": "/currencies",
+      "handler": "currency.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/donors/:id",
-      "handler": "donors.update",
+      "path": "/currencies/:id",
+      "handler": "currency.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/donors/:id",
-      "handler": "donors.delete",
+      "path": "/currencies/:id",
+      "handler": "currency.delete",
       "config": {
         "policies": []
       }

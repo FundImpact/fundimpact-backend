@@ -571,25 +571,6 @@
               }
             }
           },
-          "currency_id": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "code": {
-                "type": "string"
-              },
-              "country": {
-                "type": "string"
-              }
-            }
-          },
           "home_currency": {
             "type": "boolean",
             "default": true
@@ -606,9 +587,6 @@
         ],
         "properties": {
           "organization": {
-            "type": "string"
-          },
-          "currency_id": {
             "type": "string"
           },
           "home_currency": {

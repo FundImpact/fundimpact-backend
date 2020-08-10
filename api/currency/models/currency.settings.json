@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "currency",
+  "collectionName": "currencies",
   "info": {
-    "name": "currency"
+    "name": "Currency"
   },
   "options": {
     "increments": true,
@@ -10,10 +10,12 @@
   },
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "code": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "country": {
       "plugin": "crm-plugin",

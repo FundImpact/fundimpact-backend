@@ -11,9 +11,6 @@
   "attributes": {
     "project": {
       "model": "project"
-    },
-    "donor": {
-      "model": "donors"
     }
   }
 }

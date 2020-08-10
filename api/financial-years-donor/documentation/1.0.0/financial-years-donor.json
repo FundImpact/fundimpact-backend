@@ -535,31 +535,6 @@
           "id": {
             "type": "string"
           },
-          "donor": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "legal_name": {
-                "type": "string"
-              },
-              "shortname": {
-                "type": "string"
-              },
-              "organization_id": {
-                "type": "string"
-              },
-              "currency_id": {
-                "type": "string"
-              }
-            }
-          },
           "name": {
             "type": "string"
           },
@@ -576,9 +551,6 @@
       },
       "NewFinancial-years-donor": {
         "properties": {
-          "donor": {
-            "type": "string"
-          },
           "name": {
             "type": "string"
           },

@@ -12,12 +12,6 @@
     "budget_targets_project": {
       "model": "budget-targets-project"
     },
-    "donor": {
-      "model": "donors"
-    },
-    "currency": {
-      "model": "currencie"
-    },
     "amount": {
       "type": "float"
     },

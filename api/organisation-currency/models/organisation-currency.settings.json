@@ -13,9 +13,6 @@
       "plugin": "crm-plugin",
       "model": "organization"
     },
-    "currency_id": {
-      "model": "currencie"
-    },
     "home_currency": {
       "type": "boolean",
       "default": true,

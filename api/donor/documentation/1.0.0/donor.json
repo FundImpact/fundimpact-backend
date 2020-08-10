@@ -1,6 +1,6 @@
 {
   "paths": {
-    "/currencies": {
+    "/donors": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -12,7 +12,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Currencie"
+                    "$ref": "#/components/schemas/Donor"
                   }
                 }
               }
@@ -51,7 +51,7 @@
         },
         "summary": "",
         "tags": [
-          "Currencie"
+          "Donor"
         ],
         "parameters": [
           {
@@ -201,7 +201,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Currencie"
+                  "$ref": "#/components/schemas/Donor"
                 }
               }
             }
@@ -239,7 +239,7 @@
         },
         "summary": "",
         "tags": [
-          "Currencie"
+          "Donor"
         ],
         "requestBody": {
           "description": "",
@@ -247,14 +247,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewCurrencie"
+                "$ref": "#/components/schemas/NewDonor"
               }
             }
           }
         }
       }
     },
-    "/currencies/count": {
+    "/donors/count": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -306,12 +306,12 @@
         },
         "summary": "",
         "tags": [
-          "Currencie"
+          "Donor"
         ],
         "parameters": []
       }
     },
-    "/currencies/{id}": {
+    "/donors/{id}": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -321,7 +321,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Currencie"
+                  "$ref": "#/components/schemas/Donor"
                 }
               }
             }
@@ -359,7 +359,7 @@
         },
         "summary": "",
         "tags": [
-          "Currencie"
+          "Donor"
         ],
         "parameters": [
           {
@@ -383,7 +383,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Currencie"
+                  "$ref": "#/components/schemas/Donor"
                 }
               }
             }
@@ -421,7 +421,7 @@
         },
         "summary": "",
         "tags": [
-          "Currencie"
+          "Donor"
         ],
         "requestBody": {
           "description": "",
@@ -429,7 +429,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewCurrencie"
+                "$ref": "#/components/schemas/NewDonor"
               }
             }
           }
@@ -495,7 +495,7 @@
         },
         "summary": "",
         "tags": [
-          "Currencie"
+          "Donor"
         ],
         "parameters": [
           {
@@ -514,9 +514,10 @@
   },
   "components": {
     "schemas": {
-      "Currencie": {
+      "Donor": {
         "required": [
-          "id"
+          "id",
+          "name"
         ],
         "properties": {
           "id": {
@@ -525,15 +526,16 @@
           "name": {
             "type": "string"
           },
-          "code": {
+          "short_name": {
             "type": "string"
           },
-          "country": {
+          "legal_name": {
+            "type": "string"
+          },
+          "organization": {
             "required": [
               "id",
-              "name",
-              "is_active",
-              "abbreviation"
+              "name"
             ],
             "properties": {
               "id": {
@@ -542,34 +544,46 @@
               "name": {
                 "type": "string"
               },
-              "is_active": {
-                "type": "boolean"
-              },
-              "abbreviation": {
+              "contact": {
                 "type": "string"
               },
-              "identifier": {
+              "address": {
                 "type": "string"
               },
-              "states": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
+              "account": {
+                "type": "string"
+              },
+              "organisation_registration_type": {
+                "type": "string"
+              },
+              "short_name": {
+                "type": "string"
+              },
+              "legal_name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
               }
             }
           }
         }
       },
-      "NewCurrencie": {
+      "NewDonor": {
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string"
           },
-          "code": {
+          "short_name": {
             "type": "string"
           },
-          "country": {
+          "legal_name": {
+            "type": "string"
+          },
+          "organization": {
             "type": "string"
           }
         }
@@ -578,7 +592,7 @@
   },
   "tags": [
     {
-      "name": "Currencie"
+      "name": "Donor"
     }
   ]
 }

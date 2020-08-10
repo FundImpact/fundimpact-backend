@@ -9,9 +9,6 @@
     "timestamps": true
   },
   "attributes": {
-    "donor": {
-      "model": "donors"
-    },
     "project": {
       "model": "project"
     },

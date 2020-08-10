@@ -569,9 +569,6 @@
               "organization": {
                 "type": "string"
               },
-              "currency_id": {
-                "type": "string"
-              },
               "home_currency": {
                 "type": "boolean"
               },
