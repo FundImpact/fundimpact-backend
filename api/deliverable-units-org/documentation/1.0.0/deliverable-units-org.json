@@ -1,6 +1,6 @@
 {
   "paths": {
-    "/deliverable-target-projects": {
+    "/deliverable-units-orgs": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -52,7 +52,7 @@
         },
         "summary": "",
         "tags": [
-          "Deliverable-target-project"
+          "Deliverable-units-org"
         ],
         "parameters": [
           {
@@ -244,7 +244,7 @@
         },
         "summary": "",
         "tags": [
-          "Deliverable-target-project"
+          "Deliverable-units-org"
         ],
         "requestBody": {
           "description": "",
@@ -252,14 +252,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewDeliverable-target-project"
+                "$ref": "#/components/schemas/NewDeliverable-units-org"
               }
             }
           }
         }
       }
     },
-    "/deliverable-target-projects/count": {
+    "/deliverable-units-orgs/count": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -311,12 +311,12 @@
         },
         "summary": "",
         "tags": [
-          "Deliverable-target-project"
+          "Deliverable-units-org"
         ],
         "parameters": []
       }
     },
-    "/deliverable-target-projects/{id}": {
+    "/deliverable-units-orgs/{id}": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -368,7 +368,7 @@
         },
         "summary": "",
         "tags": [
-          "Deliverable-target-project"
+          "Deliverable-units-org"
         ],
         "parameters": [
           {
@@ -434,7 +434,7 @@
         },
         "summary": "",
         "tags": [
-          "Deliverable-target-project"
+          "Deliverable-units-org"
         ],
         "requestBody": {
           "description": "",
@@ -442,7 +442,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewDeliverable-target-project"
+                "$ref": "#/components/schemas/NewDeliverable-units-org"
               }
             }
           }
@@ -508,7 +508,7 @@
         },
         "summary": "",
         "tags": [
-          "Deliverable-target-project"
+          "Deliverable-units-org"
         ],
         "parameters": [
           {
@@ -527,7 +527,7 @@
   },
   "components": {
     "schemas": {
-      "Deliverable-target-project": {
+      "Deliverable-units-org": {
         "required": [
           "id"
         ],
@@ -541,32 +541,19 @@
           "description": {
             "type": "string"
           },
-          "target_value": {
-            "type": "number"
+          "code": {
+            "type": "string"
           },
-          "deliverable_category_org": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "organization": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "code": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              }
-            }
+          "unit_type": {
+            "type": "integer"
           },
-          "project": {
+          "prefix_label": {
+            "type": "string"
+          },
+          "suffix_label": {
+            "type": "string"
+          },
+          "organization": {
             "required": [
               "id",
               "name"
@@ -578,54 +565,32 @@
               "name": {
                 "type": "string"
               },
+              "contact": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "account": {
+                "type": "string"
+              },
+              "organisation_registration_type": {
+                "type": "string"
+              },
               "short_name": {
                 "type": "string"
               },
-              "description": {
-                "type": "string"
-              },
-              "icon": {
-                "type": "string"
-              },
-              "workspace": {
-                "type": "string"
-              }
-            }
-          },
-          "deliverable_units_org": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
+              "legal_name": {
                 "type": "string"
               },
               "description": {
-                "type": "string"
-              },
-              "code": {
-                "type": "string"
-              },
-              "unit_type": {
-                "type": "integer"
-              },
-              "prefix_label": {
-                "type": "string"
-              },
-              "suffix_label": {
-                "type": "string"
-              },
-              "organization": {
                 "type": "string"
               }
             }
           }
         }
       },
-      "NewDeliverable-target-project": {
+      "NewDeliverable-units-org": {
         "properties": {
           "name": {
             "type": "string"
@@ -633,16 +598,19 @@
           "description": {
             "type": "string"
           },
-          "target_value": {
-            "type": "number"
-          },
-          "deliverable_category_org": {
+          "code": {
             "type": "string"
           },
-          "project": {
+          "unit_type": {
+            "type": "integer"
+          },
+          "prefix_label": {
             "type": "string"
           },
-          "deliverable_units_org": {
+          "suffix_label": {
+            "type": "string"
+          },
+          "organization": {
             "type": "string"
           }
         }

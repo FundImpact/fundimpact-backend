@@ -555,10 +555,10 @@
               "deliverable_category_org": {
                 "type": "string"
               },
-              "deliverable_unit": {
+              "project": {
                 "type": "string"
               },
-              "project": {
+              "deliverable_units_org": {
                 "type": "string"
               }
             }
