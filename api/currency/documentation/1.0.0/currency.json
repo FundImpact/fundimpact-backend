@@ -1,18 +1,18 @@
 {
   "paths": {
-    "/donors": {
+    "/currencies": {
       "get": {
         "deprecated": false,
-        "description": "Find all the donors's records",
+        "description": "",
         "responses": {
           "200": {
-            "description": "Retrieve donors document(s)",
+            "description": "response",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Donors"
+                    "$ref": "#/components/schemas/Currency"
                   }
                 }
               }
@@ -51,7 +51,7 @@
         },
         "summary": "",
         "tags": [
-          "Donors"
+          "Currency"
         ],
         "parameters": [
           {
@@ -194,14 +194,14 @@
       },
       "post": {
         "deprecated": false,
-        "description": "Create a new donors record",
+        "description": "Create a new record",
         "responses": {
           "200": {
-            "description": "Retrieve donors document(s)",
+            "description": "response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Donors"
+                  "$ref": "#/components/schemas/Currency"
                 }
               }
             }
@@ -239,7 +239,7 @@
         },
         "summary": "",
         "tags": [
-          "Donors"
+          "Currency"
         ],
         "requestBody": {
           "description": "",
@@ -247,20 +247,20 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewDonors"
+                "$ref": "#/components/schemas/NewCurrency"
               }
             }
           }
         }
       }
     },
-    "/donors/count": {
+    "/currencies/count": {
       "get": {
         "deprecated": false,
-        "description": "Retrieve the numver of donors documents",
+        "description": "",
         "responses": {
           "200": {
-            "description": "Retrieve donors document(s)",
+            "description": "response",
             "content": {
               "application/json": {
                 "schema": {
@@ -306,22 +306,22 @@
         },
         "summary": "",
         "tags": [
-          "Donors"
+          "Currency"
         ],
         "parameters": []
       }
     },
-    "/donors/{id}": {
+    "/currencies/{id}": {
       "get": {
         "deprecated": false,
-        "description": "Find one donors record",
+        "description": "",
         "responses": {
           "200": {
-            "description": "Retrieve donors document(s)",
+            "description": "response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Donors"
+                  "$ref": "#/components/schemas/Currency"
                 }
               }
             }
@@ -359,7 +359,7 @@
         },
         "summary": "",
         "tags": [
-          "Donors"
+          "Currency"
         ],
         "parameters": [
           {
@@ -376,14 +376,14 @@
       },
       "put": {
         "deprecated": false,
-        "description": "Update a single donors record",
+        "description": "Update a record",
         "responses": {
           "200": {
-            "description": "Retrieve donors document(s)",
+            "description": "response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Donors"
+                  "$ref": "#/components/schemas/Currency"
                 }
               }
             }
@@ -421,7 +421,7 @@
         },
         "summary": "",
         "tags": [
-          "Donors"
+          "Currency"
         ],
         "requestBody": {
           "description": "",
@@ -429,7 +429,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewDonors"
+                "$ref": "#/components/schemas/NewCurrency"
               }
             }
           }
@@ -449,10 +449,10 @@
       },
       "delete": {
         "deprecated": false,
-        "description": "Delete a single donors record",
+        "description": "Delete a record",
         "responses": {
           "200": {
-            "description": "deletes a single donors based on the ID supplied",
+            "description": "deletes a single record based on the ID supplied",
             "content": {
               "application/json": {
                 "schema": {
@@ -495,7 +495,7 @@
         },
         "summary": "",
         "tags": [
-          "Donors"
+          "Currency"
         ],
         "parameters": [
           {
@@ -514,9 +514,11 @@
   },
   "components": {
     "schemas": {
-      "Donors": {
+      "Currency": {
         "required": [
-          "id"
+          "id",
+          "name",
+          "code"
         ],
         "properties": {
           "id": {
@@ -525,16 +527,15 @@
           "name": {
             "type": "string"
           },
-          "legal_name": {
+          "code": {
             "type": "string"
           },
-          "shortname": {
-            "type": "string"
-          },
-          "organization_id": {
+          "country": {
             "required": [
               "id",
-              "name"
+              "name",
+              "is_active",
+              "abbreviation"
             ],
             "properties": {
               "id": {
@@ -543,65 +544,38 @@
               "name": {
                 "type": "string"
               },
-              "contact": {
+              "is_active": {
+                "type": "boolean"
+              },
+              "abbreviation": {
                 "type": "string"
               },
-              "address": {
+              "identifier": {
                 "type": "string"
               },
-              "account": {
-                "type": "string"
-              },
-              "organisation_registration_type": {
-                "type": "string"
-              },
-              "short_name": {
-                "type": "string"
-              },
-              "legal_name": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              }
-            }
-          },
-          "currency_id": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "code": {
-                "type": "string"
-              },
-              "country": {
-                "type": "string"
+              "states": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
         }
       },
-      "NewDonors": {
+      "NewCurrency": {
+        "required": [
+          "name",
+          "code"
+        ],
         "properties": {
           "name": {
             "type": "string"
           },
-          "legal_name": {
+          "code": {
             "type": "string"
           },
-          "shortname": {
-            "type": "string"
-          },
-          "organization_id": {
-            "type": "string"
-          },
-          "currency_id": {
+          "country": {
             "type": "string"
           }
         }
@@ -610,7 +584,7 @@
   },
   "tags": [
     {
-      "name": "Donors"
+      "name": "Currency"
     }
   ]
 }

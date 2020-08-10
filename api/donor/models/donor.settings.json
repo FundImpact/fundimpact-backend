@@ -1,6 +1,6 @@
 {
   "kind": "collectionType",
-  "collectionName": "Donor",
+  "collectionName": "donors",
   "info": {
     "name": "Donor"
   },
@@ -10,20 +10,18 @@
   },
   "attributes": {
     "name": {
+      "type": "string",
+      "required": true
+    },
+    "short_name": {
       "type": "string"
     },
     "legal_name": {
       "type": "string"
     },
-    "shortname": {
-      "type": "string"
-    },
-    "organization_id": {
+    "organization": {
       "plugin": "crm-plugin",
       "model": "organization"
-    },
-    "currency_id": {
-      "model": "currencie"
     }
   }
 }

@@ -535,31 +535,6 @@
           "id": {
             "type": "string"
           },
-          "donor": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "legal_name": {
-                "type": "string"
-              },
-              "shortname": {
-                "type": "string"
-              },
-              "organization_id": {
-                "type": "string"
-              },
-              "currency_id": {
-                "type": "string"
-              }
-            }
-          },
           "project": {
             "required": [
               "id",
@@ -605,9 +580,6 @@
       },
       "NewGrant-periods-project": {
         "properties": {
-          "donor": {
-            "type": "string"
-          },
           "project": {
             "type": "string"
           },

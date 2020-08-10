@@ -27,9 +27,6 @@
     "grant_periods_project": {
       "model": "grant-periods-project"
     },
-    "donor": {
-      "model": "donors"
-    },
     "amount": {
       "type": "float"
     },

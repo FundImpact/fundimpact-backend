@@ -578,9 +578,6 @@
               "organization": {
                 "type": "string"
               },
-              "currency_id": {
-                "type": "string"
-              },
               "home_currency": {
                 "type": "boolean"
               },
@@ -644,9 +641,6 @@
               "id": {
                 "type": "string"
               },
-              "donor": {
-                "type": "string"
-              },
               "name": {
                 "type": "string"
               },
@@ -669,9 +663,6 @@
               "id": {
                 "type": "string"
               },
-              "donor": {
-                "type": "string"
-              },
               "project": {
                 "type": "string"
               },
@@ -689,31 +680,6 @@
               },
               "end_date": {
                 "type": "datetime"
-              }
-            }
-          },
-          "donor": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "legal_name": {
-                "type": "string"
-              },
-              "shortname": {
-                "type": "string"
-              },
-              "organization_id": {
-                "type": "string"
-              },
-              "currency_id": {
-                "type": "string"
               }
             }
           },
@@ -749,9 +715,6 @@
             "type": "string"
           },
           "grant_periods_project": {
-            "type": "string"
-          },
-          "donor": {
             "type": "string"
           },
           "amount": {

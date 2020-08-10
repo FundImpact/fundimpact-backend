@@ -566,50 +566,6 @@
               }
             }
           },
-          "donor": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "legal_name": {
-                "type": "string"
-              },
-              "shortname": {
-                "type": "string"
-              },
-              "organization_id": {
-                "type": "string"
-              },
-              "currency_id": {
-                "type": "string"
-              }
-            }
-          },
-          "currency": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "code": {
-                "type": "string"
-              },
-              "country": {
-                "type": "string"
-              }
-            }
-          },
           "amount": {
             "type": "number"
           },
@@ -624,12 +580,6 @@
       "NewBudget-targets-donor": {
         "properties": {
           "budget_targets_project": {
-            "type": "string"
-          },
-          "donor": {
-            "type": "string"
-          },
-          "currency": {
             "type": "string"
           },
           "amount": {
