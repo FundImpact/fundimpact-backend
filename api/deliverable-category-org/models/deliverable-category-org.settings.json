@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deliverable_category_org",
+  "info": {
+    "name": "DeliverableCategoryOrg"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
+    },
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    }
+  }
+}
