@@ -11,8 +11,7 @@
   "attributes": {
     "reg_type": {
       "type": "string",
-      "required": true,
-      "unique": true
+      "required": true
     }
   }
 }

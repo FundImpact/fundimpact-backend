@@ -16,7 +16,7 @@ module.exports = {
     }
   `,
     query: `
-    OrgDonors(where: JSON): [OrgDonor]
+    orgDonors(where: JSON): [OrgDonor]
   `,
     mutation:`
         createOrgDonor(input: OrgDonorInput): OrgDonor!,
@@ -24,9 +24,9 @@ module.exports = {
     `,
     resolver: {
         Query: {
-            orgWorkspaces: {
+          orgDonors: {
                // policies: ['application::donors.addFilter'],
-                resolver: 'application::donors.donors.find'
+                resolver: 'application::donor.donor.find'
             }
         },
         Mutation: {
@@ -35,14 +35,14 @@ module.exports = {
             }) => {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers.workspace.create(context);
+                return await strapi.controllers.donor.create(context);
             },
             updateOrgDonor: async (obj, options, {
               context
             }) => {
               context.params = _.toPlainObject(options);
               context.request.body = _.toPlainObject(options.input);
-              return await strapi.controllers.workspace.update(context);
+              return await strapi.controllers.donor.update(context);
             }
         }
     },
