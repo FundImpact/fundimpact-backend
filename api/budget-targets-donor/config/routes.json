@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/budget-targets-donors",
+      "handler": "budget-targets-donor.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-targets-donors/count",
+      "handler": "budget-targets-donor.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-targets-donors/:id",
+      "handler": "budget-targets-donor.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/budget-targets-donors",
+      "handler": "budget-targets-donor.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/budget-targets-donors/:id",
+      "handler": "budget-targets-donor.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/budget-targets-donors/:id",
+      "handler": "budget-targets-donor.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

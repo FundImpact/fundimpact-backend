@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "grant_periods_project",
+  "info": {
+    "name": "GrantPeriodsProject"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "donor": {
+      "model": "donors"
+    },
+    "project": {
+      "model": "project"
+    },
+    "name": {
+      "type": "string"
+    },
+    "short_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "start_date": {
+      "type": "datetime"
+    },
+    "end_date": {
+      "type": "datetime"
+    }
+  }
+}

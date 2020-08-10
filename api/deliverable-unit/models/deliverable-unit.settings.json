@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deliverable_unit",
+  "info": {
+    "name": "DeliverableUnit"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "unit_type": {
+      "type": "biginteger"
+    },
+    "prefix_label": {
+      "type": "string"
+    },
+    "suffix_label": {
+      "type": "string"
+    }
+  }
+}

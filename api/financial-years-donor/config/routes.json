@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/financial-years-donors",
+      "handler": "financial-years-donor.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/financial-years-donors/count",
+      "handler": "financial-years-donor.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/financial-years-donors/:id",
+      "handler": "financial-years-donor.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/financial-years-donors",
+      "handler": "financial-years-donor.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/financial-years-donors/:id",
+      "handler": "financial-years-donor.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/financial-years-donors/:id",
+      "handler": "financial-years-donor.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

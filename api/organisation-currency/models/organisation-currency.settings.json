@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "organisation_currency",
+  "collectionName": "organization_currency",
   "info": {
-    "name": "organisationCurrency"
+    "name": "organizationCurrency"
   },
   "options": {
     "increments": true,

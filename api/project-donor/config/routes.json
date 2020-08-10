@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/project-donors",
+      "handler": "project-donor.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/project-donors/count",
+      "handler": "project-donor.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/project-donors/:id",
+      "handler": "project-donor.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/project-donors",
+      "handler": "project-donor.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/project-donors/:id",
+      "handler": "project-donor.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/project-donors/:id",
+      "handler": "project-donor.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
