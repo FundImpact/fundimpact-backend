@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "budget_tracking_lineitem",
+  "info": {
+    "name": "BudgetTrackingLineitem"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "budget_targets_project": {
+      "model": "budget-targets-project"
+    },
+    "organization_currency": {
+      "model": "organisation-currency"
+    },
+    "annual_year": {
+      "model": "annual-year"
+    },
+    "financial_years_org": {
+      "model": "financial-years-org"
+    },
+    "financial_years_donor": {
+      "model": "financial-years-donor"
+    },
+    "grant_periods_project": {
+      "model": "grant-periods-project"
+    },
+    "donor": {
+      "model": "donors"
+    },
+    "amount": {
+      "type": "float"
+    },
+    "conversion_factor": {
+      "type": "float"
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "reporting_date": {
+      "type": "datetime"
+    }
+  }
+}

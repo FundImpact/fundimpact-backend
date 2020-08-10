@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/grant-periods-projects",
+      "handler": "grant-periods-project.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/grant-periods-projects/count",
+      "handler": "grant-periods-project.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/grant-periods-projects/:id",
+      "handler": "grant-periods-project.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/grant-periods-projects",
+      "handler": "grant-periods-project.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/grant-periods-projects/:id",
+      "handler": "grant-periods-project.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/grant-periods-projects/:id",
+      "handler": "grant-periods-project.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
