@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/organization-registration-types",
+      "handler": "organization-registration-type.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/organization-registration-types/count",
+      "handler": "organization-registration-type.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/organization-registration-types/:id",
+      "handler": "organization-registration-type.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/organization-registration-types",
+      "handler": "organization-registration-type.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/organization-registration-types/:id",
+      "handler": "organization-registration-type.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/organization-registration-types/:id",
+      "handler": "organization-registration-type.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

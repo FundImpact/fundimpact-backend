@@ -1,6 +1,6 @@
 {
   "paths": {
-    "/organisation-registration-types": {
+    "/organization-registration-types": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -52,7 +52,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "parameters": [
           {
@@ -244,7 +244,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "requestBody": {
           "description": "",
@@ -252,14 +252,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewOrganisation-registration-type"
+                "$ref": "#/components/schemas/NewOrganization-registration-type"
               }
             }
           }
         }
       }
     },
-    "/organisation-registration-types/count": {
+    "/organization-registration-types/count": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -311,12 +311,12 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "parameters": []
       }
     },
-    "/organisation-registration-types/{id}": {
+    "/organization-registration-types/{id}": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -368,7 +368,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "parameters": [
           {
@@ -434,7 +434,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "requestBody": {
           "description": "",
@@ -442,7 +442,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewOrganisation-registration-type"
+                "$ref": "#/components/schemas/NewOrganization-registration-type"
               }
             }
           }
@@ -508,7 +508,7 @@
         },
         "summary": "",
         "tags": [
-          "Organisation-registration-type"
+          "Organization-registration-type"
         ],
         "parameters": [
           {
@@ -527,7 +527,7 @@
   },
   "components": {
     "schemas": {
-      "Organisation-registration-type": {
+      "Organization-registration-type": {
         "required": [
           "id",
           "reg_type"
@@ -541,7 +541,7 @@
           }
         }
       },
-      "NewOrganisation-registration-type": {
+      "NewOrganization-registration-type": {
         "required": [
           "reg_type"
         ],
