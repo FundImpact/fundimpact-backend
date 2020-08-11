@@ -557,7 +557,7 @@
               }
             }
           },
-          "deliverable_unit": {
+          "deliverable_units_org": {
             "required": [
               "id"
             ],
@@ -582,6 +582,9 @@
               },
               "suffix_label": {
                 "type": "string"
+              },
+              "organization": {
+                "type": "string"
               }
             }
           }
@@ -592,7 +595,7 @@
           "deliverable_category_org": {
             "type": "string"
           },
-          "deliverable_unit": {
+          "deliverable_units_org": {
             "type": "string"
           }
         }

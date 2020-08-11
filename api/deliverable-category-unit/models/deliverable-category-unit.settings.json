@@ -12,8 +12,8 @@
     "deliverable_category_org": {
       "model": "deliverable-category-org"
     },
-    "deliverable_unit": {
-      "model": "deliverable-unit"
+    "deliverable_units_org": {
+      "model": "deliverable-units-org"
     }
   }
 }

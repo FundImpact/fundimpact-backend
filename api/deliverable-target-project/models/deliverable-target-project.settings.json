@@ -21,11 +21,11 @@
     "deliverable_category_org": {
       "model": "deliverable-category-org"
     },
-    "deliverable_unit": {
-      "model": "deliverable-unit"
-    },
     "project": {
       "model": "project"
+    },
+    "deliverable_units_org": {
+      "model": "deliverable-units-org"
     }
   }
 }
