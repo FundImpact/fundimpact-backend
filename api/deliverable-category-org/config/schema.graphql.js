@@ -31,10 +31,8 @@ module.exports = {
         },
         Mutation: {
             createDeliverableCategory: async (obj, options, {context }) => {
-                console.log("options" , options);
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
-                console.log("context" , context , strapi.controllers)
                 return await strapi.controllers['deliverable-category-org'].create(context);
             },
             updateDeliverableCategory: async (obj, options, {context }) => {

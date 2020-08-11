@@ -37,10 +37,8 @@ module.exports = {
         },
         Mutation: {
             createDeliverableUnitOrg: async (obj, options, {context }) => {
-                console.log("options" , options);
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
-                console.log("context" , context , strapi.controllers)
                 return await strapi.controllers['deliverable-units-org'].create(context);
             },
             updateDeliverableUnitOrg: async (obj, options, {context }) => {

@@ -35,10 +35,8 @@ module.exports = {
         },
         Mutation: {
             createDeliverableTarget: async (obj, options, {context }) => {
-                console.log("options" , options);
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
-                console.log("context" , context , strapi.controllers)
                 return await strapi.controllers['deliverable-target-project'].create(context);
             },
             updateDeliverableTarget: async (obj, options, {context }) => {
