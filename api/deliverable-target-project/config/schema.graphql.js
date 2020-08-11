@@ -6,6 +6,9 @@ module.exports = {
       name: String!
       description:String
       target_value : Float
+      deliverable_category_org : DeliverableCategoryOrg
+      project: Project
+      deliverable_units_org : DeliverableUnitsOrg
     }
     input DeliverableTargetInput {
         deliverable_category_org:ID
