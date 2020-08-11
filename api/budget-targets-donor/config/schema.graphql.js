@@ -12,7 +12,7 @@ module.exports = {
     resolver: {
         Query: {
           projBudgetTargetDonors: {
-               policies: ['application::budget-targets-donor.addFilter'],
+               policies: ['application::budget-tracking-lineitem.addFilter'],
                 resolver: 'application::budget-targets-donor.budget-targets-donor.find'
             }
         },

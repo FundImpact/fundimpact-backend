@@ -5,8 +5,8 @@ function getMockData(mockUserCred) {
     "password": mockUserCred.password,
     "email": `${mockUserCred.username}@dhwaniris.com`,
     "role": strapi.role.authenticated,
-    "organisation": {
-      "organisation_registration_type": "1",
+    "organization": {
+      "organization_registration_type": "1",
       "name": "Dhwani",
       "short_name": "DRIS",
       "legal_name": "Dhwani Rural Information System"
@@ -21,7 +21,7 @@ describe("Module: Auth", () => {
     expect(strapi.role).toBeDefined();
     done();
   })
-  it('Register: should register user with organisation and return jwt token, account, organisation', async done => {
+  it('Register: should register user with organization and return jwt token, account, organization', async done => {
     let mockData = getMockData(strapi.mockUserCred);
     await request(strapi.server) // app server is an instance of Class: http.Server
       .post('/auth/local/register')
@@ -36,8 +36,8 @@ describe("Module: Auth", () => {
         expect(data.body.user).toBeDefined();
         expect(data.body.user.account).toBeDefined();
         expect(data.body.user.role).toBeDefined();
-        expect(data.body.user.organisation).toBeDefined();
-        expect(data.body.user.organisation.workspace).toBeDefined();
+        expect(data.body.user.organization).toBeDefined();
+        expect(data.body.user.organization.workspace).toBeDefined();
         done();
       }).catch(err => {
         done(err);

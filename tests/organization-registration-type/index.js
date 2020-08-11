@@ -7,13 +7,13 @@ beforeAll(async done => {
   let params = {
     reg_type: 'test_type' + randomNum()
   }
-  await strapi.query('organisation-registration-type').create(params);
+  await strapi.query('organization-registration-type').create(params);
   done();
 });
 describe("Module: Organisation Registration Type", () => {
   it('List: should return list', async done => {
     await request(strapi.server) // app server is an instance of Class: http.Server
-      .get('/organisation-registration-types')
+      .get('/organization-registration-types')
       .expect(200)
       .then(data => {
         expect(data.body).toBeDefined();
