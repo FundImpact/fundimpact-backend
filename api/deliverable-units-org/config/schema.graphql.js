@@ -31,7 +31,7 @@ module.exports = {
     resolver: {
         Query: {
             deliverableUnitOrg: {
-                // policies: ['application::donors.addFilter'],
+                policies: ['application::deliverable-units-org.addFilter'],
                 resolver: 'application::deliverable-units-org.deliverable-units-org.find'
             }
         },
