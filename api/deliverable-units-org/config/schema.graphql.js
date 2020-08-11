@@ -6,7 +6,7 @@ module.exports = {
       name: String!
       description:String
       code : String
-      unit_type : Int
+      unit_type : String
       prefix_label : String
       suffix_label : String
       organization:CrmPluginOrganization
@@ -16,7 +16,7 @@ module.exports = {
         name: String
         description:String
         code : String
-        unit_type : Int
+        unit_type : String
         prefix_label : String
         suffix_label : String
     }
@@ -31,7 +31,7 @@ module.exports = {
     resolver: {
         Query: {
             deliverableUnitOrg: {
-                // policies: ['application::donors.addFilter'],
+                policies: ['application::deliverable-units-org.addFilter'],
                 resolver: 'application::deliverable-units-org.deliverable-units-org.find'
             }
         },

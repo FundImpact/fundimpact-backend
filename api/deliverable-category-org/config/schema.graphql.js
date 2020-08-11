@@ -25,7 +25,7 @@ module.exports = {
     resolver: {
         Query: {
             deliverableCategory: {
-                // policies: ['application::donors.addFilter'],
+                policies: ['application::deliverable-category-org.addFilter'],
                 resolver: 'application::deliverable-category-org.deliverable-category-org.find'
             }
         },
