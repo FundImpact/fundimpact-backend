@@ -1,26 +1,27 @@
 {
   "kind": "collectionType",
-  "collectionName": "buget_category_organization",
+  "collectionName": "budget_category_organizations",
   "info": {
-    "name": "bugetCategoryOrganization"
+    "name": "Budget Category Organization"
   },
   "options": {
     "increments": true,
     "timestamps": true
   },
   "attributes": {
-    "organization_id": {
-      "plugin": "crm-plugin",
-      "model": "organization"
-    },
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "code": {
       "type": "string"
     },
     "description": {
       "type": "richtext"
+    },
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
     }
   }
 }

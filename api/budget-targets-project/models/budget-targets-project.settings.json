@@ -2,19 +2,13 @@
   "kind": "collectionType",
   "collectionName": "budget_targets_project",
   "info": {
-    "name": "BudgetTargetsProject"
+    "name": "Budget Targets Project"
   },
   "options": {
     "increments": true,
     "timestamps": true
   },
   "attributes": {
-    "buget_category_organization": {
-      "model": "buget-category-organization"
-    },
-    "organization_currency": {
-      "model": "organisation-currency"
-    },
     "project": {
       "model": "project"
     },
@@ -29,6 +23,9 @@
     },
     "conversion_factor": {
       "type": "float"
+    },
+    "organization_currency": {
+      "model": "organization-currency"
     }
   }
 }

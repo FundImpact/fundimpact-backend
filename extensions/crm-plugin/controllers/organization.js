@@ -19,7 +19,6 @@ module.exports = {
         // returns all data if no filter parameter is passed
         console.log(ctx.query);
         let result = await strapi.query("organization", "crm-plugin").find(ctx.query);
-        console.log(result);
         return result;
       }
     } catch (error) {
