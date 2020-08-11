@@ -20,6 +20,9 @@
     },
     "note": {
       "type": "richtext"
+    },
+    "donor": {
+      "model": "donor"
     }
   }
 }
