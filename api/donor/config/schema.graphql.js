@@ -1,32 +1,19 @@
 const _ = require('lodash');
 module.exports = {
     definition: `
-    type OrgDonor {
-      id: ID!,
-      name: String!,
-      short_name: String!
-      description:String
-      organization:CrmPluginOrganization
-    }
-    input OrgDonorInput {
-        organization:ID!,
-        name: String!,
-        short_name: String!,
-        description:String
-    }
   `,
     query: `
-    orgDonors(where: JSON): [OrgDonor]
+    orgDonors(where: JSON): [Donor]
   `,
     mutation:`
-        createOrgDonor(input: OrgDonorInput): OrgDonor!,
-        updateOrgDonor(id: ID!, input: OrgDonorInput): OrgDonor!
+        createOrgDonor(input: DonorInput): Donor!,
+        updateOrgDonor(id: ID!, input: DonorInput): Donor!
     `,
     resolver: {
         Query: {
           orgDonors: {
-               // policies: ['application::donors.addFilter'],
-                resolver: 'application::donor.donor.find'
+              policies: ['application::donor.addFilter'],
+              resolver: 'application::donor.donor.find'
             }
         },
         Mutation: {

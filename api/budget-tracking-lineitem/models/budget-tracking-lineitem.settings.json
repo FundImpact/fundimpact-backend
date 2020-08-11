@@ -2,7 +2,7 @@
   "kind": "collectionType",
   "collectionName": "budget_tracking_lineitem",
   "info": {
-    "name": "BudgetTrackingLineitem"
+    "name": "Budget Tracking Lineitem"
   },
   "options": {
     "increments": true,
@@ -11,9 +11,6 @@
   "attributes": {
     "budget_targets_project": {
       "model": "budget-targets-project"
-    },
-    "organization_currency": {
-      "model": "organisation-currency"
     },
     "annual_year": {
       "model": "annual-year"

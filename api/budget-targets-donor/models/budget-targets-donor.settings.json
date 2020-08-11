@@ -2,7 +2,7 @@
   "kind": "collectionType",
   "collectionName": "budget_targets_donor",
   "info": {
-    "name": "BudgetTargetsDonor"
+    "name": "Budget Targets Donor"
   },
   "options": {
     "increments": true,
