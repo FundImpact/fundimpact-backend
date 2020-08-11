@@ -34,6 +34,11 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v2
       
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
+        with:
+          remote: true
+      
       - name: Create env 
         run: mv .github/workflows/envfile .env
       
