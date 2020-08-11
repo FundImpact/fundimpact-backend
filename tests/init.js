@@ -10,12 +10,12 @@ let permissionJson = {
     "controller": [
         {
             "role": strapi.role.public,
-            "path": "organisation-registration-type",
+            "path": "organization-registration-type",
             "actions": ["find", "findOne"]
         },
         {
             "role": strapi.role.authenticated,
-            "path": "organisation",
+            "path": "organization",
             "actions": ["create", "update"]
         }
     ]
