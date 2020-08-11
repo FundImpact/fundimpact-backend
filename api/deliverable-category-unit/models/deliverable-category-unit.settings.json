@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deliverable_category_unit",
+  "info": {
+    "name": "DeliverableCategoryUnit"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "deliverable_category_org": {
+      "model": "deliverable-category-org"
+    },
+    "deliverable_units_org": {
+      "model": "deliverable-units-org"
+    }
+  }
+}

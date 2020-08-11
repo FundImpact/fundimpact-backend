@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "connection": "default",
+  "collectionName": "contacts",
+  "info": {
+    "name": "contact"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string"
+    },
+    "phone_other": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "email_other": {
+      "type": "email"
+    },
+    "contact_type": {
+      "type": "string",
+      "required": true
+    },
+    "organization": {
+      "via": "contact",
+      "plugin": "crm-plugin",
+      "model": "organization"
+    },
+    "individual": {
+      "plugin": "crm-plugin",
+      "model": "individual",
+      "via": "contact"
+    },
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "activityassignees": {
+      "plugin": "crm-plugin",
+      "collection": "activityassignee",
+      "via": "contact"
+    },
+    "contacttags": {
+      "plugin": "crm-plugin",
+      "collection": "contacttag",
+      "via": "contact"
+    },
+    "addresses": {
+      "plugin": "crm-plugin",
+      "collection": "address",
+      "via": "contact"
+    }
+  }
+}

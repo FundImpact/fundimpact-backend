@@ -4,13 +4,14 @@ module.exports = {
     type OrgWorkspace {
       id: ID!,
       name: String!,
-      short_name: String!,
-      organisation: Organisation
+      short_name: String!
+      description:String
+      organization:CrmPluginOrganization
     }
     input OrgWorkspaceInput {
-        organisation:ID!,
+        organization:ID!,
         name: String!,
-        short_name: String,
+        short_name: String!,
         description:String
     }
   `,

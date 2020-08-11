@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deliverable_unit_org",
+  "info": {
+    "name": "DeliverableUnitsOrg"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "code": {
+      "type": "string"
+    },
+    "unit_type": {
+      "type": "biginteger"
+    },
+    "prefix_label": {
+      "type": "string"
+    },
+    "suffix_label": {
+      "type": "string"
+    },
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
+    }
+  }
+}

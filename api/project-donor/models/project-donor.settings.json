@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "project_donor",
+  "info": {
+    "name": "ProjectDonor"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "project": {
+      "model": "project"
+    },
+    "donor": {
+      "model": "donor"
+    }
+  }
+}

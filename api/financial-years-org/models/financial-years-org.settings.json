@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "financial_years_org",
+  "info": {
+    "name": "FinancialYearsOrg"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
+    },
+    "name": {
+      "type": "string"
+    },
+    "short_name": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "datetime"
+    },
+    "end_date": {
+      "type": "datetime"
+    }
+  }
+}

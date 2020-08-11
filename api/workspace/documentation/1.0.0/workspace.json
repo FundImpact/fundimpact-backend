@@ -533,7 +533,7 @@
           "description": {
             "type": "string"
           },
-          "organisation": {
+          "organization": {
             "required": [
               "id",
               "name"
@@ -542,13 +542,16 @@
               "id": {
                 "type": "string"
               },
-              "account": {
-                "type": "string"
-              },
-              "organisation_registration_type": {
-                "type": "string"
-              },
               "name": {
+                "type": "string"
+              },
+              "contact": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "account": {
                 "type": "string"
               },
               "short_name": {
@@ -558,6 +561,9 @@
                 "type": "string"
               },
               "description": {
+                "type": "string"
+              },
+              "organization_registration_type": {
                 "type": "string"
               }
             }
@@ -579,7 +585,7 @@
           "description": {
             "type": "string"
           },
-          "organisation": {
+          "organization": {
             "type": "string"
           }
         }

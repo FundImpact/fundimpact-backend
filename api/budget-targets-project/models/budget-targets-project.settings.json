@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "budget_targets_project",
+  "info": {
+    "name": "Budget Targets Project"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "project": {
+      "model": "project"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "total_target_amount": {
+      "type": "float"
+    },
+    "conversion_factor": {
+      "type": "float"
+    },
+    "organization_currency": {
+      "model": "organization-currency"
+    }
+  }
+}

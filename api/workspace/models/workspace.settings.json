@@ -20,8 +20,9 @@
     "description": {
       "type": "richtext"
     },
-    "organisation": {
-      "model": "organisation"
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
     }
   }
 }
