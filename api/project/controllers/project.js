@@ -9,7 +9,6 @@ const {
 } = require('strapi-utils');
 module.exports = {
 async find(ctx) {
-    console.log(ctx.query);
     
   let entities;
   if (ctx.query._q) {

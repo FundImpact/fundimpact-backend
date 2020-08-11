@@ -6,6 +6,9 @@ module.exports = {
       name: String!
       description:String
       target_value : Float
+      deliverable_category_org : DeliverableCategoryOrg
+      project: Project
+      deliverable_units_org : DeliverableUnitsOrg
     }
     input DeliverableTargetInput {
         deliverable_category_org:ID
@@ -32,10 +35,8 @@ module.exports = {
         },
         Mutation: {
             createDeliverableTarget: async (obj, options, {context }) => {
-                console.log("options" , options);
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
-                console.log("context" , context , strapi.controllers)
                 return await strapi.controllers['deliverable-target-project'].create(context);
             },
             updateDeliverableTarget: async (obj, options, {context }) => {
