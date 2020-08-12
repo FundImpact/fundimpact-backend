@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "impact_category_org",
+  "info": {
+    "name": "ImpactCategoryOrg"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "shortname": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    }
+  }
+}

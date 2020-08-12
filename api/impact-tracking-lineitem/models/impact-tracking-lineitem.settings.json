@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "impact_tracking_lineitem",
+  "info": {
+    "name": "ImpactTrackingLineitem"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "value": {
+      "type": "string"
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "impact_target_project": {
+      "model": "impact-target-project"
+    },
+    "annual_year": {
+      "model": "annual-year"
+    },
+    "financial_years_donor": {
+      "model": "financial-years-donor"
+    },
+    "financial_years_org": {
+      "model": "financial-years-org"
+    },
+    "grant_periods_project": {
+      "model": "grant-periods-project"
+    },
+    "reporting_date": {
+      "type": "date"
+    }
+  }
+}

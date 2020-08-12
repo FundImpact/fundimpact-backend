@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "impact_units_org",
+  "info": {
+    "name": "ImpactUnitsOrg"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "target_unit": {
+      "type": "biginteger"
+    },
+    "prefix_label": {
+      "type": "string"
+    },
+    "suffix_label": {
+      "type": "string"
+    },
+    "impact_category_org": {
+      "model": "impact-category-org"
+    }
+  }
+}

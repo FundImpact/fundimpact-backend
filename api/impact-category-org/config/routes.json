@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/impact-category-orgs",
+      "handler": "impact-category-org.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/impact-category-orgs/count",
+      "handler": "impact-category-org.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/impact-category-orgs/:id",
+      "handler": "impact-category-org.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/impact-category-orgs",
+      "handler": "impact-category-org.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/impact-category-orgs/:id",
+      "handler": "impact-category-org.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/impact-category-orgs/:id",
+      "handler": "impact-category-org.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
