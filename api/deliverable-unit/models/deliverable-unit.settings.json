@@ -19,7 +19,7 @@
       "type": "string"
     },
     "unit_type": {
-      "type": "biginteger"
+      "type": "string"
     },
     "prefix_label": {
       "type": "string"

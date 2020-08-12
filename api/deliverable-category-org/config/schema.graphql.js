@@ -1,27 +1,11 @@
 const _ = require('lodash');
 module.exports = {
-    definition: `
-    type DeliverableCategoryList {
-      id: ID!,
-      name: String!
-      description:String
-      code : String
-      organization:CrmPluginOrganization
-    }
-    input DeliverableCategoryInput {
-        organization:ID,
-        name: String,
-        code: String,
-        description:String
-    }
-  `,
-    query: `
-    deliverableCategory: [DeliverableCategoryList]
-  `,
-    mutation: `
-        createDeliverableCategory(input: DeliverableCategoryInput): DeliverableCategoryList!,
-        updateDeliverableCategory(id: ID!, input: DeliverableCategoryInput): DeliverableCategoryList!
-    `,
+    definition: ` `,
+    query: 
+    ` deliverableCategory: [DeliverableCategoryOrg]`,
+    mutation: 
+    `   createDeliverableCategory(input: DeliverableCategoryOrgInput): DeliverableCategoryOrg!,
+        updateDeliverableCategory(id: ID!, input: DeliverableCategoryOrgInput): DeliverableCategoryOrg! `,
     resolver: {
         Query: {
             deliverableCategory: {

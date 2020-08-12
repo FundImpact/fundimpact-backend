@@ -1,32 +1,12 @@
 const _ = require('lodash');
 module.exports = {
-    definition: `
-    type DeliverableUnitOrgList {
-      id: ID!,
-      name: String!
-      description:String
-      code : String
-      unit_type : String
-      prefix_label : String
-      suffix_label : String
-      organization:CrmPluginOrganization
-    }
-    input DeliverableUnitOrgInput {
-        organization:ID,
-        name: String
-        description:String
-        code : String
-        unit_type : String
-        prefix_label : String
-        suffix_label : String
-    }
-  `,
+    definition: ` `,
     query: `
-    deliverableUnitOrg: [DeliverableUnitOrgList]
+    deliverableUnitOrg: [DeliverableUnitsOrg]
   `,
     mutation: `
-        createDeliverableUnitOrg(input: DeliverableUnitOrgInput): DeliverableUnitOrgList!,
-        updateDeliverableUnitOrg(id: ID!, input: DeliverableUnitOrgInput): DeliverableUnitOrgList!
+        createDeliverableUnitOrg(input: DeliverableUnitInput): DeliverableUnitsOrg!,
+        updateDeliverableUnitOrg(id: ID!, input: DeliverableUnitInput): DeliverableUnitsOrg!
     `,
     resolver: {
         Query: {
