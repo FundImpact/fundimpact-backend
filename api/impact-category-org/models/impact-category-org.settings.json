@@ -20,6 +20,10 @@
     },
     "description": {
       "type": "richtext"
+    },
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
     }
   }
 }

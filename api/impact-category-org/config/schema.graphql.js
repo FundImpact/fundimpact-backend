@@ -3,11 +3,11 @@
 //     definition: `
 //   `,
 //     query: `
-//     orgDonors(where: JSON): [Donor]
+//     orgDonors(where: JSON): [ImpactCategoryOrg]
 //   `,
 //     mutation:`
-//         createOrgDonor(input: DonorInput): Donor!,
-//         updateOrgDonor(id: ID!, input: DonorInput): Donor!
+//         createOrgDonor(input: DonorInput): ImpactCategoryOrg!,
+//         updateOrgDonor(id: ID!, input: DonorInput): ImpactCategoryOrg!
 //     `,
 //     resolver: {
 //         Query: {

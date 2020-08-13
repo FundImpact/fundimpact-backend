@@ -3,7 +3,7 @@ module.exports = {
     definition: `
   `,
     query: `
-    deliverableCategoryUnitList: [DeliverableCategoryUnit]
+    deliverableCategoryUnitList(where: JSON): [DeliverableCategoryUnit]
   `,
     mutation: `
         createDeliverableCategoryUnitInput(input: DeliverableCategoryUnitInput): DeliverableCategoryUnit!,
@@ -12,7 +12,7 @@ module.exports = {
     resolver: {
         Query: {
             deliverableCategoryUnitList: {
-                //policies: ['application::deliverable-category-unit.addFilter'],
+                policies: ['application::deliverable-category-unit.addFilter'],
                 resolver: 'application::deliverable-category-unit.deliverable-category-unit.find'
             }
         },
