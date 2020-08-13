@@ -2,7 +2,7 @@ const _ = require('lodash');
 module.exports = {
     definition: ` `,
     query: 
-    ` deliverableCategory: [DeliverableCategoryOrg]`,
+    ` deliverableCategory(where : JSON): [DeliverableCategoryOrg]`,
     mutation: 
     `   createDeliverableCategory(input: DeliverableCategoryOrgInput): DeliverableCategoryOrg!,
         updateDeliverableCategory(id: ID!, input: DeliverableCategoryOrgInput): DeliverableCategoryOrg! `,

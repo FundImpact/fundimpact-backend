@@ -2,7 +2,7 @@ const _ = require('lodash');
 module.exports = {
     definition: ` `,
     query: 
-    ` deliverableTargetList: [DeliverableTargetProject] `,
+    ` deliverableTargetList(where : JSON): [DeliverableTargetProject] `,
     mutation: 
     `   createDeliverableTarget(input: DeliverableTargetProjectInput): DeliverableTargetProject!,
         updateDeliverableTarget(id: ID!, input: DeliverableTargetProjectInput): DeliverableTargetProject! `,
