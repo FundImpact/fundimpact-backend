@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "deliverable_unit",
+  "collectionName": "impact_category_org",
   "info": {
-    "name": "DeliverableUnit"
+    "name": "ImpactCategoryOrg"
   },
   "options": {
     "increments": true,
@@ -12,20 +12,14 @@
     "name": {
       "type": "string"
     },
-    "description": {
+    "shortname": {
       "type": "string"
     },
     "code": {
       "type": "string"
     },
-    "unit_type": {
-      "type": "string"
-    },
-    "prefix_label": {
-      "type": "string"
-    },
-    "suffix_label": {
-      "type": "string"
+    "description": {
+      "type": "richtext"
     }
   }
 }

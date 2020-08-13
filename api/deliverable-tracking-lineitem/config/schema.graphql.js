@@ -1,7 +1,6 @@
 const _ = require('lodash');
 module.exports = {
-    definition: `
-  `,
+    definition: ``,
     query: `
     deliverableTrackingLineitemList: [DeliverableTrackingLineitem]
   `,
@@ -12,7 +11,7 @@ module.exports = {
     resolver: {
         Query: {
             deliverableTrackingLineitemList: {
-                // policies: ['application::donors.addFilter'],
+                policies: ['application::deliverable-tracking-lineitem.addFilter'],
                 resolver: 'application::deliverable-tracking-lineitem.deliverable-tracking-lineitem.find'
             }
         },
