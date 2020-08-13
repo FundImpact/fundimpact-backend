@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/impact-units-orgs",
+      "handler": "impact-units-org.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/impact-units-orgs/count",
+      "handler": "impact-units-org.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/impact-units-orgs/:id",
+      "handler": "impact-units-org.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/impact-units-orgs",
+      "handler": "impact-units-org.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/impact-units-orgs/:id",
+      "handler": "impact-units-org.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/impact-units-orgs/:id",
+      "handler": "impact-units-org.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/impact-target-projects",
+      "handler": "impact-target-project.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/impact-target-projects/count",
+      "handler": "impact-target-project.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/impact-target-projects/:id",
+      "handler": "impact-target-project.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/impact-target-projects",
+      "handler": "impact-target-project.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/impact-target-projects/:id",
+      "handler": "impact-target-project.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/impact-target-projects/:id",
+      "handler": "impact-target-project.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
