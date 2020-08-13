@@ -2,7 +2,7 @@ const _ = require('lodash');
 module.exports = {
     definition: ` `,
     query: `
-    deliverableUnitOrg: [DeliverableUnitsOrg]
+    deliverableUnitOrg(where : JSON): [DeliverableUnitsOrg]
   `,
     mutation: `
         createDeliverableUnitOrg(input: DeliverableUnitInput): DeliverableUnitsOrg!,

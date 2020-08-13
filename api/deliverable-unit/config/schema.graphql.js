@@ -3,7 +3,7 @@ module.exports = {
     definition: `
   `,
     query: `
-    deliverableUnitList: [DeliverableUnit]
+    deliverableUnitList(where : JSON): [DeliverableUnit]
   `,
     mutation: `
         createDeliverableUnitInput(input: DeliverableUnitInput): DeliverableUnit!,
