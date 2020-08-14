@@ -5,8 +5,8 @@ module.exports = {
     deliverableUnitOrg(where : JSON): [DeliverableUnitsOrg]
   `,
     mutation: `
-        createDeliverableUnitOrg(input: DeliverableUnitInput): DeliverableUnitsOrg!,
-        updateDeliverableUnitOrg(id: ID!, input: DeliverableUnitInput): DeliverableUnitsOrg!
+        createDeliverableUnitOrg(input: DeliverableUnitsOrgInput): DeliverableUnitsOrg!,
+        updateDeliverableUnitOrg(id: ID!, input: DeliverableUnitsOrgInput): DeliverableUnitsOrg!
     `,
     resolver: {
         Query: {
