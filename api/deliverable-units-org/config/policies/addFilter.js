@@ -1,6 +1,8 @@
 module.exports = async (ctx, next) => {
     try{
-        let orgs = await strapi.plugins['crm-plugin'].controllers.organization.find(ctx);
+        console.log(ctx.state.user)
+    
+        let orgs = await strapi.query("organization", "crm-plugin").find({account:ctx.state.user.account});
         Object.assign(ctx.query, {
             organization_in: orgs.map(m => m.id)
         });
