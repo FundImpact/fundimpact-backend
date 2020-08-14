@@ -1,8 +1,8 @@
 module.exports = async (ctx, next) => {
     try {
-        let deliverableUnitOrg = await strapi.query('deliverable-category-org').find({ id: ctx.query.deliverable_category_org });
+        let impactCategoryOrg = await strapi.query('impact-category-org').find({ id: ctx.query.impact_category_org });
         Object.assign(ctx.query, {
-            deliverable_category_org: deliverableUnitOrg.map(m => m.id)
+            impact_category_org_in: impactCategoryOrg.map(m => m.id)
         });
         return await next();
     } catch (err) {
