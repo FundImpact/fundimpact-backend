@@ -18,14 +18,11 @@
     "target_value": {
       "type": "float"
     },
-    "deliverable_category_org": {
-      "model": "deliverable-category-org"
-    },
     "project": {
       "model": "project"
     },
-    "deliverable_units_org": {
-      "model": "deliverable-units-org"
+    "deliverable_category_unit": {
+      "model": "deliverable-category-unit"
     }
   }
 }
