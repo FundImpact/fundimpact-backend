@@ -27,8 +27,9 @@
     "suffix_label": {
       "type": "string"
     },
-    "impact_category_org": {
-      "model": "impact-category-org"
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
     }
   }
 }
