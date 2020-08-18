@@ -35,6 +35,12 @@
     },
     "reporting_date": {
       "type": "datetime"
+    },
+    "donor": {
+      "model": "donor"
+    },
+    "organization_currency": {
+      "model": "organization-currency"
     }
   }
 }
