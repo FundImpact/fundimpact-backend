@@ -12,7 +12,7 @@ module.exports = {
   resolver: {
     Query: {
       fundReceiptProjectList: {
-        //policies: ['application::fund-receipt-project.addFilter'],
+        policies: ['application::fund-receipt-project.addFilter'],
         resolver: 'application::fund-receipt-project.fund-receipt-project.find'
       }
     },
