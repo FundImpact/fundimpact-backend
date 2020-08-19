@@ -3,7 +3,8 @@ module.exports = {
     definition: `
   `,
     query: `
-    orgBudgetCategory(where: JSON): [BudgetCategoryOrganization]
+    orgBudgetCategory(sort: String , limit: Int, start: Int, where: JSON): [BudgetCategoryOrganization]
+    orgBudgetCategoryCount(where : JSON) : Int!
   `,
     mutation:`
         createOrgBudgetCategory(input: BudgetCategoryOrganizationInput): BudgetCategoryOrganization!,
@@ -12,9 +13,13 @@ module.exports = {
     resolver: {
         Query: {
           orgBudgetCategory: {
-               policies: ['application::budget-category-organization.addFilter'],
+                policies: ['application::budget-category-organization.addFilter'],
                 resolver: 'application::budget-category-organization.budget-category-organization.find'
-            }
+          },
+          orgBudgetCategoryCount: {
+              policies: ['application::budget-category-organization.addFilter'],
+              resolver: 'application::budget-category-organization.budget-category-organization.count'
+          }
         },
         Mutation: {
           createOrgBudgetCategory: async (obj, options, {
@@ -22,8 +27,6 @@ module.exports = {
             }) => {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
-                console.log(context.request.body);
-                
                 return await strapi.controllers['budget-category-organization'].create(context);
             },
             updateOrgBudgetCategory: async (obj, options, {

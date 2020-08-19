@@ -21,8 +21,6 @@ module.exports = {
       }) => {
         context.params = _.toPlainObject(options);
         context.request.body = _.toPlainObject(options.input);
-        console.log(context.request.body);
-
         return await strapi.controllers['annual-year'].create(context);
       },
       updateAnnualYearDetail: async (obj, options, {
