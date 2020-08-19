@@ -22,8 +22,6 @@ module.exports = {
             }) => {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
-                console.log(context.request.body);
-                
                 return await strapi.controllers['organization-currency'].create(context);
             },
             updateOrgCurrency: async (obj, options, {
