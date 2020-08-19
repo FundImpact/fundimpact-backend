@@ -3,7 +3,7 @@ module.exports = {
     definition: `
   `,
     query: `
-    financialYearsOrgList: [FinancialYearsOrg]
+    financialYearsOrgList(where: JSON): [FinancialYearsOrg]
   `,
     mutation: `
         createFinancialYearsOrgDetail(input: FinancialYearsOrgInput): FinancialYearsOrg!,
@@ -12,7 +12,7 @@ module.exports = {
     resolver: {
         Query: {
             financialYearsOrgList: {
-                // policies: ['application::donors.addFilter'],
+                policies: ['application::financial-years-org.addFilter'],
                 resolver: 'application::financial-years-org.financial-years-org.find'
             }
         },

@@ -3,7 +3,7 @@ module.exports = {
     definition: `
   `,
     query: `
-    financialYearsDonorList: [FinancialYearsDonor]
+    financialYearsDonorList(where : JSON): [FinancialYearsDonor]
   `,
     mutation: `
         createFinancialYearsDonorDetail(input: FinancialYearsDonorInput): FinancialYearsDonor!,

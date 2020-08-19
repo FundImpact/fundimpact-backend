@@ -3,7 +3,7 @@ module.exports = {
     definition: `
   `,
     query: `
-    grantPeriodsProjectList: [GrantPeriodsProject]
+    grantPeriodsProjectList(where: JSON): [GrantPeriodsProject]
   `,
     mutation: `
         createGrantPeriodsProjectDetail(input: GrantPeriodsProjectInput): GrantPeriodsProject!,
@@ -12,7 +12,7 @@ module.exports = {
     resolver: {
         Query: {
             grantPeriodsProjectList: {
-                // policies: ['application::donors.addFilter'],
+                policies: ['application::grant-periods-project.addFilter'],
                 resolver: 'application::grant-periods-project.grant-periods-project.find'
             }
         },
