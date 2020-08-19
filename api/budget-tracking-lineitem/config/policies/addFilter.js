@@ -7,12 +7,9 @@ module.exports = async (ctx, next) => {
         Object.assign(ctx.query, {
             budget_targets_project_in: budgetTargets.map(m => m.id)
         });
-        console.log(ctx.query);
         
         return await next() 
     }catch(err){
-        console.log(err);
-        
         ctx.badRequest(`Error occured - ${err.message}`);
     }
 };

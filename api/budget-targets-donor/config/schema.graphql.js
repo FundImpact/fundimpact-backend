@@ -1,37 +1,43 @@
 const _ = require('lodash');
 module.exports = {
-    definition: `
+  definition: `
   `,
-    query: `
-    projBudgetTargetDonors(where: JSON): [BudgetTargetsDonor]
+  query: `
+    projBudgetTargetDonors(sort: String , limit: Int, start: Int, where: JSON): [BudgetTargetsDonor]
+    projBudgetTargetDonorsCount(where : JSON) : Int!
+   
   `,
-    mutation:`
+  mutation: `
         createProjBudgetTargetDonor(input: BudgetTargetsDonorInput): BudgetTargetsDonor!,
         updateProjBudgetTargetDonor(id: ID!, input: BudgetTargetsDonorInput): BudgetTargetsDonor!
     `,
-    resolver: {
-        Query: {
-          projBudgetTargetDonors: {
-               policies: ['application::budget-tracking-lineitem.addFilter'],
-                resolver: 'application::budget-targets-donor.budget-targets-donor.find'
-            }
-        },
-        Mutation: {
-          createProjBudgetTargetDonor: async (obj, options, {
-                context
-            }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['budget-targets-donor'].create(context);
-            },
-            updateProjBudgetTargetDonor: async (obj, options, {
-              context
-            }) => {
-              context.params = _.toPlainObject(options);
-              context.request.body = _.toPlainObject(options.input);
-              return await strapi.controllers['budget-targets-donor'].update(context);
-            }
-        }
+  resolver: {
+    Query: {
+      projBudgetTargetDonors: {
+        policies: ['application::budget-targets-donor.addFilter'],
+        resolver: 'application::budget-targets-donor.budget-targets-donor.find'
+      },
+      projBudgetTargetDonorsCount: {
+        policies: ['application::budget-targets-donor.addFilter'],
+        resolver: 'application::budget-targets-donor.budget-targets-donor.count'
+      }
     },
-    
+    Mutation: {
+      createProjBudgetTargetDonor: async (obj, options, {
+        context
+      }) => {
+        context.params = _.toPlainObject(options);
+        context.request.body = _.toPlainObject(options.input);
+        return await strapi.controllers['budget-targets-donor'].create(context);
+      },
+      updateProjBudgetTargetDonor: async (obj, options, {
+        context
+      }) => {
+        context.params = _.toPlainObject(options);
+        context.request.body = _.toPlainObject(options.input);
+        return await strapi.controllers['budget-targets-donor'].update(context);
+      }
+    }
+  },
+
 }
