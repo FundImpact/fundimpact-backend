@@ -41,7 +41,10 @@ jobs:
       
       - name: Create env 
         run: mv .github/workflows/envfile .env
-      
+     
+      - name: echo
+        run: echo $SECRET_KEY
+
       - name: replace value
         run: sed s/postgres_p/$SECRET_KEY/g
          
