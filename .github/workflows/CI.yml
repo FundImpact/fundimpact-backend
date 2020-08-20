@@ -1,10 +1,9 @@
-name: Continuous Integration and Deployment
+name: Continuous Integration
 
 on:
   push:
     branches: 
      - master
-     - automation/CI
   pull_request:
     branches: [ master ]
 
@@ -24,9 +23,6 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DOCKER_HUB: ${{ secrets.DOCKER_HUB }}      
-      DOCKER_HUB_KEY: ${{ secrets.DOCKER_HUB_KEY }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       
     
@@ -41,9 +37,9 @@ jobs:
       
       - name: Create env 
         run: mv .github/workflows/envfile .env
-      
+     
       - name: replace value
-        run: sed s/postgres_p/$SECRET_KEY/g
+        run: sed -i -e s/postgres_p/$SECRET_KEY/g .env
          
       - name: Install Dependencies if not Cached
         run: npm install
@@ -52,16 +48,7 @@ jobs:
         run: npm test
 
       - name: Code coverage
-        run: bash <(curl -s https://codecov.io/bash)
-        
-      - name: docker login
-        run: docker login -u $DOCKER_HUB -p $DOCKER_HUB_KEY   
+        run: bash <(curl -s https://codecov.io/bash) 
       
       - name: docker build
         run: docker build -t fundimpactdocker/fundimpact-backend .
-      
-      - name: docker push
-        run: docker push fundimpactdocker/fundimpact-backend:latest
-            
-          
-      
