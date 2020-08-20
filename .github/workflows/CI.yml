@@ -48,10 +48,7 @@ jobs:
         run: npm test
 
       - name: Code coverage
-        run: bash <(curl -s https://codecov.io/bash)
-        
-      - name: docker login
-        run: docker login -u $DOCKER_HUB -p $DOCKER_HUB_KEY   
+        run: bash <(curl -s https://codecov.io/bash) 
       
       - name: docker build
         run: docker build -t fundimpactdocker/fundimpact-backend .
