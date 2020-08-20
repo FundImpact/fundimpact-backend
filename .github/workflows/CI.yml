@@ -1,0 +1,57 @@
+name: Continuous Integration and Deployment
+
+on:
+  push:
+    branches: 
+     - master
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12 # postgres image for test database.
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: fundimpact_test
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      
+    
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
+        with:
+          remote: true
+      
+      - name: Create env 
+        run: mv .github/workflows/envfile .env
+     
+      - name: replace value
+        run: sed -i -e s/postgres_p/$SECRET_KEY/g .env
+         
+      - name: Install Dependencies if not Cached
+        run: npm install
+      
+      - name: application test
+        run: npm test
+
+      - name: Code coverage
+        run: bash <(curl -s https://codecov.io/bash)
+        
+      - name: docker login
+        run: docker login -u $DOCKER_HUB -p $DOCKER_HUB_KEY   
+      
+      - name: docker build
+        run: docker build -t fundimpactdocker/fundimpact-backend .
