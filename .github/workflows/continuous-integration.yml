@@ -23,7 +23,6 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       DOCKER_HUB: ${{ secrets.DOCKER_HUB }}      
       DOCKER_HUB_KEY: ${{ secrets.DOCKER_HUB_KEY }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
