@@ -29,6 +29,9 @@
     },
     "budget_category_organization": {
       "model": "budget-category-organization"
+    },
+    "donor": {
+      "model": "donor"
     }
   }
 }
