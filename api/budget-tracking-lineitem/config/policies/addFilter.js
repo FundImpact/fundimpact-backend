@@ -4,7 +4,6 @@ module.exports = async (ctx, next) => {
         let wps = await strapi.query("workspace").find({organization_in:orgs.map(m => m.id)});
         let projects = await strapi.query("project").find({workspace_in:wps.map(m => m.id)});
         let budgetTargets = await strapi.query("budget-targets-project").find({project_in:projects.map(m => m.id)});
-        console.log(orgs , wps , projects, budgetTargets , ctx.query);
         Object.assign(ctx.query, {
             budget_targets_project_in: budgetTargets.map(m => m.id)
         });
