@@ -2,7 +2,7 @@ const _ = require('lodash');
 module.exports = {
     definition: ``,
     query: `
-    deliverableTrackingLineitemList(where : JSON): [DeliverableTrackingLineitem]
+    deliverableTrackingLineitemList(sort: String , limit: Int, start: Int, where : JSON): [DeliverableTrackingLineitem]
   `,
     mutation: `
         createDeliverableTrackingLineitemDetail(input: DeliverableTrackingLineitemInput): DeliverableTrackingLineitem!,
