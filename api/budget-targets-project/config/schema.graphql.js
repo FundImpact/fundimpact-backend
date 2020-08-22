@@ -5,7 +5,7 @@ module.exports = {
   query: `
     projectBudgetTargets(sort: String , limit: Int, start: Int, where: JSON): [BudgetTargetsProject]
     projectBudgetTargetsCount(where : JSON) : Int!
-    projectBudgetTargetAmountSum(where : JSON) : Float!
+    projectBudgetTargetAmountSum(where : JSON) : JSON
   `,
   mutation: `
         createProjectBudgetTarget(input: BudgetTargetsProjectInput): BudgetTargetsProject!,
@@ -26,8 +26,7 @@ module.exports = {
       }) => {
         context.params = _.toPlainObject(options);
         context.request.body = _.toPlainObject(options.input);
-       
-        //return await strapi.controllers['budget-targets-project'].sumTarget(context);
+        return await strapi.services['budget-targets-project'].totalTargetExpense(context);
       }
     },
     Mutation: {
