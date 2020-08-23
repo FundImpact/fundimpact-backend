@@ -28,7 +28,7 @@
       "model": "grant-periods-project"
     },
     "reporting_date": {
-      "type": "date"
+      "type": "datetime"
     },
     "value": {
       "type": "float"
