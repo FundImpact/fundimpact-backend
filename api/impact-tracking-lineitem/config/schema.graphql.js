@@ -4,6 +4,7 @@ module.exports = {
   `,
   query: `
   impactTrackingLineitemList(where: JSON): [ImpactTrackingLineitem]
+  impactTrackingSpendValue(where : JSON) : Float!
   `,
   mutation: `
         createImpactTrackingLineitemInput(input: ImpactTrackingLineitemInput): ImpactTrackingLineitem!,
@@ -14,6 +15,11 @@ module.exports = {
       impactTrackingLineitemList: {
         policies: ['application::impact-tracking-lineitem.addFilter'],
         resolver: 'application::impact-tracking-lineitem.impact-tracking-lineitem.find'
+      },
+      impactTrackingSpendValue: async (obj, options, { context }) => {
+        context.params = _.toPlainObject(options);
+        context.request.body = _.toPlainObject(options.input);
+        return await strapi.services['impact-tracking-lineitem'].totalAchivedValue(context);
       }
     },
     Mutation: {
