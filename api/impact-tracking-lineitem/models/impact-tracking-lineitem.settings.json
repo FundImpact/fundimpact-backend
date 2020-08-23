@@ -9,9 +9,6 @@
     "timestamps": true
   },
   "attributes": {
-    "value": {
-      "type": "string"
-    },
     "note": {
       "type": "richtext"
     },
@@ -32,6 +29,9 @@
     },
     "reporting_date": {
       "type": "date"
+    },
+    "value": {
+      "type": "float"
     }
   }
 }

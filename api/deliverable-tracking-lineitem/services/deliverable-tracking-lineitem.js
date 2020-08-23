@@ -13,7 +13,6 @@ module.exports = {
         } catch (error) {
             console.log(error)
             return ctx.badRequest(null, error.message);
-
         }
     }
 };
