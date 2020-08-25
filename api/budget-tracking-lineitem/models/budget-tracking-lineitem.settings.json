@@ -15,12 +15,6 @@
     "annual_year": {
       "model": "annual-year"
     },
-    "financial_years_org": {
-      "model": "financial-years-org"
-    },
-    "financial_years_donor": {
-      "model": "financial-years-donor"
-    },
     "grant_periods_project": {
       "model": "grant-periods-project"
     },
@@ -36,11 +30,11 @@
     "reporting_date": {
       "type": "datetime"
     },
-    "donor": {
-      "model": "donor"
-    },
     "organization_currency": {
       "model": "organization-currency"
+    },
+    "financial_year": {
+      "model": "financial-year"
     }
   }
 }

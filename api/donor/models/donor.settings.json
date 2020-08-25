@@ -22,6 +22,10 @@
     "organization": {
       "plugin": "crm-plugin",
       "model": "organization"
+    },
+    "country": {
+      "plugin": "crm-plugin",
+      "model": "country"
     }
   }
 }
