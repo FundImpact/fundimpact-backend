@@ -38,6 +38,10 @@
     },
     "organization_registration_type": {
       "model": "organization-registration-type"
+    },
+    "country": {
+      "plugin": "crm-plugin",
+      "model": "country"
     }
   }
 }
