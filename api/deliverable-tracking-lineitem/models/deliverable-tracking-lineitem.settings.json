@@ -21,17 +21,14 @@
     "annual_year": {
       "model": "annual-year"
     },
-    "financial_years_org": {
-      "model": "financial-years-org"
-    },
-    "financial_years_donor": {
-      "model": "financial-years-donor"
-    },
     "grant_periods_project": {
       "model": "grant-periods-project"
     },
     "reporting_date": {
       "type": "datetime"
+    },
+    "financial_year": {
+      "model": "financial-year"
     }
   }
 }
