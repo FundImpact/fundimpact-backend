@@ -3,8 +3,9 @@ module.exports = {
   definition: `
   `,
   query: `
-  impactTrackingLineitemList(where: JSON): [ImpactTrackingLineitem]
+  impactTrackingLineitemList(sort: String , limit: Int, start: Int,where: JSON): [ImpactTrackingLineitem]
   impactTrackingSpendValue(where : JSON) : Float!
+  impactTrackingLineitemListCount(where : JSON) : Int!
   `,
   mutation: `
         createImpactTrackingLineitemInput(input: ImpactTrackingLineitemInput): ImpactTrackingLineitem!,
@@ -15,6 +16,10 @@ module.exports = {
       impactTrackingLineitemList: {
         policies: ['application::impact-tracking-lineitem.addFilter'],
         resolver: 'application::impact-tracking-lineitem.impact-tracking-lineitem.find'
+      },
+      impactTrackingLineitemListCount: {
+        policies: ['application::impact-tracking-lineitem.addFilter'],
+        resolver: 'application::impact-tracking-lineitem.impact-tracking-lineitem.count'
       },
       impactTrackingSpendValue: async (obj, options, { context }) => {
         context.params = _.toPlainObject(options);
