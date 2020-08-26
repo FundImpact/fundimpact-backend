@@ -33,7 +33,10 @@
     "organization_currency": {
       "model": "organization-currency"
     },
-    "financial_year": {
+    "fy_org": {
+      "model": "financial-year"
+    },
+    "fy_donor": {
       "model": "financial-year"
     }
   }

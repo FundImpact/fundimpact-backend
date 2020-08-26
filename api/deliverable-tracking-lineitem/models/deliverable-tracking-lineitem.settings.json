@@ -27,7 +27,10 @@
     "reporting_date": {
       "type": "datetime"
     },
-    "financial_year": {
+    "fy_org": {
+      "model": "financial-year"
+    },
+    "fy_donor": {
       "model": "financial-year"
     }
   }
