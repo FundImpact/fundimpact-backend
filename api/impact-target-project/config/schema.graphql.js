@@ -3,7 +3,8 @@ module.exports = {
   definition: `
   `,
   query: `
-    impactTargetProjectList(where: JSON): [ImpactTargetProject]
+    impactTargetProjectList(sort: String , limit: Int, start: Int,where: JSON): [ImpactTargetProject]
+    impactTargetProjectCount(where : JSON) : Int!
   `,
   mutation: `
         createImpactTargetProjectInput(input: ImpactTargetProjectInput): ImpactTargetProject!,
@@ -14,6 +15,10 @@ module.exports = {
       impactTargetProjectList: {
         policies: ['application::impact-target-project.addFilter'],
         resolver: 'application::impact-target-project.impact-target-project.find'
+      },
+      impactTargetProjectCount: {
+        policies: ['application::impact-target-project.addFilter'],
+        resolver: 'application::impact-target-project.impact-target-project.count'
       }
     },
     Mutation: {

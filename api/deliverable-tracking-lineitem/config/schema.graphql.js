@@ -4,6 +4,7 @@ module.exports = {
     query: `
     deliverableTrackingLineitemList(sort: String , limit: Int, start: Int, where : JSON): [DeliverableTrackingLineitem]
     deliverableTrackingTotalValue(where : JSON) : Float!
+    deliverableTrackingLineitemCount(where : JSON) : Float!
   `,
     mutation: `
         createDeliverableTrackingLineitemDetail(input: DeliverableTrackingLineitemInput): DeliverableTrackingLineitem!,
@@ -14,6 +15,10 @@ module.exports = {
             deliverableTrackingLineitemList: {
                 policies: ['application::deliverable-tracking-lineitem.addFilter'],
                 resolver: 'application::deliverable-tracking-lineitem.deliverable-tracking-lineitem.find'
+            },
+            deliverableTrackingLineitemCount: {
+                policies: ['application::deliverable-tracking-lineitem.addFilter'],
+                resolver: 'application::deliverable-tracking-lineitem.deliverable-tracking-lineitem.count'
             },
             deliverableTrackingTotalValue : async (obj, options, {context }) => {
                 context.params = _.toPlainObject(options);
