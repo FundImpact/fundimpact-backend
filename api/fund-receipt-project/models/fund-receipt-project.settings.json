@@ -33,7 +33,10 @@
     "grant_periods_project": {
       "model": "grant-periods-project"
     },
-    "financial_year": {
+    "fy_org": {
+      "model": "financial-year"
+    },
+    "fy_donor": {
       "model": "financial-year"
     }
   }
