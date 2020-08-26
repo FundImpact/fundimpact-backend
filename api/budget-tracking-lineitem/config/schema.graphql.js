@@ -6,6 +6,7 @@ module.exports = {
         projBudgetTrackings(sort: String , limit: Int, start: Int, where: JSON): [BudgetTrackingLineitem]
         projBudgetTrackingsCount(where : JSON) : Int!
         projBudgetTrackingsTotalAmount(where : JSON) : Float!
+        projBudgetTrackingsTotalSpendAmount(where : JSON) : Float!
   `,
   mutation: `
         createProjBudgetTracking(input: BudgetTrackingLineitemInput): BudgetTrackingLineitem!,
@@ -24,8 +25,14 @@ module.exports = {
       projBudgetTrackingsTotalAmount: async (obj, options, { context }) => {
         context.params = _.toPlainObject(options);
         context.request.body = _.toPlainObject(options.input);
-        return await strapi.services['budget-tracking-lineitem'].totalSpendAmount(context);
+        return await strapi.services['budget-tracking-lineitem'].spendAmount(context);
       },
+      projBudgetTrackingsTotalSpendAmount: async (obj, options, { context }) => {
+        context.params = _.toPlainObject(options);
+        context.request.body = _.toPlainObject(options.input);
+        return await strapi.services['budget-tracking-lineitem'].totalSpendAmountByProject(context);
+      },
+
     },
     Mutation: {
       createProjBudgetTracking: async (obj, options, {

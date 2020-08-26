@@ -5,7 +5,7 @@ module.exports = {
   query: `
     projectBudgetTargets(sort: String , limit: Int, start: Int, where: JSON): [BudgetTargetsProject]
     projectBudgetTargetsCount(where : JSON) : Int!
-    projectBudgetTargetAmountSum(where : JSON) : JSON
+    projectBudgetTargetAmountSum(where : JSON) : Float!
   `,
   mutation: `
         createProjectBudgetTarget(input: BudgetTargetsProjectInput): BudgetTargetsProject!,
