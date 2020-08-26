@@ -27,7 +27,10 @@
     "value": {
       "type": "float"
     },
-    "financial_year": {
+    "fy_org": {
+      "model": "financial-year"
+    },
+    "fy_donor": {
       "model": "financial-year"
     }
   }
