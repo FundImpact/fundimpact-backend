@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "impact_linitem_fy_donor",
+  "info": {
+    "name": "ImpactLinitemFyDonor"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "impact_tracking_lineitem": {
+      "model": "impact-tracking-lineitem"
+    },
+    "project_donor": {
+      "model": "project-donor"
+    },
+    "grant_periods_project": {
+      "model": "grant-periods-project"
+    },
+    "financial_year": {
+      "model": "financial-year"
+    }
+  }
+}

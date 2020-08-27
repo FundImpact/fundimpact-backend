@@ -3,7 +3,7 @@ module.exports = {
     definition: `
   `,
     query: `
-    orgDonors(where: JSON): [Donor]
+    orgDonors(sort: String , limit: Int, start: Int, where: JSON): [Donor]
   `,
     mutation:`
         createOrgDonor(input: DonorInput): Donor!,

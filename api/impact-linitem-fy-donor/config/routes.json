@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/impact-linitem-fy-donors",
+      "handler": "impact-linitem-fy-donor.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/impact-linitem-fy-donors/count",
+      "handler": "impact-linitem-fy-donor.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/impact-linitem-fy-donors/:id",
+      "handler": "impact-linitem-fy-donor.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/impact-linitem-fy-donors",
+      "handler": "impact-linitem-fy-donor.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/impact-linitem-fy-donors/:id",
+      "handler": "impact-linitem-fy-donor.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/impact-linitem-fy-donors/:id",
+      "handler": "impact-linitem-fy-donor.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
