@@ -34,19 +34,29 @@ module.exports = {
             }
     `,
     query: `
-    organizationList: [OrganizationList]
+    organizationList: [CrmPluginOrganization]
+    countryList:[CrmPluginCountry]
     `,
     mutation: `
-        organizationUpdate(id: ID!, input: OrgInput): OrganizationList
+        organizationUpdate(id: ID!, input: OrgInput): CrmPluginOrganization
     `,
     resolver: {
         Query: {
+            countryList: {
+                resolverOf: 'plugins::crm-plugin.country.find',
+                resolver: async (obj, options, {
+                    context
+                }) => {
+                    Object.assign(context.query, { account: context.state.user.account })
+                    return await strapi.plugins['crm-plugin'].controllers.country.find(context);
+                }
+            },
             organizationList: {
                 resolverOf: 'plugins::crm-plugin.organization.find',
                 resolver: async (obj, options, {
                     context
-                  }) =>{
-                    Object.assign(context.query,{account:context.state.user.account})
+                }) => {
+                    Object.assign(context.query, { account: context.state.user.account })
                     return await strapi.plugins['crm-plugin'].controllers.organization.find(context);
                 }
             },
@@ -54,11 +64,11 @@ module.exports = {
         Mutation: {
             organizationUpdate: async (obj, options, {
                 context
-              }) => {
+            }) => {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
                 return await strapi.plugins['crm-plugin'].controllers.organization.update(context);
-              }
+            }
         }
     },
 };

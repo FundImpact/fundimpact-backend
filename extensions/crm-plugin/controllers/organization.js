@@ -21,6 +21,7 @@ module.exports = {
         return result;
       }
     } catch (error) {
+      console.log(error);
       return ctx.badRequest(null, error.message);
     }
   },
