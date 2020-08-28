@@ -47,7 +47,7 @@ module.exports = {
                 resolver: async (obj, options, {
                     context
                 }) => {
-                    Object.assign(context.query, { account: context.state.user.account })
+                    //Object.assign(context.query, { account: context.state.user.account })
                     return await strapi.plugins['crm-plugin'].controllers.country.find(context);
                 }
             },
