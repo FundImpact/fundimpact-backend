@@ -4,6 +4,7 @@ module.exports = {
   `,
     query: `
     orgDonors(sort: String , limit: Int, start: Int, where: JSON): [Donor]
+    orgDonorsCount( where: JSON): Float!
   `,
     mutation:`
         createOrgDonor(input: DonorInput): Donor!,
@@ -14,7 +15,12 @@ module.exports = {
           orgDonors: {
               policies: ['application::donor.addFilter'],
               resolver: 'application::donor.donor.find'
-            }
+            },
+            orgDonorsCount: {
+              policies: ['application::donor.addFilter'],
+              resolver: 'application::donor.donor.count'
+            },
+
         },
         Mutation: {
           createOrgDonor: async (obj, options, {
