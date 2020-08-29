@@ -32,5 +32,26 @@ module.exports = {
       } catch (error) {
         return ctx.badRequest(null, error.message);
       }
+    },
+    create: async ctx => {
+      try {
+        return await strapi
+          .query("country", "crm-plugin")
+          .create(ctx.request.body);
+  
+      } catch (error) {
+        return ctx.badRequest(null, error.message);
+      }
+    },
+    update: async ctx => {
+      try {
+        const { id } = ctx.params;
+        return await strapi
+          .query("country", "crm-plugin")
+          .update({ id }, ctx.request.body);
+  
+      } catch (error) {
+        return ctx.badRequest(null, error.message);
+      }
     }
 };
