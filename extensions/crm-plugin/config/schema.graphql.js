@@ -39,6 +39,8 @@ module.exports = {
     `,
     mutation: `
         organizationUpdate(id: ID!, input: OrgInput): CrmPluginOrganization
+        createCountryInput(input: CountryInput): CrmPluginCountry
+        updateCountryInput(id: ID, input: CountryInput): CrmPluginCountry
     `,
     resolver: {
         Query: {
@@ -68,7 +70,21 @@ module.exports = {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
                 return await strapi.plugins['crm-plugin'].controllers.organization.update(context);
-            }
+            },
+            createCountryInput: async (obj, options, {
+                context
+            }) => {
+                context.params = _.toPlainObject(options);
+                context.request.body = _.toPlainObject(options.input);
+                return await strapi.plugins['crm-plugin'].controllers.country.create(context);
+            },
+            updateCountryInput: async (obj, options, {
+                context
+            }) => {
+                context.params = _.toPlainObject(options);
+                context.request.body = _.toPlainObject(options.input);
+                return await strapi.plugins['crm-plugin'].controllers.country.update(context);
+            },
         }
     },
 };
