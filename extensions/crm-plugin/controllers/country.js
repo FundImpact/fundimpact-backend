@@ -11,6 +11,7 @@
 module.exports = {
     find: async ctx => {
         try {
+          console.log("kjdfhdksjfhkjdsfhjkds");
         // ctx.query._q: filter parameters in context object
         if (ctx.query._q) {
           // checks if any filter parameter is present
