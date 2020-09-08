@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "category_unit",
+  "info": {
+    "name": "CategoryUnit"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "category": {
+      "model": "category"
+    },
+    "unit": {
+      "model": "unit"
+    }
+  }
+}

@@ -31,6 +31,7 @@ module.exports = {
                 legal_name : String
                 description : String
                 contact_type: String
+                country : ID
             }
     `,
     query: `

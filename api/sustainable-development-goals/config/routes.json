@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/sustainable-development-goals",
+      "handler": "sustainable-development-goals.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sustainable-development-goals/count",
+      "handler": "sustainable-development-goals.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sustainable-development-goals/:id",
+      "handler": "sustainable-development-goals.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/sustainable-development-goals",
+      "handler": "sustainable-development-goals.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/sustainable-development-goals/:id",
+      "handler": "sustainable-development-goals.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/sustainable-development-goals/:id",
+      "handler": "sustainable-development-goals.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "impact_target_project",
+  "collectionName": "unit",
   "info": {
-    "name": "ImpactTargetProject"
+    "name": "unit"
   },
   "options": {
     "increments": true,
@@ -12,17 +12,14 @@
     "name": {
       "type": "string"
     },
-    "target_value": {
-      "type": "float"
+    "code": {
+      "type": "string"
     },
     "description": {
       "type": "richtext"
     },
-    "project": {
-      "model": "project"
-    },
-    "impact_category_unit": {
-      "model": "impact-category-unit"
+    "type": {
+      "type": "string"
     },
     "sustainable_development_goal": {
       "model": "sustainable-development-goals"
