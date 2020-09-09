@@ -3,7 +3,8 @@ module.exports = {
     definition: `
   `,
     query: `
-    deliverableCategoryUnitList(where: JSON): [DeliverableCategoryUnit]
+    deliverableCategoryUnitList(sort: String , limit: Int, start: Int, where: JSON): [DeliverableCategoryUnit]
+    deliverableCategoryUnitCount(where : JSON) : Int!
   `,
     mutation: `
         createDeliverableCategoryUnitInput(input: DeliverableCategoryUnitInput): DeliverableCategoryUnit!,
@@ -14,6 +15,10 @@ module.exports = {
             deliverableCategoryUnitList: {
                 policies: ['application::deliverable-category-unit.addFilter'],
                 resolver: 'application::deliverable-category-unit.deliverable-category-unit.find'
+            },
+            deliverableCategoryUnitCount: {
+                policies: ['application::deliverable-category-unit.addFilter'],
+                resolver: 'application::deliverable-category-unit.deliverable-category-unit.count'
             }
         },
         Mutation: {

@@ -1,7 +1,7 @@
 HOST=0.0.0.0
 PORT=8080
 DB_CLIENT="postgres"
-DB_HOST="localhost"
+DB_HOST="192.168.1.95"
 DB_PORT="5432"
 DB_NAME="fundimpact"
 DB_USERNAME="postgres"
