@@ -3,7 +3,8 @@ module.exports = {
   definition: `
   `,
   query: `
-    impactCategoryUnitList(where: JSON): [ImpactCategoryUnit]
+    impactCategoryUnitList(sort: String , limit: Int, start: Int, where: JSON): [ImpactCategoryUnit]
+    impactCategoryUnitListCount(where : JSON) : Int!
   `,
   mutation: `
         createImpactCategoryUnitInput(input: ImpactCategoryUnitInput): ImpactCategoryUnit!,
@@ -14,6 +15,10 @@ module.exports = {
       impactCategoryUnitList: {
         policies: ['application::impact-category-unit.addFilter'],
         resolver: 'application::impact-category-unit.impact-category-unit.find'
+      },
+      impactCategoryUnitListCount: {
+        policies: ['application::impact-category-unit.addFilter'],
+        resolver: 'application::impact-category-unit.impact-category-unit.count'
       }
     },
     Mutation: {

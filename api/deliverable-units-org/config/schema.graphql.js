@@ -2,7 +2,8 @@ const _ = require('lodash');
 module.exports = {
     definition: ` `,
     query: `
-    deliverableUnitOrg(where : JSON): [DeliverableUnitsOrg]
+    deliverableUnitOrg(sort: String , limit: Int, start: Int, where : JSON): [DeliverableUnitsOrg]
+    deliverableUnitOrgCount(where : JSON) : Int!
   `,
     mutation: `
         createDeliverableUnitOrg(input: DeliverableUnitsOrgInput): DeliverableUnitsOrg!,
@@ -13,6 +14,10 @@ module.exports = {
             deliverableUnitOrg: {
                 policies: ['application::deliverable-units-org.addFilter'],
                 resolver: 'application::deliverable-units-org.deliverable-units-org.find'
+            },
+            deliverableUnitOrgCount: {
+                policies: ['application::deliverable-units-org.addFilter'],
+                resolver: 'application::deliverable-units-org.deliverable-units-org.count'
             }
         },
         Mutation: {

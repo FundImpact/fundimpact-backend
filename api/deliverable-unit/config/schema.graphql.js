@@ -3,7 +3,8 @@ module.exports = {
     definition: `
   `,
     query: `
-    deliverableUnitList(where : JSON): [DeliverableUnit]
+    deliverableUnitList(sort: String , limit: Int, start: Int,where : JSON): [DeliverableUnit]
+    deliverableUnitCount(where : JSON) : Int!
   `,
     mutation: `
         createDeliverableUnitInput(input: DeliverableUnitInput): DeliverableUnit!,
@@ -12,8 +13,10 @@ module.exports = {
     resolver: {
         Query: {
             deliverableUnitList: {
-                //policies: ['application::deliverable-unit.addFilter'],
                 resolver: 'application::deliverable-unit.deliverable-unit.find'
+            },
+            deliverableUnitCount: {
+                resolver: 'application::deliverable-unit.deliverable-unit.count'
             }
         },
         Mutation: {
