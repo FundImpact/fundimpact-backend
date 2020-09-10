@@ -391,5 +391,26 @@ module.exports = {
       });
       ctx.badRequest(null, formatError(adminError));
     }
-  }
+  },
+  async update (ctx) {
+    try {
+
+      const user = await strapi.query('user', 'users-permissions').findOne({id : ctx.params.id});
+      
+      if (!user) {
+        return ctx.badRequest(
+          null,
+          formatError({
+            id: 'Auth.form.error.invalid',
+            message: 'user not found!',
+          })
+        );
+      }
+      return await strapi
+      .query("user", "users-permissions")
+      .update({ id : ctx.params.id}, ctx.request.body);
+    } catch (error) {
+      return ctx.badRequest(null, error.message);
+    }
+  },
 };
