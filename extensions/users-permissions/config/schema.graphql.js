@@ -53,6 +53,7 @@ module.exports = {
   `,
   mutation: `
   userCustomerLogin(email: String, password: String): UserCustomerLogin
+  updateUserCustomerInput(id: ID!, input: editUserInput): UsersPermissionsUser!
   `,
   resolver: {
     Query: {
@@ -78,6 +79,13 @@ module.exports = {
           };
         },
       },
+        updateUserCustomerInput: async (obj, options, {
+          context
+        }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.plugins['users-permissions'].controllers.auth.update(context);
+        }
     },
   },
 };
