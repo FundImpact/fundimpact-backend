@@ -21,6 +21,7 @@ module.exports = {
                 legal_name : String
                 description : String
                 contact_type: String
+                logo: UploadFile
             }
             input OrgInput {
                 name: String
@@ -32,6 +33,7 @@ module.exports = {
                 description : String
                 contact_type: String
                 country : ID
+                logo: ID
             }
     `,
     query: `

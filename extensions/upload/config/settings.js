@@ -1,13 +1,11 @@
-module.exports = ({
-  env
-}) => ({
+module.exports = {
   "provider": "aws-s3",
   "providerOptions": {
-    "accessKeyId": env('AWS_S3_ACCESS_KEY'),
-    "secretAccessKey": env('AWS_S3_SECRET_KEY'),
-    "region": env('AWS_S3_REGION'),
+    "accessKeyId": process.env.AWS_S3_ACCESS_KEY,
+    "secretAccessKey": process.env.AWS_S3_SECRET_KEY,
+    "region": process.env.AWS_S3_REGION,
     "params": {
-      "Bucket": env('AWS_BUCKET_NAME')
+      "Bucket": process.env.AWS_BUCKET_NAME
     }
   }
-});
+};
