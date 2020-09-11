@@ -37,6 +37,5 @@ module.exports = {
               return await strapi.controllers['budget-category-organization'].update(context);
             }
         }
-    },
-    
+    }   
 }

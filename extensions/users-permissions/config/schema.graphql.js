@@ -47,6 +47,10 @@ module.exports = {
       user: UserCustomer!
     }
 
+    input resetPasswordInput{
+      password : String!
+      passwordConfirmation : String!
+    } 
   `,
   query: `
    userCustomer: UserCustomer
@@ -54,6 +58,7 @@ module.exports = {
   mutation: `
   userCustomerLogin(email: String, password: String): UserCustomerLogin
   updateUserCustomerInput(id: ID!, input: editUserInput): UsersPermissionsUser!
+  resetUserPasswordInput(id : ID!, input : resetPasswordInput) : UsersPermissionsUser!
   `,
   resolver: {
     Query: {
@@ -79,13 +84,20 @@ module.exports = {
           };
         },
       },
-        updateUserCustomerInput: async (obj, options, {
-          context
-        }) => {
-          context.params = _.toPlainObject(options);
-          context.request.body = _.toPlainObject(options.input);
-          return await strapi.plugins['users-permissions'].controllers.auth.update(context);
-        }
+      updateUserCustomerInput: async (obj, options, {
+        context
+      }) => {
+        context.params = _.toPlainObject(options);
+        context.request.body = _.toPlainObject(options.input);
+        return await strapi.plugins['users-permissions'].controllers.auth.update(context);
+      },
+      resetUserPasswordInput : async (obj, options, {
+        context
+      }) => {
+        context.params = _.toPlainObject(options);
+        context.request.body = _.toPlainObject(options.input);
+        return await strapi.plugins['users-permissions'].controllers.auth.resetPassword(context);
+      }
     },
   },
 };
