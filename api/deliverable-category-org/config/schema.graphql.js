@@ -4,7 +4,8 @@ module.exports = {
     query:
         `deliverableCategory(sort: String , limit: Int, start: Int,  where : JSON): [DeliverableCategoryOrg]
         deliverableCategoryCount(where : JSON) : Int!
-        projectCountDelCatByOrg(where : JSON) : JSON!  `,
+        projectCountDelCatByOrg(where : JSON) : JSON!
+        projectCountDelUnit(where : JSON) : JSON!  `,
 
 
     mutation:
@@ -27,6 +28,15 @@ module.exports = {
                     context.params = _.toPlainObject(options);
                     context.request.body = _.toPlainObject(options.input);
                     return await strapi.controllers['deliverable-category-org'].projectCountDelCatByOrg(context);
+                }
+            },
+            projectCountDelUnit: {
+                policies: ['application::deliverable-category-org.addFilter'],
+                resolverOf: 'application::deliverable-category-org.deliverable-category-org.projectCountDelUnit',
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-category-org'].projectCountDelUnit(context);
                 }
             }
         },
