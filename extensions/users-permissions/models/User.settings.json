@@ -16,10 +16,6 @@
       "configurable": false,
       "required": false
     },
-    "name": {
-      "type": "string",
-      "minLength": 3
-    },
     "email": {
       "type": "email",
       "minLength": 6,
@@ -57,8 +53,23 @@
       "plugin": "users-permissions",
       "configurable": false
     },
+    "name": {
+      "type": "string",
+      "minLength": 3
+    },
     "account": {
       "model": "account"
+    },
+    "profile_photo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
     }
   }
 }
