@@ -42,6 +42,15 @@
     "country": {
       "plugin": "crm-plugin",
       "model": "country"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
     }
   }
 }
