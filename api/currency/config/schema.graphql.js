@@ -7,7 +7,7 @@ module.exports = {
   `,
   mutation: `
         createCurrencyInput(input: CurrencyInput): Currency!,
-        updateCurrencyInput(id: ID!, input: CurrencyInput): Currency!
+        updateCurrencyInput(id: ID!, input: editCurrencyInput): Currency!
     `,
   resolver: {
     Query: {
