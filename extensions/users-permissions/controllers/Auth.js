@@ -413,4 +413,57 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
+  async resetPassword(ctx) {
+
+    const params = _.assign({}, ctx.request.body, ctx.params);
+    if (
+      params.password &&
+      params.passwordConfirmation &&
+      params.password === params.passwordConfirmation 
+    ) {
+      const user = await strapi
+        .query('user', 'users-permissions')
+        .findOne({id :  params.id});
+        
+      if (!user) {
+        return ctx.badRequest(
+          null,
+          formatError({
+            id: 'Auth.form.error.user.provide',
+            message: 'Incorrect user provided.',
+          })
+        );
+      }
+
+      const password = await strapi.plugins['users-permissions'].services.user.hashPassword({
+        password: params.password,
+      });
+
+      // Update the user.
+      return await strapi
+        .query('user', 'users-permissions')
+        .update({ id: user.id }, { password : password });
+
+    } else if (
+      params.password &&
+      params.passwordConfirmation &&
+      params.password !== params.passwordConfirmation
+    ) {
+      return ctx.badRequest(
+        null,
+        formatError({
+          id: 'Auth.form.error.password.matching',
+          message: 'Passwords do not match.',
+        })
+      );
+    } else {
+      return ctx.badRequest(
+        null,
+        formatError({
+          id: 'Auth.form.error.params.provide',
+          message: 'Incorrect params provided.',
+        })
+      );
+    }
+  },
 };
