@@ -24,6 +24,9 @@
     "organization": {
       "plugin": "crm-plugin",
       "model": "organization"
+    },
+    "status": {
+      "type": "string"
     }
   }
 }
