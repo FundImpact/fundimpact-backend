@@ -51,6 +51,9 @@
       ],
       "plugin": "upload",
       "required": false
+    },
+    "theme": {
+      "type": "json"
     }
   }
 }
