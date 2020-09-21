@@ -8,7 +8,8 @@ module.exports = {
         projectCountDelUnit(where : JSON) : JSON!  
         totalDeliverableByOrg(where : JSON) : JSON!
         totalAchivedProjectByOrg(where : JSON) : JSON!
-        avgAchivementDeliverableByOrg(where : JSON) : JSON!`,
+        avgAchivementDeliverableByOrg(where : JSON) : JSON!
+        achiveDeliverableVsTargetByOrg(where : JSON) : JSON!`,
 
     mutation:
         `   createDeliverableCategory(input: DeliverableCategoryOrgInput): DeliverableCategoryOrg!,
@@ -66,6 +67,15 @@ module.exports = {
                     context.params = _.toPlainObject(options);
                     context.request.body = _.toPlainObject(options.input);
                     return await strapi.controllers['deliverable-category-org'].avgAchivementDeliverableByOrg(context);
+                }
+            },
+            achiveDeliverableVsTargetByOrg: {
+                policies: ['application::deliverable-category-org.addFilter'],
+                resolverOf: 'application::deliverable-category-org.deliverable-category-org.achiveDeliverableVsTargetByOrg',
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-category-org'].achiveDeliverableVsTargetByOrg(context);
                 }
             }
         },
