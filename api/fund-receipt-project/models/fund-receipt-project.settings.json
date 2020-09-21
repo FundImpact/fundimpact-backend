@@ -18,15 +18,6 @@
     "reporting_date": {
       "type": "date"
     },
-    "donor": {
-      "model": "donor"
-    },
-    "project": {
-      "model": "project"
-    },
-    "currency": {
-      "model": "currency"
-    },
     "annual_year": {
       "model": "annual-year"
     },
@@ -38,6 +29,9 @@
     },
     "fy_donor": {
       "model": "financial-year"
+    },
+    "project_donor": {
+      "model": "project-donor"
     }
   }
 }
