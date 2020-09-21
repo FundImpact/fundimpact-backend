@@ -5,6 +5,7 @@ module.exports = {
   query: `
     fundReceiptProjectList(where: JSON): [FundReceiptProject]
     fundReceiptProjectTotalAmount(where : JSON) : Float!
+    fundRecipetValuesByOrg(where : JSON) : Float!
   `,
   mutation: `
         createFundReceiptProjectInput(input: FundReceiptProjectInput): FundReceiptProject!,
@@ -22,7 +23,16 @@ module.exports = {
         context.params = _.toPlainObject(options);
         context.request.body = _.toPlainObject(options.input);
         return await strapi.services['fund-receipt-project'].totalRecivedAmt(context);
-      }
+      },
+      fundRecipetValuesByOrg: {
+        policies: ['application::fund-receipt-project.addFilter'],
+        resolverOf: 'application::fund-receipt-project.fund-receipt-project.fund_recipet_values',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['fund-receipt-project'].fund_recipet_values(context);
+        }
+      },
     },
     Mutation: {
       createFundReceiptProjectInput: async (obj, options, { context }) => {
