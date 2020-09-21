@@ -28,5 +28,59 @@ module.exports = {
             console.log(error)
             return ctx.badRequest(null, error.message);
         }
-    }
+    },
+    totalImpactProjectByOrg :  async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`select count(itp.project) from impact_category_org ico 
+            JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
+            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id  where organization = ${ctx.query.organization}`)
+            return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    totalAchivedImpactProjectByOrg :  async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`WITH cte AS(select itp.project ,sum(itp.target_value) as sum_itp ,  
+            sum(itl.value) as sum_itl from impact_category_org ico JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
+            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
+            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project  
+            where organization = ${ctx.query.organization} group by itp.project) 
+            select count(cte.project) from cte where cte.sum_itp = cte.sum_itl`)
+
+            return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    avgAchivementImpactByOrg :  async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`WITH cte AS(select sum(itp.target_value) as sum_itp ,  
+            sum(itl.value) as sum_itl from impact_category_org ico JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
+            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
+            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project  where organization = ${ctx.query.organization}) 
+            select ROUND((sum_itl * 100.0)/ sum_itp) as avg from cte where cte.sum_itp <> cte.sum_itl`)
+            return data.rows && data.rows.length > 0 && data.rows[0].avg  ? data.rows[0].avg : 0;
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    achiveImpactVsTargetByOrg :  async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`WITH cte AS( select itp.id ,sum(itp.target_value) as sum_itp ,  
+            sum(itl.value) as sum_itl from impact_category_org ico JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
+            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
+            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project  
+            where organization = ${ctx.query.organization} group by itp.id) 
+            select count(id) from cte where sum_itp = sum_itl`)
+
+            return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
 };
