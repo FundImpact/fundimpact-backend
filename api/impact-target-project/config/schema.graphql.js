@@ -7,6 +7,7 @@ module.exports = {
     impactTargetProjectCount(where : JSON) : Int!
     impactTargetProjectTotalAmount(where : JSON) : Float!
     impactTargetProjectSuccessiveList(where : JSON) : JSON!
+    impactAchieved(where : JSON) : JSON!
   `,
   mutation: `
         createImpactTargetProjectInput(input: ImpactTargetProjectInput): ImpactTargetProject!,
@@ -31,7 +32,16 @@ module.exports = {
         context.params = _.toPlainObject(options);
         context.request.body = _.toPlainObject(options.input);
         return await strapi.services['impact-target-project'].successiveImpactList(context);
-      }
+      },
+      impactAchieved: {
+        policies: ['application::impact-target-project.addFilter'],
+        resolverOf: 'application::impact-target-project.impact-target-project.impact_achieved',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-target-project'].impact_achieved(context);
+        }
+      },
     },
     Mutation: {
       createImpactTargetProjectInput: async (obj, options, { context }) => {
