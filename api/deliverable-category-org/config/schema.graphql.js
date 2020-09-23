@@ -9,7 +9,9 @@ module.exports = {
         totalDeliverableByOrg(where : JSON) : JSON!
         totalAchivedProjectByOrg(where : JSON) : JSON!
         avgAchivementDeliverableByOrg(where : JSON) : JSON!
-        achiveDeliverableVsTargetByOrg(where : JSON) : JSON!`,
+        achiveDeliverableVsTargetByOrg(where : JSON) : JSON!
+        deliverableCategoryProjectCount(where : JSON) : JSON!
+        deliverableCategoryAchievedTarget(where : JSON) : JSON!`,
 
     mutation:
         `   createDeliverableCategory(input: DeliverableCategoryOrgInput): DeliverableCategoryOrg!,
@@ -76,6 +78,24 @@ module.exports = {
                     context.params = _.toPlainObject(options);
                     context.request.body = _.toPlainObject(options.input);
                     return await strapi.controllers['deliverable-category-org'].achiveDeliverableVsTargetByOrg(context);
+                }
+            },
+            deliverableCategoryProjectCount: {
+                policies: ['application::deliverable-category-org.addFilter'],
+                resolverOf: 'application::deliverable-category-org.deliverable-category-org.deliverable_category_project_count',
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-category-org'].deliverable_category_project_count(context);
+                }
+            },
+            deliverableCategoryAchievedTarget: {
+                policies: ['application::deliverable-category-org.addFilter'],
+                resolverOf: 'application::deliverable-category-org.deliverable-category-org.deliverable_category_achieved_target',
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-category-org'].deliverable_category_achieved_target(context);
                 }
             }
         },
