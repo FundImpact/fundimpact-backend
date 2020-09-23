@@ -8,6 +8,8 @@ module.exports = {
     projectBudgetTargetAmountSum(where : JSON) : Float!
     projectExpenditureValue(where : JSON) : JSON!
     projectAllocationValue(where : JSON) : JSON!
+    donorsAllocationValue(where : JSON) : JSON!
+    donorsRecievedValue(where : JSON) : JSON!
     
   `,
   mutation: `
@@ -47,6 +49,24 @@ module.exports = {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);
           return await strapi.controllers['budget-targets-project'].project_allocation_value(context);
+        }
+      },
+      donorsAllocationValue: {
+        policies: ['application::budget-targets-project.addFilter'],
+        resolverOf: 'application::budget-targets-project.budget-targets-project.donors_allocation_value',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-targets-project'].donors_allocation_value(context);
+        }
+      },
+      donorsRecievedValue: {
+        policies: ['application::budget-targets-project.addFilter'],
+        resolverOf: 'application::budget-targets-project.budget-targets-project.donors_recieved_value',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-targets-project'].donors_recieved_value(context);
         }
       },
     },

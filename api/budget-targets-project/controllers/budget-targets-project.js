@@ -35,6 +35,32 @@ module.exports = {
             console.log(error)
             return ctx.badRequest(null, error.message);
         }
-    }
+    },
+    donors_allocation_value : async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`select donors.id , donors.name , sum(btp.total_target_amount) from workspaces 
+            JOIN projects ON projects.workspace = workspaces.id JOIN project_donor pd ON projects.id = pd.project 
+            JOIN donors ON donors.id = pd.donor 
+            JOIN budget_targets_project btp ON btp.project = projects.id where workspaces.organization = ${ctx.query.organization} group by donors.id ORDER BY sum desc`)
+            
+            return data.rows && data.rows.length > 0 ? data.rows : [];
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    donors_recieved_value : async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`select donors.id , donors.name , sum(frp.amount) from workspaces JOIN projects ON projects.workspace = workspaces.id 
+            JOIN project_donor pd ON projects.id = pd.project 
+            JOIN donors ON donors.id = pd.donor 
+            JOIN fund_receipt_project frp ON frp.project_donor = pd.id where workspaces.organization = ${ctx.query.organization} group by donors.id ORDER BY sum desc`)
+            
+            return data.rows && data.rows.length > 0 ? data.rows : [];
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    }, 
 
 };
