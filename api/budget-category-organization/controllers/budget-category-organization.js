@@ -40,4 +40,28 @@ module.exports = {
             return ctx.badRequest(null, error.message);
         }
     },
+    budget_category_target : async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`select bco.id , bco.name , sum(btp.total_target_amount) from budget_category_organizations bco 
+            JOIN budget_targets_project btp ON bco.id = btp.budget_category_organization where organization = ${ctx.query.organization} group by bco.id order by sum`)
+            
+            return data.rows && data.rows.length > 0  ? data.rows : [];
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    budget_category_expenditure : async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`select bco.id , bco.name , sum(btl.amount) from budget_category_organizations bco 
+            JOIN budget_targets_project btp ON bco.id = btp.budget_category_organization 
+            JOIN budget_tracking_lineitem btl ON btp.id = btl.budget_targets_project  where organization = ${ctx.query.organization} group by bco.id
+             order by sum`)
+            
+            return data.rows && data.rows.length > 0  ? data.rows : [];
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    }
 };

@@ -10,7 +10,9 @@ module.exports = {
     totalImpactProjectByOrg(where : JSON) : JSON!
     totalAchivedImpactProjectByOrg(where : JSON) : JSON!
     avgAchivementImpactByOrg(where : JSON) : JSON!
-    achiveImpactVsTargetByOrg(where : JSON) : JSON!`,
+    achiveImpactVsTargetByOrg(where : JSON) : JSON!
+    impactCategoryProjectCount(where : JSON) : JSON!
+    impactCategoryAchievedValue(where : JSON) : JSON!`,
 
   mutation: `
         createImpactCategoryOrgInput(input: ImpactCategoryOrgInput): ImpactCategoryOrg!,
@@ -78,6 +80,24 @@ module.exports = {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);
           return await strapi.controllers['impact-category-org'].achiveImpactVsTargetByOrg(context);
+        }
+      },
+      impactCategoryProjectCount: {
+        policies: ['application::impact-category-org.addFilter'],
+        resolverOf: 'application::impact-category-org.impact-category-org.impact_category_project_count',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-category-org'].impact_category_project_count(context);
+        }
+      },
+      impactCategoryAchievedValue: {
+        policies: ['application::impact-category-org.addFilter'],
+        resolverOf: 'application::impact-category-org.impact-category-org.impact_category_achieved_value',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-category-org'].impact_category_achieved_value(context);
         }
       }
     },
