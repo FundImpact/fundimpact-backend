@@ -84,4 +84,32 @@ module.exports = {
             return ctx.badRequest(null, error.message);
         }
     },
+    deliverable_category_project_count :  async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`select dco.id , dco.name , count(dtp.project) from deliverable_category_org dco 
+            JOIN deliverable_category_unit dcu ON dco.id = dcu.deliverable_category_org 
+            JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit where organization = ${ctx.query.organization} 
+            group by dco.id order by count`)
+
+            return data.rows && data.rows.length > 0  ? data.rows : 0;
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    deliverable_category_achieved_target :  async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`
+            select dco.id , dco.name , sum(dtl.value) from deliverable_category_org dco 
+            JOIN deliverable_category_unit dcu ON dco.id = dcu.deliverable_category_org 
+            JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit 
+            JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project where organization = ${ctx.query.organization} group by dco.id
+             order by sum`)
+
+            return data.rows && data.rows.length > 0  ? data.rows : 0;
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    }
 };

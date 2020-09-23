@@ -8,6 +8,8 @@ module.exports = {
     projectCountBudgetCatByOrg(where : JSON) : JSON!  
     budgetTargetSum(where : JSON) : Float!
     budgetSpentValue(where : JSON) : Float!
+    budgetCategoryTarget(where : JSON) : JSON!
+    budgetCategoryExpenditure(where : JSON) : JSON!
   `,
   mutation: `
         createOrgBudgetCategory(input: BudgetCategoryOrganizationInput): BudgetCategoryOrganization!,
@@ -48,6 +50,24 @@ module.exports = {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);
           return await strapi.controllers['budget-category-organization'].budget_spent_value(context);
+        }
+      },
+      budgetCategoryTarget: {
+        policies: ['application::budget-category-organization.addFilter'],
+        resolverOf: 'application::budget-category-organization.budget-category-organization.budget_category_target',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-category-organization'].budget_category_target(context);
+        }
+      },
+      budgetCategoryExpenditure: {
+        policies: ['application::budget-category-organization.addFilter'],
+        resolverOf: 'application::budget-category-organization.budget-category-organization.budget_category_expenditure',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-category-organization'].budget_category_expenditure(context);
         }
       }
     },

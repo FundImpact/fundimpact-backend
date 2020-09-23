@@ -83,4 +83,29 @@ module.exports = {
             return ctx.badRequest(null, error.message);
         }
     },
+    impact_category_project_count :  async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`select ico.id , ico.name , count(itp.project) from impact_category_org ico 
+            JOIN impact_category_unit icu ON ico.id = icu.impact_category_org 
+            JOIN impact_target_project itp ON icu.id = itp.impact_category_unit where organization = ${ctx.query.organization} group by ico.id order by count`)
+
+            return data.rows && data.rows.length > 0 ? data.rows : [];
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    impact_category_achieved_value :  async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`select ico.id , ico.name , sum(itl.value) from impact_category_org ico 
+            JOIN impact_category_unit icu ON ico.id = icu.impact_category_org 
+            JOIN impact_target_project itp ON icu.id = itp.impact_category_unit 
+            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project where organization = ${ctx.query.organization} group by ico.id order by sum`)
+
+            return data.rows && data.rows.length > 0 ? data.rows : [];
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
 };
