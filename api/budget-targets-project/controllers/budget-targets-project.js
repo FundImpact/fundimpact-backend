@@ -36,6 +36,21 @@ module.exports = {
             return ctx.badRequest(null, error.message);
         }
     },
+    completed_project_count : async ctx => {
+        try {
+            let data = await strapi.connections.default.raw(`
+            WITH btp AS ( select btp.project,  sum(btp.total_target_amount) from budget_category_organizations bco 
+                        JOIN budget_targets_project btp ON btp.budget_category_organization = bco.id where organization = ${ctx.query.organization} group by btp.project) , 
+                        frp AS (select projects.id ,sum(frp.amount) from workspaces JOIN projects ON projects.workspace = workspaces.id 
+                        JOIN project_donor pd ON pd.project = projects.id JOIN fund_receipt_project frp ON frp.project_donor = pd.id where organization = ${ctx.query.organization} group by projects.id)
+                        select count(btp.project) from btp JOIN frp ON btp.sum = frp.sum;`)
+            
+            return data.rows && data.rows.length > 0 && data.rows[0].count ? data.rows[o].count : 0;
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
     donors_allocation_value : async ctx => {
         try {
             let data = await strapi.connections.default.raw(`select donors.id , donors.name , sum(btp.total_target_amount) from workspaces 

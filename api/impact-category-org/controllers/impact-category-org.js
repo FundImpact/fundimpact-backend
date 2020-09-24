@@ -87,7 +87,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select ico.id , ico.name , count(itp.project) from impact_category_org ico 
             JOIN impact_category_unit icu ON ico.id = icu.impact_category_org 
-            JOIN impact_target_project itp ON icu.id = itp.impact_category_unit where organization = ${ctx.query.organization} group by ico.id order by count`)
+            JOIN impact_target_project itp ON icu.id = itp.impact_category_unit where organization = ${ctx.query.organization} group by ico.id order by count desc`)
 
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
@@ -100,7 +100,7 @@ module.exports = {
             let data = await strapi.connections.default.raw(`select ico.id , ico.name , sum(itl.value) from impact_category_org ico 
             JOIN impact_category_unit icu ON ico.id = icu.impact_category_org 
             JOIN impact_target_project itp ON icu.id = itp.impact_category_unit 
-            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project where organization = ${ctx.query.organization} group by ico.id order by sum`)
+            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project where organization = ${ctx.query.organization} group by ico.id order by sum desc`)
 
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
