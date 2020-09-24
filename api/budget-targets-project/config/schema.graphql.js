@@ -10,7 +10,7 @@ module.exports = {
     projectAllocationValue(where : JSON) : JSON!
     donorsAllocationValue(where : JSON) : JSON!
     donorsRecievedValue(where : JSON) : JSON!
-    
+    completedProjectCount(where : JSON) : JSON!
   `,
   mutation: `
         createProjectBudgetTarget(input: BudgetTargetsProjectInput): BudgetTargetsProject!,
@@ -49,6 +49,15 @@ module.exports = {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);
           return await strapi.controllers['budget-targets-project'].project_allocation_value(context);
+        }
+      },
+      completedProjectCount: {
+        policies: ['application::budget-targets-project.addFilter'],
+        resolverOf: 'application::budget-targets-project.budget-targets-project.completed_project_count',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-targets-project'].completed_project_count(context);
         }
       },
       donorsAllocationValue: {
