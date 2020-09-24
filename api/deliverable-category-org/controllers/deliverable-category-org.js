@@ -89,7 +89,7 @@ module.exports = {
             let data = await strapi.connections.default.raw(`select dco.id , dco.name , count(dtp.project) from deliverable_category_org dco 
             JOIN deliverable_category_unit dcu ON dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit where organization = ${ctx.query.organization} 
-            group by dco.id order by count`)
+            group by dco.id order by count desc`)
 
             return data.rows && data.rows.length > 0  ? data.rows : 0;
         } catch (error) {
@@ -104,7 +104,7 @@ module.exports = {
             JOIN deliverable_category_unit dcu ON dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit 
             JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project where organization = ${ctx.query.organization} group by dco.id
-             order by sum`)
+             order by sum desc`)
 
             return data.rows && data.rows.length > 0  ? data.rows : 0;
         } catch (error) {
