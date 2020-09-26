@@ -44,8 +44,7 @@ module.exports = {
                         frp AS (select projects.id ,sum(frp.amount) from workspaces JOIN projects ON projects.workspace = workspaces.id 
                         JOIN project_donor pd ON pd.project = projects.id JOIN fund_receipt_project frp ON frp.project_donor = pd.id where organization = ${ctx.query.organization} group by projects.id)
                         select count(btp.project) from btp JOIN frp ON btp.sum = frp.sum;`)
-            
-            return data.rows && data.rows.length > 0 && data.rows[0].count ? data.rows[o].count : 0;
+            return data.rows && data.rows.length > 0 && data.rows[0].count ? data.rows[0].count : 0;
         } catch (error) {
             console.log(error)
             return ctx.badRequest(null, error.message);
