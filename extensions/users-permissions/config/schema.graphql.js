@@ -21,6 +21,16 @@ module.exports = {
     UsersPermissionsPermission: false, // Make this type NOT queriable.
   },
   definition: /* GraphQL */ `
+   type userDetail{
+    id : ID
+    confirmed : Boolean
+    email : String
+    role : roleDetail
+   }
+   type roleDetail {
+     id : ID,
+     name : String
+   }
     type UserCustomer {
       id: ID!
       username: String!
@@ -70,6 +80,7 @@ module.exports = {
       where: JSON
     ):[UsersPermissionsRole]
     getOrganizationPermissions:JSON
+    
   `,
   mutation: `
   userCustomerLogin(email: String, password: String): UserCustomerLogin
@@ -77,6 +88,7 @@ module.exports = {
   resetUserPasswordInput(id : ID!, input : resetPasswordInput) : UsersPermissionsUser!
   inviteUser(input:inviteUserInput): InviteUser
   createOrganizationUserRole(input:organizationUserRoleInput):UsersPermissionsRole
+  createUserInput(input : UserInput) : userDetail
   `,
   resolver: {
     Query: {
@@ -88,7 +100,8 @@ module.exports = {
       },
       getOrganizationPermissions:{
         resolver:'plugins::users-permissions.userspermissions.getOrganizationPermissions',
-      }
+      },
+      
     },
     Mutation: {
       userCustomerLogin: {
@@ -121,6 +134,9 @@ module.exports = {
         context.params = _.toPlainObject(options);
         context.request.body = _.toPlainObject(options.input);
         return await strapi.plugins['users-permissions'].controllers.auth.resetPassword(context);
+      },
+      createUserInput : {
+        resolver: 'plugins::users-permissions.auth.create',
       },
       inviteUser: {
         resolver:'plugins::users-permissions.auth.inviteUser'
