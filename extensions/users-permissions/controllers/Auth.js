@@ -1,7 +1,8 @@
 'use strict'
 const crypto = require('crypto');
 const _ = require('lodash');
-const uuidService = require('../../../services/helper/uuid')
+const uuidService = require('../../../services/helper/uuid');
+const permissionsService =  require('../../../services/helper/permissions');
 const {
   sanitizeEntity
 } = require('strapi-utils');
@@ -226,23 +227,6 @@ module.exports = {
         })
       );
     }
-
-    const role = await strapi
-      .query('role', 'users-permissions')
-      .findOne({
-        type: settings.default_role
-      }, []);
-
-    if (!role) {
-      return ctx.badRequest(
-        null,
-        formatError({
-          id: 'Auth.form.error.role.notFound',
-          message: 'Impossible to find the default role.',
-        })
-      );
-    }
-
     // Check if the provided email is valid or not.
     const isEmail = emailRegExp.test(params.email);
 
@@ -258,7 +242,6 @@ module.exports = {
       );
     }
 
-    params.role = role.id;
     params.password = await strapi.plugins['users-permissions'].services.user.hashPassword(params);
 
     const user = await strapi.query('user', 'users-permissions').findOne({
@@ -284,7 +267,7 @@ module.exports = {
         })
       );
     }
-
+    
     try {
       if (!settings.email_confirmation) {
         params.confirmed = true;
@@ -297,16 +280,31 @@ module.exports = {
         account_no: uuid
       });
       params.account = account.id;
-      const user = await strapi.query('user', 'users-permissions').create(params);
-
       params.organization.account = params.account;
-
-      const organization  = await strapi.query('organization', "crm-plugin").create(params.organization);
       
-      //const organization = await strapi.query('organization').create(params.organization);
-
+      const organization  = await strapi.query('organization', "crm-plugin").create(params.organization);
+      params.organization = organization.id;
+    
+      const permissions = await permissionsService.createAdminPermissions();
+      const roleParams = {
+        name:"Admin",
+        type:`admin-org-${organization.id}`,
+        users:[],
+        organization:organization.id,
+        description:`This is default role.`,
+        permissions:permissions
+      };
+      await strapi.plugins['users-permissions'].services.userspermissions.createRole(
+        roleParams
+      );
+      const role = await strapi.query('role', 'users-permissions').findOne({
+        type: roleParams.type, organization:roleParams.organization}, 
+      []);
+      
+      params.role = role.id;
+      const user = await strapi.query('user', 'users-permissions').create(params);
       user.organization = organization;
-
+      
       let workSpaceParams = {
         organization: organization.id,
         name:"DEFAULT",
@@ -466,4 +464,50 @@ module.exports = {
       );
     }
   },
+  async inviteUser(ctx){
+    let payload = ctx.request.body.input;
+    let roleQuery = {
+      id:payload.role,
+      organization:ctx.state.user.organization
+    };
+    const role = await strapi.query('role', 'users-permissions').findOne(roleQuery);
+    if(!role){
+      let roleError = {
+        id: 'Auth.form.error.role.notfound',
+        email:payload.email,
+        message: 'Role not found'
+      };
+      return ctx.throw(400, roleError);
+    }
+    let params = {
+        email:payload.email,
+        role:payload.role,
+        confirmed:false,
+        organization:ctx.state.user.organization,
+        account:ctx.state.user.account
+    }
+    const userExists = await strapi.query('user', 'users-permissions').findOne({email:params.email});
+    if(userExists){
+      let userError = {
+        id: 'Auth.form.error.user.email.taken',
+        email:payload.email,
+        message: 'Email already taken.'
+      };
+      return ctx.throw(400, userError);
+    }  
+    const user = await strapi.query('user', 'users-permissions').create(params);
+    const emailTemplate = {
+      to: payload.email,
+      subject: 'Fundimpact: Invitation :)',
+      text: `Welcome on fundimpact.org!.`,
+      html: `<p>Welcome on fundimpact.org!</p>
+        <p>Your account is now linked with: <%= payload.email %>.<p>`,
+    };
+    await strapi.plugins.email.services.email.send(emailTemplate)
+    return {
+      email:payload.email,
+      message: `Invitation sent to the user email.`,
+      user:user
+    };
+  }
 };

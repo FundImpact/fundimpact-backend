@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { inviteUser } = require('../controllers/Auth');
 
 /**
  * Throws an ApolloError if context body contains a bad request
@@ -28,43 +29,66 @@ module.exports = {
       blocked: Boolean
       role:  UserCustomerRole
     }
-
     type UserCustomerRole {
       id: ID!
       name: String!
       description: String
       type: String
     }
-
-
+    type InviteUser{
+      email:String
+      message:String
+    }
     input UserCustomerInput {
       email: String
       password: String
     }
-
     type UserCustomerLogin {
       jwt: String
       user: UserCustomer!
     }
-
     input resetPasswordInput{
       password : String!
       passwordConfirmation : String!
     } 
+    input inviteUserInput{
+      email:String!
+      role:ID!
+    }
+    input organizationUserRoleInput{
+      name:String!
+      description:String
+      permissions:JSON
+    }
   `,
   query: `
    userCustomer: UserCustomer
+   organizationRoles(
+      sort:String
+      limit: Int
+      start: Int
+      where: JSON
+    ):[UsersPermissionsRole]
+    getOrganizationPermissions:JSON
   `,
   mutation: `
   userCustomerLogin(email: String, password: String): UserCustomerLogin
   updateUserCustomerInput(id: ID!, input: editUserInput): UsersPermissionsUser!
   resetUserPasswordInput(id : ID!, input : resetPasswordInput) : UsersPermissionsUser!
+  inviteUser(input:inviteUserInput): InviteUser
+  createOrganizationUserRole(input:organizationUserRoleInput):UsersPermissionsRole
   `,
   resolver: {
     Query: {
       userCustomer: {
         resolver: 'plugins::users-permissions.user.me',
       },
+      organizationRoles:{
+        resolver:'plugins::users-permissions.userspermissions.getOrganizationRoles',
+      },
+      getOrganizationPermissions:{
+        resolver:'plugins::users-permissions.userspermissions.getOrganizationPermissions',
+      }
     },
     Mutation: {
       userCustomerLogin: {
@@ -97,6 +121,12 @@ module.exports = {
         context.params = _.toPlainObject(options);
         context.request.body = _.toPlainObject(options.input);
         return await strapi.plugins['users-permissions'].controllers.auth.resetPassword(context);
+      },
+      inviteUser: {
+        resolver:'plugins::users-permissions.auth.inviteUser'
+      },
+      createOrganizationUserRole:{
+        resolver:'plugins::users-permissions.userspermissions.createOrganizationRole'
       }
     },
   },
