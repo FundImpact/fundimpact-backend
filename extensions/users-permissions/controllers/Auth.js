@@ -2,9 +2,11 @@
 const crypto = require('crypto');
 const _ = require('lodash');
 const uuidService = require('../../../services/helper/uuid');
-const permissionsService = require('../../../services/helper/permissions');
+const permissionsService =  require('../../../services/helper/permissions');
+const emailTemplates =  require('../../../services/emailTemplates/index');
 const {
-  sanitizeEntity
+  sanitizeEntity,
+  getAbsoluteServerUrl
 } = require('strapi-utils');
 const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const formatError = error => [{
@@ -650,18 +652,61 @@ module.exports = {
       return ctx.throw(400, userError);
     }
     const user = await strapi.query('user', 'users-permissions').create(params);
-    const emailTemplate = {
-      to: payload.email,
-      subject: 'Fundimpact: Invitation :)',
-      text: `Welcome on fundimpact.org!.`,
-      html: `<p>Welcome on fundimpact.org!</p>
-        <p>Your account is now linked with: <%= payload.email %>.<p>`,
-    };
-    await strapi.plugins.email.services.email.send(emailTemplate)
-    return {
-      email: payload.email,
-      message: `Invitation sent to the user email.`,
-      user: user
-    };
-  }
+    const jwt = strapi.plugins['users-permissions'].services.jwt.issue(
+      _.pick(user.toJSON ? user.toJSON() : user, ['id'])
+    );
+    
+    // send email
+    try {
+      let redirectToUrl = `${ctx.request.host.includes('localhost') ? 'http':'https'}://${ctx.request.host+process.env.REDIRECT_TO_URL}`;
+      let emailInfo = {
+        email:user.email,
+        link:`${getAbsoluteServerUrl(strapi.config)}/auth/email-confirmation?confirmation=${jwt}&redirectTo=${redirectToUrl}`
+      }
+      let template = await emailTemplates.userInvitation(emailInfo)
+      
+      await strapi.plugins.email.services.email.send(template)
+      return ctx.send({email:user.email, message:`Invitation sent to email address.`})
+
+    } catch (error) {
+      return ctx.throw(400,error)
+    }
+  },
+
+  async emailConfirmation(ctx, next, returnUser) {
+    const params = ctx.query;
+
+    const decodedToken = await strapi.plugins['users-permissions'].services.jwt.verify(
+      params.confirmation
+    );
+
+    let user = await strapi.plugins['users-permissions'].services.user.edit(
+      { id: decodedToken.id },
+      { confirmed: true }
+    );
+
+    if (returnUser) {
+      ctx.send({
+        jwt: strapi.plugins['users-permissions'].services.jwt.issue({
+          id: user.id,
+        }),
+        user: sanitizeEntity(user.toJSON ? user.toJSON() : user, {
+          model: strapi.query('user', 'users-permissions').model,
+        }),
+      });
+    } else {
+      const settings = await strapi
+        .store({
+          environment: '',
+          type: 'plugin',
+          name: 'users-permissions',
+          key: 'advanced',
+        })
+        .get();
+      let url = params.redirectTo || settings.email_confirmation_redirection || '/';
+      
+      ctx.redirect(`${url}?token=${params.confirmation}`);
+    }
+  },
+
 };
