@@ -2,8 +2,8 @@
 const crypto = require('crypto');
 const _ = require('lodash');
 const uuidService = require('../../../services/helper/uuid');
-const permissionsService =  require('../../../services/helper/permissions');
-const emailTemplates =  require('../../../services/emailTemplates/index');
+const permissionsService = require('../../../services/helper/permissions');
+const emailTemplates = require('../../../services/emailTemplates/index');
 const {
   sanitizeEntity,
   getAbsoluteServerUrl
@@ -481,151 +481,13 @@ module.exports = {
       );
     }
   },
-  async create(ctx) {
-    const advanced = await strapi
-      .store({
-        environment: '',
-        type: 'plugin',
-        name: 'users-permissions',
-        key: 'advanced',
-      })
-      .get();
-
-    const { email, role } = ctx.request.body.input;
-    if (!email) return ctx.badRequest('missing.email');
-
-
-    if (advanced.unique_email) {
-      const userWithSameEmail = await strapi.query('user', 'users-permissions').findOne({ email: email.toLowerCase() });
-
-      if (userWithSameEmail) {
-        return ctx.badRequest(
-          null,
-          formatError({
-            id: 'Auth.form.error.email.taken',
-            message: 'Email already taken.',
-            field: ['email'],
-          })
-        );
-      }
-    }
-
-    const user = {
-      ...ctx.request.body.input,
-      provider: 'local',
-    };
-
-    user.email = user.email.toLowerCase();
-    user.organization = ctx.state.user.organization
-    if (!role) {
-      const defaultRole = await strapi
-        .query('role', 'users-permissions')
-        .findOne({ type: advanced.default_role }, []);
-
-      user.role = defaultRole.id;
-    }
-
-    try {
-      const data = await strapi.plugins['users-permissions'].services.user.add(user);
-      const sanitizedUser = sanitizeEntity(data.toJSON ? data.toJSON() : user, {
-        model: strapi.query('user', 'users-permissions').model,
-      });
-      ctx.send({
-        user: sanitizedUser,
-      });
-    } catch (error) {
-      ctx.badRequest(null, formatError(error));
-    }
-  },
-  async sendEmailConfirmation(ctx) {
-    const pluginStore = await strapi.store({
-      environment: '',
-      type: 'plugin',
-      name: 'users-permissions',
-    });
-
-    const params = _.assign(ctx.request.body);
-
-    if (!params.email) {
-      return ctx.badRequest('missing.email');
-    }
-
-    const isEmail = emailRegExp.test(params.email);
-
-    if (isEmail) {
-      params.email = params.email.toLowerCase();
-    } else {
-      return ctx.badRequest('wrong.email');
-    }
-
-    const user = await strapi.query('user', 'users-permissions').findOne({
-      email: params.email,
-    });
-
-    if (user.confirmed) {
-      return ctx.badRequest('already.confirmed');
-    }
-
-    if (user.blocked) {
-      return ctx.badRequest('blocked.user');
-    }
-
-    const jwt = strapi.plugins['users-permissions'].services.jwt.issue(
-      _.pick(user.toJSON ? user.toJSON() : user, ['id'])
-    );
-
-    const settings = await pluginStore.get({ key: 'email' }).then(storeEmail => {
-      try {
-        return storeEmail['email_confirmation'].options;
-      } catch (err) {
-        return {};
-      }
-    });
-
-    const userInfo = _.omit(user, ['password', 'resetPasswordToken', 'role', 'provider']);
-
-    settings.message = await strapi.plugins['users-permissions'].services.userspermissions.template(
-      settings.message,
-      {
-        URL: `${getAbsoluteServerUrl(strapi.config)}/auth/email-confirmation`,
-        USER: userInfo,
-        CODE: jwt,
-      }
-    );
-
-    settings.object = await strapi.plugins['users-permissions'].services.userspermissions.template(
-      settings.object,
-      {
-        USER: userInfo,
-      }
-    );
-
-    try {
-      await strapi.plugins['email'].services.email.send({
-        to: (user.toJSON ? user.toJSON() : user).email,
-        from:
-          settings.from.email && settings.from.name
-            ? `"${settings.from.name}" <${settings.from.email}>`
-            : undefined,
-        replyTo: settings.response_email,
-        subject: settings.object,
-        text: settings.message,
-        html: settings.message,
-      });
-      ctx.send({
-        email: (user.toJSON ? user.toJSON() : user).email,
-        sent: true,
-      });
-    } catch (err) {
-      return ctx.badRequest(null, err);
-    }
-  },
   async inviteUser(ctx) {
     let payload = ctx.request.body.input;
     let roleQuery = {
       id: payload.role,
       organization: ctx.state.user.organization
     };
+    console.log(roleQuery);
     const role = await strapi.query('role', 'users-permissions').findOne(roleQuery);
     if (!role) {
       let roleError = {
@@ -655,24 +517,23 @@ module.exports = {
     const jwt = strapi.plugins['users-permissions'].services.jwt.issue(
       _.pick(user.toJSON ? user.toJSON() : user, ['id'])
     );
-    
+
     // send email
     try {
-      let redirectToUrl = `${ctx.request.host.includes('localhost') ? 'http':'https'}://${ctx.request.host+process.env.REDIRECT_TO_URL}`;
+      let redirectToUrl = `${ctx.request.host.includes('localhost') ? 'http' : 'https'}://${ctx.request.host + process.env.REDIRECT_TO_URL}`;
       let emailInfo = {
-        email:user.email,
-        link:`${getAbsoluteServerUrl(strapi.config)}/auth/email-confirmation?confirmation=${jwt}&redirectTo=${redirectToUrl}`
+        email: user.email,
+        link: `${getAbsoluteServerUrl(strapi.config)}/auth/email-confirmation?confirmation=${jwt}&redirectTo=${redirectToUrl}`
       }
       let template = await emailTemplates.userInvitation(emailInfo)
-      
+
       await strapi.plugins.email.services.email.send(template)
-      return ctx.send({email:user.email, message:`Invitation sent to email address.`})
+      return ctx.send({ email: user.email, message: `Invitation sent to email address.` })
 
     } catch (error) {
-      return ctx.throw(400,error)
+      return ctx.throw(400, error)
     }
   },
-
   async emailConfirmation(ctx, next, returnUser) {
     const params = ctx.query;
 
@@ -704,9 +565,18 @@ module.exports = {
         })
         .get();
       let url = params.redirectTo || settings.email_confirmation_redirection || '/';
-      
+
       ctx.redirect(`${url}?token=${params.confirmation}`);
     }
   },
+  async list(ctx) {
+    try {
+      const params = { ...ctx.query }
+      return await strapi.query('user', 'users-permissions').find(params);
+       
+    } catch (error) {
+      return ctx.badRequest(null, error.message);
+    }
 
+  }
 };

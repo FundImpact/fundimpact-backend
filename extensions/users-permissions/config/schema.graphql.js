@@ -80,7 +80,7 @@ module.exports = {
       where: JSON
     ):[UsersPermissionsRole]
     getOrganizationPermissions:JSON
-    
+    userList(sort:String ,limit: Int ,start: Int,  where : JSON) :[UsersPermissionsUser]
   `,
   mutation: `
   userCustomerLogin(email: String, password: String): UserCustomerLogin
@@ -88,7 +88,6 @@ module.exports = {
   resetUserPasswordInput(id : ID!, input : resetPasswordInput) : UsersPermissionsUser!
   inviteUser(input:inviteUserInput): InviteUser
   createOrganizationUserRole(input:organizationUserRoleInput):UsersPermissionsRole
-  createUserInput(input : UserInput) : userDetail
   `,
   resolver: {
     Query: {
@@ -101,7 +100,10 @@ module.exports = {
       getOrganizationPermissions:{
         resolver:'plugins::users-permissions.userspermissions.getOrganizationPermissions',
       },
-      
+      userList: {
+        policies: ['plugins::users-permissions.addFilter'],
+        resolver: 'plugins::users-permissions.auth.list'
+      },
     },
     Mutation: {
       userCustomerLogin: {
@@ -134,9 +136,6 @@ module.exports = {
         context.params = _.toPlainObject(options);
         context.request.body = _.toPlainObject(options.input);
         return await strapi.plugins['users-permissions'].controllers.auth.resetPassword(context);
-      },
-      createUserInput : {
-        resolver: 'plugins::users-permissions.auth.create',
       },
       inviteUser: {
         resolver:'plugins::users-permissions.auth.inviteUser'
