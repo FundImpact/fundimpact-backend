@@ -1,3 +1,0 @@
-[submodule "plugins/crm-plugin"]
-	path = plugins/crm-plugin
-	url = https://github.com/webaccess/crmplatform.git
