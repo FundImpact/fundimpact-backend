@@ -1,0 +1,3 @@
+[submodule "plugins/crmplatform"]
+	path = plugins/crmplatform
+	url = https://github.com/FundImpact/crmplatform.git
