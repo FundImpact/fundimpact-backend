@@ -72,7 +72,7 @@ module.exports = {
     }
   `,
   query: `
-   userCustomer: UserCustomer
+   userCustomer: UsersPermissionsUser
    organizationRoles(
       sort:String
       limit: Int
