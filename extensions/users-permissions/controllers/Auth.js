@@ -18,16 +18,6 @@ const formatError = error => [{
 },];
 
 
-/**
- * Remove private user fields
- * @param {Object} user - user to sanitize
- */
-const sanitizeUser = user => {
-  return {
-    ..._.omit(user, ['password', 'resetPasswordToken', 'roles']),
-    roles: user.roles && user.roles.map(sanitizeUserRoles),
-  };
-};
 
 
 module.exports = {
@@ -182,7 +172,6 @@ module.exports = {
       });
     }
   },
-
   async register(ctx) {
 
     const pluginStore = await strapi.store({
@@ -409,7 +398,13 @@ module.exports = {
   },
   async update(ctx) {
     try {
-
+      
+      if(ctx.request.body && ctx.request.body.password){
+        const password = await strapi.plugins['users-permissions'].services.user.hashPassword({
+          password: ctx.request.body.password,
+        });
+        ctx.request.body.password = password
+      }
       const user = await strapi.query('user', 'users-permissions').findOne({ id: ctx.params.id });
 
       if (!user) {
