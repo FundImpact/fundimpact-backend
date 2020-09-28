@@ -74,6 +74,10 @@
     "theme": {
       "type": "json",
       "required": false
+    },
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
     }
   }
 }
