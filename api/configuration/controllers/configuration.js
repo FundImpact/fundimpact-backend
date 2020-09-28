@@ -11,7 +11,7 @@ module.exports = {
     async permissions(ctx) {
         try {
             let permissions = await permissionsService.createAdminPermissions();
-            ctx.send(permissions);
+            ctx.send({permissions});
         } catch (err) {
             strapi.log.error(err);
             return ctx.throw(400, err);
