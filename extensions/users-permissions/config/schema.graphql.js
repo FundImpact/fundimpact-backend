@@ -21,6 +21,16 @@ module.exports = {
     UsersPermissionsPermission: false, // Make this type NOT queriable.
   },
   definition: /* GraphQL */ `
+   type userDetail{
+    id : ID
+    confirmed : Boolean
+    email : String
+    role : roleDetail
+   }
+   type roleDetail {
+     id : ID,
+     name : String
+   }
     type UserCustomer {
       id: ID!
       username: String!
@@ -70,6 +80,7 @@ module.exports = {
       where: JSON
     ):[UsersPermissionsRole]
     getOrganizationPermissions:JSON
+    userList(sort:String ,limit: Int ,start: Int,  where : JSON) :[UsersPermissionsUser]
   `,
   mutation: `
   userCustomerLogin(email: String, password: String): UserCustomerLogin
@@ -88,7 +99,11 @@ module.exports = {
       },
       getOrganizationPermissions:{
         resolver:'plugins::users-permissions.userspermissions.getOrganizationPermissions',
-      }
+      },
+      userList: {
+        policies: ['plugins::users-permissions.addFilter'],
+        resolver: 'plugins::users-permissions.auth.list'
+      },
     },
     Mutation: {
       userCustomerLogin: {
