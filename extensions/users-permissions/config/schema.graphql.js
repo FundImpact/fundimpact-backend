@@ -64,6 +64,7 @@ module.exports = {
     input inviteUserInput{
       email:String!
       role:ID!
+      redirectTo:String
     }
     input organizationUserRoleInput{
       name:String!
