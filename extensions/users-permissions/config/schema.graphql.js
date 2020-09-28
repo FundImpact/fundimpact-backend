@@ -80,7 +80,6 @@ module.exports = {
       start: Int
       where: JSON
     ):[UsersPermissionsRole]
-    getOrganizationPermissions:JSON
     userList(sort:String ,limit: Int ,start: Int,  where : JSON) :[UsersPermissionsUser]
   `,
   mutation: `
@@ -97,9 +96,6 @@ module.exports = {
       },
       organizationRoles:{
         resolver:'plugins::users-permissions.userspermissions.getOrganizationRoles',
-      },
-      getOrganizationPermissions:{
-        resolver:'plugins::users-permissions.userspermissions.getOrganizationPermissions',
       },
       userList: {
         policies: ['plugins::users-permissions.addFilter'],
