@@ -482,7 +482,6 @@ module.exports = {
       id: payload.role,
       organization: ctx.state.user.organization
     };
-    console.log(roleQuery);
     const role = await strapi.query('role', 'users-permissions').findOne(roleQuery);
     if (!role) {
       let roleError = {
@@ -515,10 +514,10 @@ module.exports = {
 
     // send email
     try {
-      let redirectToUrl = `${ctx.request.host.includes('localhost') ? 'http' : 'https'}://${ctx.request.host + process.env.REDIRECT_TO_URL}`;
+      let redirectToUrl = payload.redirectUrl ? payload.redirectUrl :`${ctx.request.host.includes('localhost') ? 'http':'https'}://${ctx.request.host+process.env.REDIRECT_TO_URL}`;
       let emailInfo = {
-        email: user.email,
-        link: `${getAbsoluteServerUrl(strapi.config)}/auth/email-confirmation?confirmation=${jwt}&redirectTo=${redirectToUrl}`
+        email:user.email,
+        link:`${process.env.ServerUrl?process.env.ServerUrl:getAbsoluteServerUrl(strapi.config)}/auth/email-confirmation?confirmation=${jwt}&redirectTo=${redirectToUrl}`
       }
       let template = await emailTemplates.userInvitation(emailInfo)
 
