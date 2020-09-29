@@ -49,6 +49,7 @@ module.exports = {
         try {
             Object.assign(ctx.request.query,{organization:ctx.state.user.organization});
             const roles = await strapi.query('role', 'users-permissions').find(ctx.request.query, []);
+            console.log(roles);
             ctx.send(roles);
         } catch (err) {
             //ctx.badRequest(null, [{ messages: [{ id: 'Not found' }] }]);
