@@ -64,6 +64,7 @@ module.exports = {
     input inviteUserInput{
       email:String!
       role:ID!
+      redirectTo:String
     }
     input organizationUserRoleInput{
       name:String!
@@ -79,7 +80,6 @@ module.exports = {
       start: Int
       where: JSON
     ):[UsersPermissionsRole]
-    getOrganizationPermissions:JSON
     userList(sort:String ,limit: Int ,start: Int,  where : JSON) :[UsersPermissionsUser]
     userListCount(where : JSON) : Int!
   `,
@@ -97,9 +97,6 @@ module.exports = {
       },
       organizationRoles:{
         resolver:'plugins::users-permissions.userspermissions.getOrganizationRoles',
-      },
-      getOrganizationPermissions:{
-        resolver:'plugins::users-permissions.userspermissions.getOrganizationPermissions',
       },
       userList: {
         policies: ['plugins::users-permissions.addFilter'],

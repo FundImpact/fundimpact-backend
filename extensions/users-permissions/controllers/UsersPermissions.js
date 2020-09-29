@@ -6,24 +6,6 @@ module.exports = {
    *
    * @return {Object}
    */
-    async getOrganizationPermissions(ctx) {
-        if (_.isEmpty(ctx.request.body)) {
-            return ctx.throw(400, `Cannot be empty.`);
-            
-            // return ctx.badRequest(null, [{ messages: [{ id: 'Cannot be empty' }] }]);
-        }
-        try {
-            let permissions = await permissionsService.createAdminPermissions();
-            console.log(permissions);
-            ctx.send(permissions);
-        } catch (err) {
-            strapi.log.error(err);
-            return ctx.throw(400, err);
-            
-            // ctx.badRequest(null, [{ messages: [{ id: 'An error occured' }] }]);
-        }
-    },
-
     async createOrganizationRole(ctx) {
         if (_.isEmpty(ctx.request.body)) {
             return ctx.throw(400, `Cannot be empty.`);
@@ -32,7 +14,7 @@ module.exports = {
         try {
             let payload = ctx.request.body.input;
             const organization = ctx.state.user.organization;
-            const permissions = await permissionsService.createAdminPermissions();
+            const permissions = payload.permissions ? payload.permissions:await permissionsService.createAdminPermissions();
             const type = `${_.snakeCase(_.deburr(_.toLower(payload.name)))}-org-${organization}`;
             const roleParams = {
                 name:payload.name,
