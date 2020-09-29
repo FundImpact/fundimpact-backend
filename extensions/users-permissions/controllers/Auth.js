@@ -69,7 +69,7 @@ module.exports = {
           null,
           formatError({
             id: 'Auth.form.error.invalid',
-            message: 'Identifier or password invalid.',
+            message: 'User not found',
           })
         );
       }
@@ -113,7 +113,6 @@ module.exports = {
         params.password,
         user.password
       );
-
       if (!validPassword) {
         return ctx.badRequest(
           null,
@@ -492,7 +491,8 @@ module.exports = {
       role: payload.role,
       confirmed: false,
       organization: ctx.state.user.organization,
-      account: ctx.state.user.account
+      account: ctx.state.user.account,
+      provider: 'local'
     }
     const userExists = await strapi.query('user', 'users-permissions').findOne({ email: params.email });
     if (userExists) {
