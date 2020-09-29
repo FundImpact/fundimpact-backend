@@ -20,5 +20,19 @@ module.exports = {
             console.log(error)
             return ctx.badRequest(null, error.message);
         }
+    },
+    sdg_target_count : async ctx =>{
+        try {
+            let data = await strapi.connections.default.raw(`select sdg.id, sdg.name , count(itp.project) from impact_category_org ico 
+            JOIN impact_category_unit icu ON icu.impact_category_org = ico.id 
+            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
+            JOIN sustainable_development_goal sdg ON sdg.id = itp.sustainable_development_goal  
+            where organization = ${ctx.query.organization} group by sdg.id ORDER BY count desc`)
+            
+            return data.rows && data.rows.length > 0 ? data.rows : [];
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
     }
 };
