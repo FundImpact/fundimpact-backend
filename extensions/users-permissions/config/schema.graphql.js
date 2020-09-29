@@ -81,6 +81,7 @@ module.exports = {
       where: JSON
     ):[UsersPermissionsRole]
     userList(sort:String ,limit: Int ,start: Int,  where : JSON) :[UsersPermissionsUser]
+    userListCount(where : JSON) : Int!
   `,
   mutation: `
   userCustomerLogin(email: String, password: String): UserCustomerLogin
@@ -101,6 +102,10 @@ module.exports = {
         policies: ['plugins::users-permissions.addFilter'],
         resolver: 'plugins::users-permissions.auth.list'
       },
+      userListCount : {
+        policies: ['plugins::users-permissions.addFilter'],
+        resolver: 'plugins::users-permissions.auth.count'
+      }
     },
     Mutation: {
       userCustomerLogin: {

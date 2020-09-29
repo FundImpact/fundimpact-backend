@@ -567,6 +567,13 @@ module.exports = {
     } catch (error) {
       return ctx.badRequest(null, error.message);
     }
-
+  },
+  async count(ctx){
+    try {
+      const params = { ...ctx.query }
+      return await strapi.query('user', 'users-permissions').count(params);
+    } catch (error) {
+      return ctx.badRequest(null, error.message);
+    }
   }
 };
