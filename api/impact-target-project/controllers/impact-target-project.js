@@ -23,7 +23,7 @@ module.exports = {
     },
     sdg_target_count : async ctx =>{
         try {
-            let data = await strapi.connections.default.raw(`select sdg.id, sdg.name , count(itp.project) from impact_category_org ico 
+            let data = await strapi.connections.default.raw(`select sdg.id, sdg.name, sdg.icon , count(itp.id) from impact_category_org ico 
             JOIN impact_category_unit icu ON icu.impact_category_org = ico.id 
             JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
             JOIN sustainable_development_goal sdg ON sdg.id = itp.sustainable_development_goal  
