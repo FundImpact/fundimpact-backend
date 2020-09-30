@@ -82,6 +82,7 @@ module.exports = {
     ):[UsersPermissionsRole]
     userList(sort:String ,limit: Int ,start: Int,  where : JSON) :[UsersPermissionsUser]
     userListCount(where : JSON) : Int!
+    getRolePemissions(where : JSON) : [UsersPermissionsPermission]
   `,
   mutation: `
   userCustomerLogin(email: String, password: String): UserCustomerLogin
@@ -97,6 +98,12 @@ module.exports = {
       },
       organizationRoles:{
         resolver:'plugins::users-permissions.userspermissions.getOrganizationRoles',
+      },
+      // getPermissionList :{
+      //   resolver:'plugins::users-permissions.userspermissions.getPermissions',
+      // },
+      getRolePemissions : {
+        resolver:'plugins::users-permissions.userspermissions.getRolePemissions',
       },
       userList: {
         policies: ['plugins::users-permissions.addFilter'],
