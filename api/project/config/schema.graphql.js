@@ -13,6 +13,7 @@ module.exports = {
   `,
   query: `
     orgProject(where: JSON): [Project]
+    orgProjectCount(where: JSON): JSON
   `,
   mutation: `
     createOrgProject(input: ProjectInput): Project
@@ -24,6 +25,10 @@ module.exports = {
         policies : ['application::project.addFilter'],
         resolver: 'application::project.project.find',
       },
+      orgProjectCount:{
+        policies : ['application::project.addFilter'],
+        resolver: 'application::project.project.count',
+      }
     },
     Mutation: {
       createOrgProject:  async (obj, options, { context }) => {
