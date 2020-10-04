@@ -80,6 +80,9 @@ module.exports = {
       start: Int
       where: JSON
     ):[UsersPermissionsRole]
+    organizationRolesCount(
+      where: JSON
+    ):JSON
     userList(sort:String ,limit: Int ,start: Int,  where : JSON) :[UsersPermissionsUser]
     userListCount(where : JSON) : Int!
     getRolePemissions(where : JSON) : [UsersPermissionsPermission]
@@ -90,6 +93,7 @@ module.exports = {
   resetUserPasswordInput(id : ID!, input : resetPasswordInput) : UsersPermissionsUser!
   inviteUser(input:inviteUserInput): InviteUser
   createOrganizationUserRole(input:organizationUserRoleInput):UsersPermissionsRole
+  updateOrganizationUserRole(id: ID!, input:organizationUserRoleInput):UsersPermissionsRole
   `,
   resolver: {
     Query: {
@@ -98,6 +102,9 @@ module.exports = {
       },
       organizationRoles:{
         resolver:'plugins::users-permissions.userspermissions.getOrganizationRoles',
+      },
+      organizationRolesCount:{
+        resolver:'plugins::users-permissions.userspermissions.getOrganizationRolesCount',
       },
       // getPermissionList :{
       //   resolver:'plugins::users-permissions.userspermissions.getPermissions',
@@ -151,6 +158,9 @@ module.exports = {
       },
       createOrganizationUserRole:{
         resolver:'plugins::users-permissions.userspermissions.createOrganizationRole'
+      },
+      updateOrganizationUserRole:{
+        resolver:'plugins::users-permissions.userspermissions.updateOrganizationRole'
       }
     },
   },
