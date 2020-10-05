@@ -36,6 +36,10 @@ module.exports = {
                 roleParams
             );
             const role = await strapi.query('role', 'users-permissions').findOne(roleQuery, []);
+            let q = {_limit : -1, role:role.id};
+            const allocatedPermissions = await strapi.query('permission', 'users-permissions').find(q, []);
+            let d = JSON.parse(JSON.stringify(role));
+            d['permissions'] = allocatedPermissions;
             ctx.send(role);
         } catch (err) {
             strapi.log.error(err);
@@ -61,7 +65,11 @@ module.exports = {
                 payload
             );
             const role = await strapi.query('role', 'users-permissions').findOne({id:roleId}, []);
-            ctx.send(role);
+            let q = {_limit : -1, role:role.id};
+            const allocatedPermissions = await strapi.query('permission', 'users-permissions').find(q, []);
+            let d = JSON.parse(JSON.stringify(role));
+            d['permissions'] = allocatedPermissions;
+            return ctx.send(d);
         } catch (err) {
             strapi.log.error(err);
             return ctx.throw(400, err);
