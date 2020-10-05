@@ -34,6 +34,7 @@ module.exports = {
                 contact_type: String
                 country : ID
                 logo: ID
+                theme: JSON
             }
     `,
     query: `
