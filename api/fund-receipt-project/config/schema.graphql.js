@@ -3,7 +3,7 @@ module.exports = {
   definition: `
   `,
   query: `
-    fundReceiptProjectList(where: JSON): [FundReceiptProject]
+    fundReceiptProjectList(sort: String , limit: Int, start: Int, where: JSON): [FundReceiptProject]
     fundReceiptProjectTotalAmount(where : JSON) : Float!
     fundRecipetValuesByOrg(where : JSON) : Float!
   `,
