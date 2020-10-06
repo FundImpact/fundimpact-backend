@@ -6,6 +6,7 @@ module.exports = {
     fundReceiptProjectList(sort: String , limit: Int, start: Int, where: JSON): [FundReceiptProject]
     fundReceiptProjectTotalAmount(where : JSON) : Float!
     fundRecipetValuesByOrg(where : JSON) : Float!
+    fundReceiptProjectListCount(where : JSON) : Int!
   `,
   mutation: `
         createFundReceiptProjectInput(input: FundReceiptProjectInput): FundReceiptProject!,
@@ -16,6 +17,10 @@ module.exports = {
       fundReceiptProjectList: {
         policies: ['application::fund-receipt-project.addFilter'],
         resolver: 'application::fund-receipt-project.fund-receipt-project.find'
+      },
+      fundReceiptProjectListCount: {
+        policies: ['application::fund-receipt-project.addFilter'],
+        resolver: 'application::fund-receipt-project.fund-receipt-project.count'
       },
       fundReceiptProjectTotalAmount: async (obj, options, {
         context
