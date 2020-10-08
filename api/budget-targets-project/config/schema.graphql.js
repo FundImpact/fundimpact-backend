@@ -80,19 +80,25 @@ module.exports = {
       },
     },
     Mutation: {
-      createProjectBudgetTarget: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['budget-targets-project'].create(context);
+      createProjectBudgetTarget: {
+        resolverOf:'application::budget-targets-project.budget-targets-project.create',
+        resolver: async (obj, options, {
+          context
+        }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-targets-project'].create(context);
+        }
       },
-      updateProjectBudgetTarget: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['budget-targets-project'].update(context);
+      updateProjectBudgetTarget: {
+        resolverOf:'application::budget-targets-project.budget-targets-project.update',
+        resolver: async (obj, options, {
+          context
+        }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-targets-project'].update(context);
+        }
       }
     }
   },
