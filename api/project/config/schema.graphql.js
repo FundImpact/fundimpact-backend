@@ -22,27 +22,31 @@ module.exports = {
   resolver: {
     Query: {
       orgProject: {
-        policies : ['application::project.addFilter'],
+        policies: ['application::project.addFilter'],
         resolver: 'application::project.project.find',
       },
-      orgProjectCount:{
-        policies : ['application::project.addFilter'],
+      orgProjectCount: {
+        policies: ['application::project.addFilter'],
         resolver: 'application::project.project.count',
       }
     },
     Mutation: {
-      createOrgProject:  async (obj, options, { context }) => {
+      createOrgProject: {
+        resolverOf: "application::project.project.create",
+        resolver: async (obj, options, { context }) => {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);
           return await strapi.controllers.project.create(context);
+        }
       },
-      updateOrgProject: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers.project.update(context);
-      },
+      updateOrgProject: {
+        resolverOf: "application::project.project.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers.project.update(context);
+        }
+      }
     },
   },
 };

@@ -34,15 +34,21 @@ module.exports = {
       }
     },
     Mutation: {
-      createImpactTrackingLineitemInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-tracking-lineitem'].create(context);
+      createImpactTrackingLineitemInput: {
+        resolverOf: "application::impact-tracking-lineitem.impact-tracking-lineitem.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-tracking-lineitem'].create(context);
+        }
       },
-      updateImpactTrackingLineitemInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-tracking-lineitem'].update(context);
+      updateImpactTrackingLineitemInput: {
+        resolverOf: "application::impact-tracking-lineitem.impact-tracking-lineitem.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-tracking-lineitem'].update(context);
+        }
       }
     }
   },

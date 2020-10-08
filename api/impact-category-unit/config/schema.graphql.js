@@ -22,16 +22,22 @@ module.exports = {
       }
     },
     Mutation: {
-      createImpactCategoryUnitInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-category-unit'].create(context);
+      createImpactCategoryUnitInput:{
+        resolverOf: "application::impact-category-unit.impact-category-unit.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-category-unit'].create(context);
+        }
       },
-      updateImpactCategoryUnitInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-category-unit'].update(context);
-      }
+      updateImpactCategoryUnitInput:{
+        resolverOf: "application::impact-category-unit.impact-category-unit.update",
+        resolver:async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-category-unit'].update(context);
+        }
+      } 
     }
   },
 

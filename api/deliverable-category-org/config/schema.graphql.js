@@ -100,16 +100,22 @@ module.exports = {
             }
         },
         Mutation: {
-            createDeliverableCategory: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-category-org'].create(context);
+            createDeliverableCategory: {
+                resolverOf:'application::deliverable-category-org.deliverable-category-org.create',
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-category-org'].create(context);
+                }
             },
-            updateDeliverableCategory: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-category-org'].update(context);
-            }
+            updateDeliverableCategory:{
+                resolverOf:'application::deliverable-category-org.deliverable-category-org.update',
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-category-org'].update(context);
+                }
+            } 
         }
     },
 

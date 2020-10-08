@@ -102,15 +102,21 @@ module.exports = {
       }
     },
     Mutation: {
-      createImpactCategoryOrgInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-category-org'].create(context);
+      createImpactCategoryOrgInput: {
+        resolverOf: "application::impact-category-org.impact-category-org.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-category-org'].create(context);
+        }
       },
-      updateImpactCategoryOrgInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-category-org'].update(context);
+      updateImpactCategoryOrgInput: {
+        resolverOf: "application::impact-category-org.impact-category-org.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-category-org'].update(context);
+        }
       }
     }
   },

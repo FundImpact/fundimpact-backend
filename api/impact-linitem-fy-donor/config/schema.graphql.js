@@ -17,16 +17,22 @@ module.exports = {
             }
         },
         Mutation: {
-            createImpactLinitemFyDonorInput: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['impact-linitem-fy-donor'].create(context);
+            createImpactLinitemFyDonorInput: {
+                resolverOf: "application::impact-linitem-fy-donor.impact-linitem-fy-donor.create",
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['impact-linitem-fy-donor'].create(context);
+                }
             },
-            updateImpactLinitemFyDonorInput: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['impact-linitem-fy-donor'].update(context);
-            }
+            updateImpactLinitemFyDonorInput:{
+                resolverOf: "application::impact-linitem-fy-donor.impact-linitem-fy-donor.update",
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['impact-linitem-fy-donor'].update(context);
+                }
+            } 
         }
     },
 

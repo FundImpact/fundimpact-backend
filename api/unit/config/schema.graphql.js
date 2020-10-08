@@ -16,19 +16,21 @@ module.exports = {
       }
     },
     Mutation: {
-      createUnitInput: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['unit'].create(context);
+      createUnitInput: {
+        resolverOf: "application::unit.unit.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['unit'].create(context);
+        }
       },
-      updateUnitInput: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['unit'].update(context);
+      updateUnitInput: {
+        resolverOf: "application::unit.unit.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['unit'].update(context);
+        }
       }
     }
   },

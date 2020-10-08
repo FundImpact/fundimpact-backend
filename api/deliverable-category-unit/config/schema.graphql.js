@@ -22,16 +22,22 @@ module.exports = {
             }
         },
         Mutation: {
-            createDeliverableCategoryUnitInput: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-category-unit'].create(context);
+            createDeliverableCategoryUnitInput: {
+                resolverOf:'application::deliverable-category-unit.deliverable-category-unit.create',
+                resolver:async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-category-unit'].create(context);
+                },
             },
-            updateDeliverableCategoryUnitInput: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-category-unit'].update(context);
-            }
+            updateDeliverableCategoryUnitInput:{
+                resolverOf:'application::deliverable-category-unit.deliverable-category-unit.update',
+                resolver : async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-category-unit'].update(context);
+                }
+            } 
         }
     },
 
