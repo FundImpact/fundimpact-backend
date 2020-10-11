@@ -89,7 +89,14 @@ module.exports = {
         try {
             ctx.request.query._limit = -1;
             const permissions = await strapi.query('permission', 'users-permissions').find(ctx.request.query, []);
-            ctx.send(permissions);
+            let systemPlugins = ["proxy", "contenttypes","builder","contentmanager", "components", "connections"];
+            let newPermissions = []
+            for(let i = 0 ; i < permissions.length; i++){
+                if(!systemPlugins.includes(permissions[i].controller)){
+                   newPermissions.push(permissions[i])
+                }
+            }
+            ctx.send(newPermissions);
         } catch (err) {
             return ctx.throw(400, err);
         }
@@ -100,7 +107,6 @@ module.exports = {
             const count = await strapi.query('role', 'users-permissions').count(ctx.request.query, []);
             ctx.send({count});
         } catch (err) {
-            //ctx.badRequest(null, [{ messages: [{ id: 'Not found' }] }]);
             return ctx.throw(400, err);
         }
     }

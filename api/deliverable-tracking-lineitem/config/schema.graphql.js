@@ -33,15 +33,21 @@ module.exports = {
               },
         },
         Mutation: {
-            createDeliverableTrackingLineitemDetail: async (obj, options, {context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-tracking-lineitem'].create(context);
+            createDeliverableTrackingLineitemDetail:{
+                resolverOf: 'application::deliverable-tracking-lineitem.deliverable-tracking-lineitem.create',
+                resolver:  async (obj, options, {context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-tracking-lineitem'].create(context);
+                }
             },
-            updateDeliverableTrackingLineitemDetail: async (obj, options, {context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-tracking-lineitem'].update(context);
+            updateDeliverableTrackingLineitemDetail:{
+                resolverOf: 'application::deliverable-tracking-lineitem.deliverable-tracking-lineitem.update',
+                resolver:  async (obj, options, {context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-tracking-lineitem'].update(context);
+                }
             }
         }
     },

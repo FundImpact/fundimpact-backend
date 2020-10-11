@@ -20,19 +20,21 @@ module.exports = {
       }
     },
     Mutation: {
-      createSDG: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['sustainable-development-goals'].create(context);
+      createSDG: {
+        resolverOf: "application::sustainable-development-goals.sustainable-development-goals.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['sustainable-development-goals'].create(context);
+        }
       },
-      updateSDG: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['sustainable-development-goals'].update(context);
+      updateSDG: {
+        resolverOf: "application::sustainable-development-goals.sustainable-development-goals.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['sustainable-development-goals'].update(context);
+        }
       }
     }
   },

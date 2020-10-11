@@ -40,17 +40,22 @@ module.exports = {
       },
     },
     Mutation: {
-      createFundReceiptProjectInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['fund-receipt-project'].create(context);
+      createFundReceiptProjectInput: {
+        resolverOf: "application::fund-receipt-project.fund-receipt-project.create",
+        resolver:async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['fund-receipt-project'].create(context);
+        }
       },
-      updateFundReceiptProjectInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['fund-receipt-project'].update(context);
+      updateFundReceiptProjectInput:{
+        resolverOf: "application::fund-receipt-project.fund-receipt-project.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['fund-receipt-project'].update(context);
+        }
       }
     }
   },
-
 }

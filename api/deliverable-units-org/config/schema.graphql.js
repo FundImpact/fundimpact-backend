@@ -21,15 +21,21 @@ module.exports = {
             }
         },
         Mutation: {
-            createDeliverableUnitOrg: async (obj, options, {context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-units-org'].create(context);
+            createDeliverableUnitOrg: {
+                resolverOf: 'application::deliverable-units-org.deliverable-units-org.create',
+                resolver: async (obj, options, {context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-units-org'].create(context);
+                }
             },
-            updateDeliverableUnitOrg: async (obj, options, {context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-units-org'].update(context);
+            updateDeliverableUnitOrg:{
+                resolverOf: 'application::deliverable-units-org.deliverable-units-org.update',
+                resolver: async (obj, options, {context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-units-org'].update(context);
+                }
             }
         }
     },

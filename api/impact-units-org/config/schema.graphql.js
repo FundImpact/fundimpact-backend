@@ -22,15 +22,21 @@ module.exports = {
       }
     },
     Mutation: {
-      createImpactUnitsOrgInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-units-org'].create(context);
+      createImpactUnitsOrgInput:{
+        resolverOf: "application::impact-units-org.impact-units-org.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-units-org'].create(context);
+        }
       },
-      updateImpactUnitsOrgInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-units-org'].update(context);
+      updateImpactUnitsOrgInput:{
+        resolverOf: "application::impact-units-org.impact-units-org.update",
+        resolver:  async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-units-org'].update(context);
+        }
       }
     }
   },
