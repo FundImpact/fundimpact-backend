@@ -17,15 +17,21 @@ module.exports = {
             }
         },
         Mutation: {
-            createFinancialYearDetail: async (obj, options, {context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['financial-year'].create(context);
+            createFinancialYearDetail: {
+                resolverOf: "application::financial-year.financial-year.create",
+                resolver:async (obj, options, {context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['financial-year'].create(context);
+                }
             },
-            updateFinancialYearDetail: async (obj, options, {context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['financial-year'].update(context);
+            updateFinancialYearDetail: {
+                resolverOf: "application::financial-year.financial-year.update",
+                resolver: async (obj, options, {context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['financial-year'].update(context);
+                }
             }
         }
     },

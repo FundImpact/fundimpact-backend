@@ -1,6 +1,6 @@
 const _ = require('lodash');
 module.exports = {
-    definition: `
+  definition: `
     type OrgWorkspace {
       id: ID!,
       name: String!,
@@ -15,36 +15,37 @@ module.exports = {
         description:String
     }
   `,
-    query: `
+  query: `
     orgWorkspaces(where: JSON): [OrgWorkspace]
   `,
-    mutation:`
+  mutation: `
         createOrgWorkspace(input: OrgWorkspaceInput): OrgWorkspace!,
         updateOrgWorkspace(id: ID!, input: OrgWorkspaceInput): OrgWorkspace!
     `,
-    resolver: {
-        Query: {
-            orgWorkspaces: {
-                policies: ['application::workspace.addFilter'],
-                resolver: 'application::workspace.workspace.find'
-            }
-        },
-        Mutation: {
-            createOrgWorkspace: async (obj, options, {
-                context
-            }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers.workspace.create(context);
-            },
-            updateOrgWorkspace: async (obj, options, {
-              context
-            }) => {
-              context.params = _.toPlainObject(options);
-              context.request.body = _.toPlainObject(options.input);
-              return await strapi.controllers.workspace.update(context);
-            }
-        }
+  resolver: {
+    Query: {
+      orgWorkspaces: {
+        policies: ['application::workspace.addFilter'],
+        resolver: 'application::workspace.workspace.find'
+      }
     },
-    
+    Mutation: {
+      createOrgWorkspace: {
+        resolverOf: "application::workspace.workspace.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers.workspace.create(context);
+        }
+      },
+      updateOrgWorkspace: {
+        resolverOf: "application::workspace.workspace.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers.workspace.update(context);
+        }
+      }
+    }
+  }
 }

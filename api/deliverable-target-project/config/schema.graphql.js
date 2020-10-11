@@ -36,16 +36,22 @@ module.exports = {
             },
         },
         Mutation: {
-            createDeliverableTarget: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-target-project'].create(context);
-            },
-            updateDeliverableTarget: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-target-project'].update(context);
-            }
+            createDeliverableTarget: {
+                resolverOf: 'application::deliverable-target-project.deliverable-target-project.create',
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-target-project'].create(context);
+                },
+            }, 
+            updateDeliverableTarget: {
+                resolverOf: 'application::deliverable-target-project.deliverable-target-project.update',
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-target-project'].update(context);
+                }
+            } 
         }
     },
 

@@ -35,20 +35,22 @@ module.exports = {
 
     },
     Mutation: {
-      createProjBudgetTracking: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['budget-tracking-lineitem'].create(context);
+      createProjBudgetTracking: {
+        resolverOf:'application::budget-tracking-lineitem.budget-tracking-lineitem.create',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-tracking-lineitem'].create(context);
+        }
       },
-      updateProjBudgetTracking: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['budget-tracking-lineitem'].update(context);
-      }
+      updateProjBudgetTracking:{
+        resolverOf:'application::budget-tracking-lineitem.budget-tracking-lineitem.update',
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-tracking-lineitem'].update(context);
+        }
+      } 
     }
   },
 

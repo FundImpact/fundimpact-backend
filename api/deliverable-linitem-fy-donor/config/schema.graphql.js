@@ -17,16 +17,22 @@ module.exports = {
             }
         },
         Mutation: {
-            createDeliverableLinitemFyDonorInput: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-linitem-fy-donor'].create(context);
+            createDeliverableLinitemFyDonorInput:{
+                resolverOf:'application::deliverable-linitem-fy-donor.deliverable-linitem-fy-donor.create',
+                resolver:async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-linitem-fy-donor'].create(context);
+                }
             },
-            updateDeliverableLinitemFyDonorInput: async (obj, options, { context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['deliverable-linitem-fy-donor'].update(context);
-            }
+            updateDeliverableLinitemFyDonorInput:{
+                resolverOf:'application::deliverable-linitem-fy-donor.deliverable-linitem-fy-donor.update',
+                resolver:async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['deliverable-linitem-fy-donor'].update(context);
+                }
+            } 
         }
     },
 

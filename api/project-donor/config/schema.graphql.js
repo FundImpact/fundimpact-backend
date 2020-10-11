@@ -23,19 +23,21 @@ module.exports = {
 
     },
     Mutation: {
-      createProjDonor: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['project-donor'].create(context);
+      createProjDonor: {
+        resolverOf: "application::project-donor.project-donor.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['project-donor'].create(context);
+        }
       },
-      updateProjDonor: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['project-donor'].update(context);
+      updateProjDonor: {
+        resolverOf: "application::project-donor.project-donor.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['project-donor'].update(context);
+        }
       }
     }
   },

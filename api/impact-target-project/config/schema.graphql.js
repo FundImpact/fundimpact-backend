@@ -54,15 +54,21 @@ module.exports = {
       },
     },
     Mutation: {
-      createImpactTargetProjectInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-target-project'].create(context);
+      createImpactTargetProjectInput:{
+        resolverOf: "application::impact-target-project.impact-target-project.create",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-target-project'].create(context);
+        }
       },
-      updateImpactTargetProjectInput: async (obj, options, { context }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['impact-target-project'].update(context);
+      updateImpactTargetProjectInput:{
+        resolverOf: "application::impact-target-project.impact-target-project.update",
+        resolver: async (obj, options, { context }) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['impact-target-project'].update(context);
+        }
       }
     }
   },

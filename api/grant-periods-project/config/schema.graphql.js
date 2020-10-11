@@ -17,15 +17,21 @@ module.exports = {
             }
         },
         Mutation: {
-            createGrantPeriodsProjectDetail: async (obj, options, {context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['grant-periods-project'].create(context);
+            createGrantPeriodsProjectDetail: {
+                resolverOf: "application::grant-periods-project.grant-periods-project.create",
+                resolver: async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['grant-periods-project'].create(context);
+                }
             },
-            updateGrantPeriodsProjectDetail: async (obj, options, {context }) => {
-                context.params = _.toPlainObject(options);
-                context.request.body = _.toPlainObject(options.input);
-                return await strapi.controllers['grant-periods-project'].update(context);
+            updateGrantPeriodsProjectDetail:{
+                resolverOf: "application::grant-periods-project.grant-periods-project.update",
+                resolver:  async (obj, options, { context }) => {
+                    context.params = _.toPlainObject(options);
+                    context.request.body = _.toPlainObject(options.input);
+                    return await strapi.controllers['grant-periods-project'].update(context);
+                }
             }
         }
     },

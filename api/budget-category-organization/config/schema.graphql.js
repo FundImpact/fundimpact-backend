@@ -72,19 +72,21 @@ module.exports = {
       }
     },
     Mutation: {
-      createOrgBudgetCategory: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['budget-category-organization'].create(context);
-      },
-      updateOrgBudgetCategory: async (obj, options, {
-        context
-      }) => {
-        context.params = _.toPlainObject(options);
-        context.request.body = _.toPlainObject(options.input);
-        return await strapi.controllers['budget-category-organization'].update(context);
+      createOrgBudgetCategory:{
+        resolverOf:'application::budget-category-organization.budget-category-organization.create',
+        resolver:async (obj, options, {context}) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-category-organization'].create(context);
+        }
+      }, 
+      updateOrgBudgetCategory: {
+        resolverOf:'application::budget-category-organization.budget-category-organization.update',
+        resolver: async (obj, options, {context}) => {
+          context.params = _.toPlainObject(options);
+          context.request.body = _.toPlainObject(options.input);
+          return await strapi.controllers['budget-category-organization'].update(context);
+        } 
       }
     }
   }
