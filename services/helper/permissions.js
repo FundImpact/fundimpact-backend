@@ -12,12 +12,21 @@ module.exports={
             "public-donor","sustainable-development-goals",
             "proxy"
         ];
+        let crmPluginControllers = [
+            "activities", "activity", "activityassignee", 
+            "activitytype", "activitytypes", "contact", 
+            "contacts", "contacttag", "contacttags", 
+            "crmplugin","tag"
+        ];
         for(let plugin in permissions){
             if(!systemPlugins.includes(plugin)){
-                newPermissions[plugin] = permissions[plugin];
-                for(controller in newPermissions[plugin].controllers){
-                    for(action in newPermissions[plugin].controllers[controller]){
-                        newPermissions[plugin].controllers[controller][action].enabled = enabled;
+                newPermissions[plugin] = {"controllers":{},"information": {}};
+                for(controller in permissions[plugin].controllers){
+                    if(!systemControllers.includes(controller) && !crmPluginControllers.includes(controller)){
+                        newPermissions[plugin].controllers[controller] = permissions[plugin].controllers[controller];
+                        for(action in permissions[plugin].controllers[controller]){
+                            newPermissions[plugin].controllers[controller][action].enabled = enabled;
+                        }
                     }
                 }
             }
