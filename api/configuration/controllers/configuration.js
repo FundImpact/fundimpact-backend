@@ -10,7 +10,7 @@ const permissionsService =  require('../../../services/helper/permissions');
 module.exports = {
     async permissions(ctx) {
         try {
-            let permissions = await permissionsService.createAdminPermissions();
+            let permissions = await permissionsService.createAdminPermissions(false);
             ctx.send({permissions});
         } catch (err) {
             strapi.log.error(err);
