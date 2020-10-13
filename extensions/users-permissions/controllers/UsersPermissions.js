@@ -19,6 +19,7 @@ module.exports = {
             const type = `${_.snakeCase(_.deburr(_.toLower(payload.name)))}-org-${organization}`;
             const roleParams = {
                 name: payload.name,
+                is_project_level:payload.is_project_level,
                 type: type,
                 users: [],
                 organization: organization,

@@ -287,8 +287,8 @@ module.exports = {
 
       const permissions = await permissionsService.createAdminPermissions();
       const roleParams = {
-        name: "Admin",
-        type: `admin-org-${organization.id}`,
+        name: "Owner",
+        type: `owner-org-${organization.id}`,
         users: [],
         organization: organization.id,
         description: `This is default role.`,
@@ -518,7 +518,7 @@ module.exports = {
       let template = await emailTemplates.userInvitation(emailInfo)
 
       await strapi.plugins.email.services.email.send(template)
-      return ctx.send({ email: user.email, message: `Invitation sent to email address.` })
+      return ctx.send({ id:user.id, email: user.email, message: `Invitation sent to email address.` })
 
     } catch (error) {
       return ctx.throw(400, error)
