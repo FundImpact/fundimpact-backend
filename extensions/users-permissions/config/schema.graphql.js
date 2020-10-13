@@ -46,6 +46,7 @@ module.exports = {
       type: String
     }
     type InviteUser{
+      id:ID
       email:String
       message:String
     }
@@ -68,6 +69,7 @@ module.exports = {
     }
     input organizationUserRoleInput{
       name:String!
+      is_project_level:Boolean
       description:String
       permissions:JSON
     }
