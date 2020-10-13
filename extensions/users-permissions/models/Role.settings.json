@@ -37,6 +37,10 @@
     "organization": {
       "plugin": "crm-plugin",
       "model": "organization"
+    },
+    "is_project_level": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
