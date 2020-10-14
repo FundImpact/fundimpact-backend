@@ -78,6 +78,10 @@
     "organization": {
       "plugin": "crm-plugin",
       "model": "organization"
+    },
+    "user_project": {
+      "via": "user",
+      "model": "user-project"
     }
   }
 }

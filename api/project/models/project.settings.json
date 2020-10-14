@@ -41,6 +41,10 @@
       ],
       "plugin": "upload",
       "required": false
+    },
+    "user_project": {
+      "via": "project",
+      "model": "user-project"
     }
   }
 }
