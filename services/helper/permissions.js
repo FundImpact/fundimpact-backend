@@ -5,13 +5,14 @@ module.exports={
         ].services.userspermissions.getActions();
         let newPermissions = {};
         let systemPlugins = ["content-manager", "content-type-builder","email","graphql"];
-        let systemControllers = [
-            "account","annual-year","category",
-            "category","category-unit","unit",
-            "country","currency","organization-registration-type",
-            "public-donor","sustainable-development-goals",
-            "proxy"
-        ];
+        // let systemControllers = [
+        //     "account","annual-year","category",
+        //     "category","category-unit","unit",
+        //     "country","currency","organization-registration-type",
+        //     "public-donor","sustainable-development-goals",
+        //     "proxy"
+        // ];
+        let systemControllers = [];
         let crmPluginControllers = [
             "activities", "activity", "activityassignee", 
             "activitytype", "activitytypes", "contact", 
