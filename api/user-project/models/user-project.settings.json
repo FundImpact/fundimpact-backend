@@ -11,10 +11,12 @@
   "attributes": {
     "user": {
       "plugin": "users-permissions",
-      "model": "user"
+      "model": "user",
+      "via": "user_project"
     },
     "project": {
-      "model": "project"
+      "model": "project",
+      "via": "user_project"
     }
   }
 }
