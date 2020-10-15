@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/budget-tracking-lineitems",
+      "handler": "budget-tracking-lineitem.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-tracking-lineitems/count",
+      "handler": "budget-tracking-lineitem.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-tracking-lineitems/:id",
+      "handler": "budget-tracking-lineitem.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/budget-tracking-lineitems",
+      "handler": "budget-tracking-lineitem.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/budget-tracking-lineitems/:id",
+      "handler": "budget-tracking-lineitem.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/budget-tracking-lineitems/:id",
+      "handler": "budget-tracking-lineitem.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

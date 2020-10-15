@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "budget_targets_donor",
+  "info": {
+    "name": "Budget Targets Donor"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "budget_targets_project": {
+      "model": "budget-targets-project"
+    },
+    "amount": {
+      "type": "float"
+    },
+    "conversion_factor": {
+      "type": "float"
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "donor": {
+      "model": "donor"
+    }
+  }
+}

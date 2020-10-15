@@ -1,5 +1,9 @@
 # FundImpact - Measuring Social Impact Made Easy
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+![Continuous Integration](https://github.com/FundImpact/fundimpact-backend/workflows/Continuous%20Integration/badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=FundImpact_fundimpact-backend&metric=alert_status)](https://sonarcloud.io/dashboard?id=FundImpact_fundimpact-backend)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=FundImpact_fundimpact-backend&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=FundImpact_fundimpact-backend)
+
 
 The FundImpact Platform will support NGOs in their most crucial operations of managing project funds, donor relations and tracking project's operations and impact on a single platform. It aims to streamline workflows and help adopt a good practice, thereby saving time, efforts and money.
 

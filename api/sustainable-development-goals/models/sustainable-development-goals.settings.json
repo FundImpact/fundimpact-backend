@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sustainable_development_goal",
+  "info": {
+    "name": "SustainableDevelopmentGoal"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "goal_no": {
+      "type": "biginteger"
+    },
+    "name": {
+      "type": "string"
+    },
+    "short_name": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    }
+  }
+}

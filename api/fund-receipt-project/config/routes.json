@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/fund-receipt-projects",
+      "handler": "fund-receipt-project.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/fund-receipt-projects/count",
+      "handler": "fund-receipt-project.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/fund-receipt-projects/:id",
+      "handler": "fund-receipt-project.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/fund-receipt-projects",
+      "handler": "fund-receipt-project.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/fund-receipt-projects/:id",
+      "handler": "fund-receipt-project.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/fund-receipt-projects/:id",
+      "handler": "fund-receipt-project.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

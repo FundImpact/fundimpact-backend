@@ -12,9 +12,9 @@
     "username": {
       "type": "string",
       "minLength": 3,
-      "unique": true,
+      "unique": false,
       "configurable": false,
-      "required": true
+      "required": false
     },
     "email": {
       "type": "email",
@@ -53,8 +53,35 @@
       "plugin": "users-permissions",
       "configurable": false
     },
+    "name": {
+      "type": "string",
+      "minLength": 3
+    },
     "account": {
       "model": "account"
+    },
+    "profile_photo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "theme": {
+      "type": "json",
+      "required": false
+    },
+    "organization": {
+      "plugin": "crm-plugin",
+      "model": "organization"
+    },
+    "user_projects": {
+      "via": "user",
+      "collection": "user-project"
     }
   }
 }

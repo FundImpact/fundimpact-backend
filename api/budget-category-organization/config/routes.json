@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/budget-category-organizations",
+      "handler": "budget-category-organization.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-category-organizations/count",
+      "handler": "budget-category-organization.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-category-organizations/:id",
+      "handler": "budget-category-organization.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/budget-category-organizations",
+      "handler": "budget-category-organization.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/budget-category-organizations/:id",
+      "handler": "budget-category-organization.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/budget-category-organizations/:id",
+      "handler": "budget-category-organization.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

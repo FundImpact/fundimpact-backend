@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_projects",
+  "info": {
+    "name": "user-project"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "user_projects"
+    },
+    "project": {
+      "model": "project",
+      "via": "user_projects"
+    }
+  }
+}

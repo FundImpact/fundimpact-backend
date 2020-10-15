@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deliverable_tracking_lineitem",
+  "info": {
+    "name": "DeliverableTrackingLineitem"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "deliverable_target_project": {
+      "model": "deliverable-target-project"
+    },
+    "value": {
+      "type": "float"
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "annual_year": {
+      "model": "annual-year"
+    },
+    "grant_periods_project": {
+      "model": "grant-periods-project"
+    },
+    "reporting_date": {
+      "type": "datetime"
+    },
+    "financial_year": {
+      "model": "financial-year"
+    },
+    "attachments": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    }
+  }
+}

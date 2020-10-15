@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "fund_receipt_project",
+  "info": {
+    "name": "FundReceiptProject"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "amount": {
+      "type": "float"
+    },
+    "conversion_factor": {
+      "type": "float"
+    },
+    "reporting_date": {
+      "type": "date"
+    },
+    "annual_year": {
+      "model": "annual-year"
+    },
+    "grant_periods_project": {
+      "model": "grant-periods-project"
+    },
+    "fy_org": {
+      "model": "financial-year"
+    },
+    "fy_donor": {
+      "model": "financial-year"
+    },
+    "project_donor": {
+      "model": "project-donor"
+    }
+  }
+}

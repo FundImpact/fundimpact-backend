@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deliverable_target_project",
+  "info": {
+    "name": "DeliverableTargetProject"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "target_value": {
+      "type": "float"
+    },
+    "project": {
+      "model": "project"
+    },
+    "deliverable_category_unit": {
+      "model": "deliverable-category-unit"
+    }
+  }
+}

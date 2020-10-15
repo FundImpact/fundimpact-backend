@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "unit",
+  "info": {
+    "name": "unit"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "type": {
+      "type": "string"
+    },
+    "sustainable_development_goal": {
+      "model": "sustainable-development-goals"
+    }
+  }
+}

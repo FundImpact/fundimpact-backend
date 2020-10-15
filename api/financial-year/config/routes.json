@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/financial-years",
+      "handler": "financial-year.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/financial-years/count",
+      "handler": "financial-year.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/financial-years/:id",
+      "handler": "financial-year.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/financial-years",
+      "handler": "financial-year.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/financial-years/:id",
+      "handler": "financial-year.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/financial-years/:id",
+      "handler": "financial-year.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
