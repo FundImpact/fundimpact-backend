@@ -41,8 +41,14 @@ jobs:
       - name: replace value
         run: sed -i -e s/postgres_p/$SECRET_KEY/g .env
      
-      - name: replace value
+      - name: replace value email
         run: sed -i -e s/emailpass/$EMAILPAS/g .env
+      
+      - name: replace value bucket
+        run: sed -i -e s/S3PRODSECRET/$S3PRODSECRET/g .env
+      
+      - name: replace value bucket
+        run: sed -i -e s/S3PRODACCESS/$S3PRODACCESS/g .env
          
       - name: Install Dependencies if not Cached
         run: npm install
