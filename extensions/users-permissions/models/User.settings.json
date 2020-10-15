@@ -79,9 +79,9 @@
       "plugin": "crm-plugin",
       "model": "organization"
     },
-    "user_project": {
+    "user_projects": {
       "via": "user",
-      "model": "user-project"
+      "collection": "user-project"
     }
   }
 }

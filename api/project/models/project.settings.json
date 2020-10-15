@@ -42,9 +42,9 @@
       "plugin": "upload",
       "required": false
     },
-    "user_project": {
+    "user_projects": {
       "via": "project",
-      "model": "user-project"
+      "collection": "user-project"
     }
   }
 }

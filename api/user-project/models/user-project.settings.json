@@ -12,11 +12,11 @@
     "user": {
       "plugin": "users-permissions",
       "model": "user",
-      "via": "user_project"
+      "via": "user_projects"
     },
     "project": {
       "model": "project",
-      "via": "user_project"
+      "via": "user_projects"
     }
   }
 }
