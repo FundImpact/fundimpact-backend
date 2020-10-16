@@ -45,12 +45,6 @@ jobs:
         
       - name: replace value email
         run: sed -i -e s/emailpass/$EMAILPAS/g .env
-      
-      - name: replace value bucketsecret
-        run: sed -i -e s/bucketsecret/$S3PRODSECRET/g .env
-      
-      - name: replace value bucketaccess
-        run: sed -i -e s/bucketaccess/$S3PRODACCESS/g .env
 
       - name: Install Dependencies if not Cached
         run: npm install
