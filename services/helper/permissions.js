@@ -12,7 +12,7 @@ module.exports={
         //     "public-donor","sustainable-development-goals",
         //     "proxy"
         // ];
-        let systemControllers = [];
+        let systemControllers = ["proxy"];
         let crmPluginControllers = [
             "activities", "activity", "activityassignee", 
             "activitytype", "activitytypes", "contact", 
