@@ -48,6 +48,9 @@ jobs:
       
       - name: replace value
         run: sed -i -e s/bucketaccess/$S3PRODACCESS/g .env
+        
+      - name: replace value key
+        run: sed -i -e s/bucketsecret/$S3PRODSECRET/g .env
 
       - name: Install Dependencies if not Cached
         run: npm install
