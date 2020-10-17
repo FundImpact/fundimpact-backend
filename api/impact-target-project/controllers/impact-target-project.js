@@ -24,16 +24,18 @@ module.exports = {
     sdg_target_count : async ctx =>{
         let condition;
         try {
-            if(ctx.query){
+            if(ctx.query && typeof ctx.query == 'object'){
                 let obj = ctx.query;
                 let conditions = [];
-                for(k in obj){
+                obj['organization'] = ctx.state.user.organization; 
+                for(let k in obj){
                     if(["organization","project"].includes(k)){
                         conditions.push(k+"="+obj[k])    
                     }
                 }
                 condition = conditions.join(" AND ");
             }
+            console.log(condition);
             let data = await strapi.connections.default.raw(`select sdg.id, sdg.name, sdg.icon , count(itp.id) from impact_category_org ico 
             JOIN impact_category_unit icu ON icu.impact_category_org = ico.id 
             JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
