@@ -35,7 +35,6 @@ module.exports = {
                 }
                 condition = conditions.join(" AND ");
             }
-            console.log(condition);
             let data = await strapi.connections.default.raw(`select sdg.id, sdg.name, sdg.icon , count(itp.id) from impact_category_org ico 
             JOIN impact_category_unit icu ON icu.impact_category_org = ico.id 
             JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
