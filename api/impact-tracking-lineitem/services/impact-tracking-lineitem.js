@@ -19,12 +19,12 @@ module.exports = {
         try {
             let impact_target_projectIds = await strapi.query("impact-target-project").find({ project: ctx.params.where.project });
             let sumData = 0;
-            impact_target_projectIds = impact_target_projectIds.map(m => m.id);
             if (impact_target_projectIds.length > 0) {
-                impact_target_projectIds = impact_target_projectIds.map(x => "'" + x + "'").toString();
-                sumData = await strapi.connections.default.raw(`SELECT SUM(value) FROM impact_tracking_lineitem where impact_target_project IN (${impact_target_projectIds})`)
+                let ids = impact_target_projectIds.map(x => x.id).join();
+                let data = await strapi.connections.default.raw(`SELECT SUM(value) FROM impact_tracking_lineitem where impact_target_project IN (${ids})`)
+                sumData = data && data.rows && data.rows.length && data.rows[0].sum ? data.rows[0].sum : sumData;
             }
-            return sumData.rows && sumData.rows.length > 0 && sumData.rows[0].sum != null ? sumData.rows[0].sum : sumData;
+            return sumData;
         } catch (error) {
             console.log(error)
             return ctx.badRequest(null, error.message);
