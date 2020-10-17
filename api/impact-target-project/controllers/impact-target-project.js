@@ -22,12 +22,23 @@ module.exports = {
         }
     },
     sdg_target_count : async ctx =>{
+        let condition;
         try {
+            if(ctx.query){
+                let obj = ctx.query;
+                let conditions = [];
+                for(k in obj){
+                    if(["organization","project"].includes(k)){
+                        conditions.push(k+"="+obj[k])    
+                    }
+                }
+                condition = conditions.join(" AND ");
+            }
             let data = await strapi.connections.default.raw(`select sdg.id, sdg.name, sdg.icon , count(itp.id) from impact_category_org ico 
             JOIN impact_category_unit icu ON icu.impact_category_org = ico.id 
             JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
             JOIN sustainable_development_goal sdg ON sdg.id = itp.sustainable_development_goal  
-            where organization = ${ctx.query.organization} group by sdg.id ORDER BY count desc`)
+            where ${condition ? condition: ''} group by sdg.id ORDER BY count desc`)
             
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
