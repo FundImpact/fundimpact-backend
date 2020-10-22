@@ -80,8 +80,11 @@
       "model": "organization"
     },
     "user_projects": {
-      "via": "user",
-      "collection": "user-project"
+      "collection": "user-project",
+      "via": "user"
+    },
+    "language": {
+      "type": "string"
     }
   }
 }

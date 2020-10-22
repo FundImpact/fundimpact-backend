@@ -25,6 +25,8 @@ jobs:
       DOCKER_HUB_KEY: ${{ secrets.DOCKER_HUB_KEY }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       EMAILPAS: ${{ secrets.EMAILPAS }}
+      S3PRODSECRET: ${{ secrets.S3PRODSECRET }}
+      S3PRODACCESS: ${{ secrets.S3PRODACCESS }} 
     
     steps:
       - name: Checkout the code
@@ -40,10 +42,16 @@ jobs:
      
       - name: replace value
         run: sed -i -e s/postgres_p/$SECRET_KEY/g .env
-     
-      - name: replace value
+        
+      - name: replace value email
         run: sed -i -e s/emailpass/$EMAILPAS/g .env
-         
+      
+      - name: replace value
+        run: sed -i -e s/bucketaccess/$S3PRODACCESS/g .env
+        
+      - name: replace value key
+        run: sed -i -e s/bucketsecret/$S3PRODSECRET/g .env
+
       - name: Install Dependencies if not Cached
         run: npm install
       

@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "t4d_project_individuals",
+  "info": {
+    "name": "t4d project individual"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "t4d_individual": {
+      "via": "t4d_project_individuals",
+      "model": "t4d-individual"
+    },
+    "project": {
+      "via": "t4d_project_individuals",
+      "model": "project"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/t-4-d-contacts",
+      "handler": "t4d-contact.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/t-4-d-contacts/count",
+      "handler": "t4d-contact.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/t-4-d-contacts/:id",
+      "handler": "t4d-contact.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/t-4-d-contacts",
+      "handler": "t4d-contact.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/t-4-d-contacts/:id",
+      "handler": "t4d-contact.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/t-4-d-contacts/:id",
+      "handler": "t4d-contact.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

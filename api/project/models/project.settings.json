@@ -43,8 +43,12 @@
       "required": false
     },
     "user_projects": {
-      "via": "project",
-      "collection": "user-project"
+      "collection": "user-project",
+      "via": "project"
+    },
+    "t4d_project_individuals": {
+      "collection": "t4d-project-individual",
+      "via": "project"
     }
   }
 }
