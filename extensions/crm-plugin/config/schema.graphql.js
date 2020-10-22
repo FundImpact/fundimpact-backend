@@ -40,6 +40,9 @@ module.exports = {
     query: `
     organizationList: [CrmPluginOrganization]
     countryList:[CrmPluginCountry]
+    stateList(where:JSON):[CrmPluginState]
+    districtList(where:JSON):[CrmPluginDistrict]
+    villageList(where:JSON):[CrmPluginVillage]
     `,
     mutation: `
         organizationUpdate(id: ID!, input: OrgInput): CrmPluginOrganization
@@ -55,6 +58,34 @@ module.exports = {
                 }) => {
                     //Object.assign(context.query, { account: context.state.user.account })
                     return await strapi.plugins['crm-plugin'].controllers.country.find(context);
+                }
+            },
+            stateList: {
+                resolverOf: 'plugins::crm-plugin.state.find',
+                resolver: async (obj, options, {
+                    context
+                }) => {
+                    console.log("state-list",context.query);
+                    //Object.assign(context.query, { account: context.state.user.account })
+                    return await strapi.plugins['crm-plugin'].controllers.state.find(context);
+                }
+            },
+            districtList: {
+                resolverOf: 'plugins::crm-plugin.district.find',
+                resolver: async (obj, options, {
+                    context
+                }) => {
+                    //Object.assign(context.query, { account: context.state.user.account })
+                    return await strapi.plugins['crm-plugin'].controllers.district.find(context);
+                }
+            },
+            villageList: {
+                resolverOf: 'plugins::crm-plugin.village.find',
+                resolver: async (obj, options, {
+                    context
+                }) => {
+                    //Object.assign(context.query, { account: context.state.user.account })
+                    return await strapi.plugins['crm-plugin'].controllers.village.find(context);
                 }
             },
             organizationList: {

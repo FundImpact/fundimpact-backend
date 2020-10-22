@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "t4d_contacts",
+  "info": {
+    "name": "t4d contact"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "entity_name": {
+      "type": "string",
+      "required": true,
+      "private": true
+    },
+    "entity_id": {
+      "type": "biginteger"
+    },
+    "contact_type": {
+      "type": "enumeration",
+      "enum": [
+        "PERSONAL",
+        "OFFICE"
+      ]
+    },
+    "phone": {
+      "type": "string"
+    },
+    "phone_other": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "email_other": {
+      "type": "email"
+    }
+  }
+}

@@ -15,8 +15,8 @@
       "via": "user_projects"
     },
     "project": {
-      "model": "project",
-      "via": "user_projects"
+      "via": "user_projects",
+      "model": "project"
     }
   }
 }

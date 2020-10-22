@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/t-4-d-individuals",
+      "handler": "t4d-individual.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/t-4-d-individuals/count",
+      "handler": "t4d-individual.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/t-4-d-individuals/:id",
+      "handler": "t4d-individual.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/t-4-d-individuals",
+      "handler": "t4d-individual.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/t-4-d-individuals/:id",
+      "handler": "t4d-individual.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/t-4-d-individuals/:id",
+      "handler": "t4d-individual.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
