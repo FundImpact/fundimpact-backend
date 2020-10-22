@@ -10,9 +10,9 @@
   },
   "attributes": {
     "user": {
+      "via": "user_projects",
       "plugin": "users-permissions",
-      "model": "user",
-      "via": "user_projects"
+      "model": "user"
     },
     "project": {
       "via": "user_projects",
