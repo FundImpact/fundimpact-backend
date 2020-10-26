@@ -21,17 +21,11 @@
     "amount": {
       "type": "float"
     },
-    "conversion_factor": {
-      "type": "float"
-    },
     "note": {
       "type": "richtext"
     },
     "reporting_date": {
       "type": "datetime"
-    },
-    "organization_currency": {
-      "model": "organization-currency"
     },
     "fy_org": {
       "model": "financial-year"
