@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/t-4-d-addresses",
+      "handler": "t4d-address.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/t-4-d-addresses/count",
+      "handler": "t4d-address.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/t-4-d-addresses/:id",
+      "handler": "t4d-address.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/t-4-d-addresses",
+      "handler": "t4d-address.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/t-4-d-addresses/:id",
+      "handler": "t4d-address.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/t-4-d-addresses/:id",
+      "handler": "t4d-address.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

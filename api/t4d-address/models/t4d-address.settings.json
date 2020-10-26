@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "t4d_addresses",
+  "info": {
+    "name": "t4d address"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "entity_name": {
+      "type": "string"
+    },
+    "entity_id": {
+      "type": "biginteger"
+    },
+    "address_type": {
+      "type": "enumeration",
+      "enum": [
+        "PERMANENT",
+        "TEMPORARY",
+        "BILLING"
+      ]
+    },
+    "address_line_1": {
+      "type": "string"
+    },
+    "address_line_2": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "account": {
+      "model": "account"
+    },
+    "pincode": {
+      "type": "string"
+    },
+    "village": {
+      "plugin": "crm-plugin",
+      "model": "village"
+    },
+    "district": {
+      "plugin": "crm-plugin",
+      "model": "district"
+    },
+    "country": {
+      "plugin": "crm-plugin",
+      "model": "country"
+    }
+  }
+}
