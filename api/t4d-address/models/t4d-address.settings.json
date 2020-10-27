@@ -9,12 +9,6 @@
     "timestamps": true
   },
   "attributes": {
-    "entity_name": {
-      "type": "string"
-    },
-    "entity_id": {
-      "type": "biginteger"
-    },
     "address_type": {
       "type": "enumeration",
       "enum": [
@@ -49,6 +43,9 @@
     "country": {
       "plugin": "crm-plugin",
       "model": "country"
+    },
+    "t_4_d_contact": {
+      "model": "t4d-contact"
     }
   }
 }
