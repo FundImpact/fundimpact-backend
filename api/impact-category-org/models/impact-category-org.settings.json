@@ -22,8 +22,8 @@
       "type": "richtext"
     },
     "organization": {
-      "plugin": "crm-plugin",
-      "model": "organization"
+      "model": "organization",
+      "via": "impact_category_orgs"
     }
   }
 }

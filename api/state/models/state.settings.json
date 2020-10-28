@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "states",
+  "info": {
+    "name": "State"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean"
+    },
+    "country": {
+      "model": "country",
+      "via": "states"
+    },
+    "districts": {
+      "via": "state",
+      "collection": "district"
+    }
+  }
+}

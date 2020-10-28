@@ -12,10 +12,6 @@
     "name": {
       "type": "string"
     },
-    "organization": {
-      "plugin": "crm-plugin",
-      "model": "organization"
-    },
     "t4d_project_individuals": {
       "collection": "t4d-project-individual",
       "via": "t4d_individual"

@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "blocks",
+  "info": {
+    "name": "Block"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "district": {
+      "model": "district",
+      "via": "blocks"
+    },
+    "villages": {
+      "via": "block",
+      "collection": "village"
+    }
+  }
+}

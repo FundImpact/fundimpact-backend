@@ -1,6 +1,6 @@
 module.exports = async (ctx, next) => {
   try {
-    let orgs = await strapi.query('organization', 'crm-plugin').find({ account: ctx.state.user.account });
+    let orgs = await strapi.query('organization').find({ account: ctx.state.user.account });
     let deliverableCategoryOrg = await strapi.query('deliverable-category-org').find({ organization: orgs.map(m => m.id) });
     let deliverableCategoryunit = await strapi.query('deliverable-category-unit').find({ deliverable_category_org: deliverableCategoryOrg.map(m => m.id) });
     let deliverableTargetProject = await strapi.query('deliverable-target-project').find({ deliverable_category_unit: deliverableCategoryunit.map(m => m.id) });
