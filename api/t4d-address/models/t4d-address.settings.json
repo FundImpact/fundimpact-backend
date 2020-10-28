@@ -32,18 +32,6 @@
     "pincode": {
       "type": "string"
     },
-    "village": {
-      "plugin": "crm-plugin",
-      "model": "village"
-    },
-    "district": {
-      "plugin": "crm-plugin",
-      "model": "district"
-    },
-    "country": {
-      "plugin": "crm-plugin",
-      "model": "country"
-    },
     "t_4_d_contact": {
       "model": "t4d-contact"
     }

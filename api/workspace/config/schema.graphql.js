@@ -6,7 +6,7 @@ module.exports = {
       name: String!,
       short_name: String!
       description:String
-      organization:CrmPluginOrganization
+      organization:Organization
     }
     input OrgWorkspaceInput {
         organization:ID!,
@@ -16,7 +16,7 @@ module.exports = {
     }
   `,
   query: `
-    orgWorkspaces(where: JSON): [OrgWorkspace]
+    orgWorkspaces(where: JSON): [Workspace]
   `,
   mutation: `
         createOrgWorkspace(input: OrgWorkspaceInput): OrgWorkspace!,

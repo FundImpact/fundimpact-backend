@@ -1,0 +1,104 @@
+{
+  "kind": "collectionType",
+  "collectionName": "organizations",
+  "info": {
+    "name": "organization"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "short_name": {
+      "type": "string"
+    },
+    "legal_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "theme": {
+      "type": "json"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "attachments": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "organization_registration_type": {
+      "model": "organization-registration-type",
+      "via": "organizations"
+    },
+    "account": {
+      "model": "account",
+      "via": "organizations"
+    },
+    "currency": {
+      "model": "currency"
+    },
+    "budget_category_organizations": {
+      "via": "organization",
+      "collection": "budget-category-organization"
+    },
+    "deliverable_category_orgs": {
+      "via": "organization",
+      "collection": "deliverable-category-org"
+    },
+    "deliverable_units_orgs": {
+      "via": "organization",
+      "collection": "deliverable-units-org"
+    },
+    "donors": {
+      "via": "organization",
+      "collection": "donor"
+    },
+    "impact_category_orgs": {
+      "via": "organization",
+      "collection": "impact-category-org"
+    },
+    "impact_units_orgs": {
+      "via": "organization",
+      "collection": "impact-units-org"
+    },
+    "projects": {
+      "via": "organization",
+      "collection": "project"
+    },
+    "roles": {
+      "via": "organization",
+      "plugin": "users-permissions",
+      "collection": "role"
+    },
+    "workspaces": {
+      "via": "organization",
+      "collection": "workspace"
+    },
+    "users": {
+      "via": "organization",
+      "plugin": "users-permissions",
+      "collection": "user"
+    }
+  }
+}

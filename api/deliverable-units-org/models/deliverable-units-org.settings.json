@@ -28,8 +28,8 @@
       "type": "string"
     },
     "organization": {
-      "plugin": "crm-plugin",
-      "model": "organization"
+      "model": "organization",
+      "via": "deliverable_units_orgs"
     }
   }
 }

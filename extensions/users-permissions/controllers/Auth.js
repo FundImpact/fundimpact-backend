@@ -282,7 +282,7 @@ module.exports = {
       params.account = account.id;
       params.organization.account = params.account;
 
-      const organization = await strapi.query('organization', "crm-plugin").create(params.organization);
+      const organization = await strapi.query('organization').create(params.organization);
       params.organization = organization.id;
 
       const permissions = await permissionsService.createAdminPermissions();

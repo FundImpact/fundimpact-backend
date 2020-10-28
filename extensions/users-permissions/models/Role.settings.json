@@ -34,13 +34,13 @@
       "configurable": false,
       "plugin": "users-permissions"
     },
-    "organization": {
-      "plugin": "crm-plugin",
-      "model": "organization"
-    },
     "is_project_level": {
       "type": "boolean",
       "default": false
+    },
+    "organization": {
+      "model": "organization",
+      "via": "roles"
     }
   }
 }

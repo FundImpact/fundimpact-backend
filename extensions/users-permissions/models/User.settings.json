@@ -75,16 +75,16 @@
       "type": "json",
       "required": false
     },
-    "organization": {
-      "plugin": "crm-plugin",
-      "model": "organization"
-    },
     "user_projects": {
       "collection": "user-project",
       "via": "user"
     },
     "language": {
       "type": "string"
+    },
+    "organization": {
+      "model": "organization",
+      "via": "users"
     }
   }
 }

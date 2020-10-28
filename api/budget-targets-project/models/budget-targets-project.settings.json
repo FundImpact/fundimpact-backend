@@ -24,9 +24,6 @@
     "conversion_factor": {
       "type": "float"
     },
-    "organization_currency": {
-      "model": "organization-currency"
-    },
     "budget_category_organization": {
       "model": "budget-category-organization"
     },

@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "districts",
+  "info": {
+    "name": "District"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "state": {
+      "model": "state",
+      "via": "districts"
+    },
+    "blocks": {
+      "via": "district",
+      "collection": "block"
+    }
+  }
+}

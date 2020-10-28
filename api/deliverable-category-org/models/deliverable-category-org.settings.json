@@ -9,10 +9,6 @@
     "timestamps": true
   },
   "attributes": {
-    "organization": {
-      "plugin": "crm-plugin",
-      "model": "organization"
-    },
     "name": {
       "type": "string"
     },
@@ -21,6 +17,10 @@
     },
     "description": {
       "type": "richtext"
+    },
+    "organization": {
+      "model": "organization",
+      "via": "deliverable_category_orgs"
     }
   }
 }
