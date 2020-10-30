@@ -24,7 +24,7 @@ module.exports = {
                 deliverable_target_projectIds = deliverable_target_projectIds.map(x => "'" + x + "'").toString();
                 sumData = await strapi.connections.default.raw(`SELECT SUM(value) FROM deliverable_tracking_lineitem where deliverable_target_project IN (${deliverable_target_projectIds})`)
             }
-            return sumData.rows && sumData.rows.length > 0 && sumData.rows[0].sum != null ? sumData.rows[0].sum : sumData;
+            return sumData.rows && sumData.rows.length > 0 && sumData.rows[0].sum != null ? sumData.rows[0].sum : 0;
         } catch (error) {
             console.log(error)
             return ctx.badRequest(null, error.message);
