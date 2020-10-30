@@ -28,8 +28,8 @@
       "type": "string"
     },
     "organization": {
-      "model": "organization",
-      "via": "deliverable_units_orgs"
+      "via": "deliverable_units_orgs",
+      "model": "organization"
     }
   }
 }

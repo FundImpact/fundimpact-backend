@@ -59,46 +59,49 @@
       "model": "currency"
     },
     "budget_category_organizations": {
-      "via": "organization",
-      "collection": "budget-category-organization"
+      "collection": "budget-category-organization",
+      "via": "organization"
     },
     "deliverable_category_orgs": {
-      "via": "organization",
-      "collection": "deliverable-category-org"
+      "collection": "deliverable-category-org",
+      "via": "organization"
     },
     "deliverable_units_orgs": {
-      "via": "organization",
-      "collection": "deliverable-units-org"
+      "collection": "deliverable-units-org",
+      "via": "organization"
     },
     "donors": {
       "via": "organization",
       "collection": "donor"
     },
     "impact_category_orgs": {
-      "via": "organization",
-      "collection": "impact-category-org"
+      "collection": "impact-category-org",
+      "via": "organization"
     },
     "impact_units_orgs": {
-      "via": "organization",
-      "collection": "impact-units-org"
+      "collection": "impact-units-org",
+      "via": "organization"
     },
     "projects": {
-      "via": "organization",
-      "collection": "project"
+      "collection": "project",
+      "via": "organization"
     },
     "roles": {
-      "via": "organization",
       "plugin": "users-permissions",
-      "collection": "role"
+      "collection": "role",
+      "via": "organization"
     },
     "workspaces": {
-      "via": "organization",
-      "collection": "workspace"
+      "collection": "workspace",
+      "via": "organization"
     },
     "users": {
-      "via": "organization",
       "plugin": "users-permissions",
-      "collection": "user"
+      "collection": "user",
+      "via": "organization"
+    },
+    "country": {
+      "model": "country"
     }
   }
 }

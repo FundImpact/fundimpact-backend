@@ -83,8 +83,8 @@
       "type": "string"
     },
     "organization": {
-      "model": "organization",
-      "via": "users"
+      "via": "users",
+      "model": "organization"
     }
   }
 }
