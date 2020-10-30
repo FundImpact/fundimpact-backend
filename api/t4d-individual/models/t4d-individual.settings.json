@@ -15,6 +15,10 @@
     "t4d_project_individuals": {
       "collection": "t4d-project-individual",
       "via": "t4d_individual"
+    },
+    "organization": {
+      "model": "organization",
+      "via": "t_4_d_individuals"
     }
   }
 }
