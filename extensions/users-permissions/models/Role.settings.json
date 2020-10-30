@@ -39,8 +39,8 @@
       "default": false
     },
     "organization": {
-      "model": "organization",
-      "via": "roles"
+      "via": "roles",
+      "model": "organization"
     }
   }
 }

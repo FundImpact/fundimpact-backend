@@ -51,8 +51,8 @@
       "via": "project"
     },
     "organization": {
-      "model": "organization",
-      "via": "projects"
+      "via": "projects",
+      "model": "organization"
     }
   }
 }

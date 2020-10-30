@@ -21,8 +21,8 @@
       "type": "richtext"
     },
     "organization": {
-      "model": "organization",
-      "via": "workspaces"
+      "via": "workspaces",
+      "model": "organization"
     }
   }
 }

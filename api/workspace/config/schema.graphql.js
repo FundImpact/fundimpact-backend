@@ -24,6 +24,10 @@ module.exports = {
     `,
   resolver: {
     Query: {
+      workspaces: {
+        policies: ['application::workspace.addFilter'],
+        resolver: 'application::workspace.workspace.find'
+      },
       orgWorkspaces: {
         policies: ['application::workspace.addFilter'],
         resolver: 'application::workspace.workspace.find'

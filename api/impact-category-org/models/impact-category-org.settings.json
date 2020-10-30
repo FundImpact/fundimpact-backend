@@ -22,8 +22,8 @@
       "type": "richtext"
     },
     "organization": {
-      "model": "organization",
-      "via": "impact_category_orgs"
+      "via": "impact_category_orgs",
+      "model": "organization"
     }
   }
 }

@@ -21,6 +21,10 @@ module.exports = {
   `,
   resolver: {
     Query: {
+      projects: {
+        policies: ['application::project.addFilter'],
+        resolver: 'application::project.project.find',
+      },
       orgProject: {
         policies: ['application::project.addFilter'],
         resolver: 'application::project.project.find',

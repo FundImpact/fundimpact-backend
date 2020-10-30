@@ -25,6 +25,9 @@
     },
     "currency": {
       "model": "currency"
+    },
+    "country": {
+      "model": "country"
     }
   }
 }
