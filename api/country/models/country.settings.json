@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "countries",
+  "info": {
+    "name": "country"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "code": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "boolean"
+    },
+    "states": {
+      "via": "country",
+      "collection": "state"
+    },
+    "currencies": {
+      "via": "country",
+      "collection": "currency"
+    },
+    "financial_years": {
+      "via": "country",
+      "collection": "financial-year"
+    }
+  }
+}

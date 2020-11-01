@@ -48,8 +48,7 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       ".tmp",
-      ".cache",
-      "crm-plugin/"
+      ".cache"
     ],
     "testEnvironment": "node"
   },

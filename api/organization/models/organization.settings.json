@@ -1,0 +1,111 @@
+{
+  "kind": "collectionType",
+  "collectionName": "organizations",
+  "info": {
+    "name": "organization"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "short_name": {
+      "type": "string"
+    },
+    "legal_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "theme": {
+      "type": "json"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "attachments": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "organization_registration_type": {
+      "model": "organization-registration-type",
+      "via": "organizations"
+    },
+    "account": {
+      "model": "account",
+      "via": "organizations"
+    },
+    "currency": {
+      "model": "currency"
+    },
+    "budget_category_organizations": {
+      "collection": "budget-category-organization",
+      "via": "organization"
+    },
+    "deliverable_category_orgs": {
+      "collection": "deliverable-category-org",
+      "via": "organization"
+    },
+    "deliverable_units_orgs": {
+      "collection": "deliverable-units-org",
+      "via": "organization"
+    },
+    "donors": {
+      "via": "organization",
+      "collection": "donor"
+    },
+    "impact_category_orgs": {
+      "collection": "impact-category-org",
+      "via": "organization"
+    },
+    "impact_units_orgs": {
+      "collection": "impact-units-org",
+      "via": "organization"
+    },
+    "projects": {
+      "collection": "project",
+      "via": "organization"
+    },
+    "roles": {
+      "plugin": "users-permissions",
+      "collection": "role",
+      "via": "organization"
+    },
+    "workspaces": {
+      "collection": "workspace",
+      "via": "organization"
+    },
+    "users": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "organization"
+    },
+    "country": {
+      "model": "country"
+    },
+    "t_4_d_individuals": {
+      "via": "organization",
+      "collection": "t4d-individual"
+    }
+  }
+}

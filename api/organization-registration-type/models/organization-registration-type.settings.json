@@ -12,6 +12,10 @@
     "reg_type": {
       "type": "string",
       "required": true
+    },
+    "organizations": {
+      "via": "organization_registration_type",
+      "collection": "organization"
     }
   }
 }

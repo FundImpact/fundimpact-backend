@@ -9,10 +9,6 @@
     "timestamps": true
   },
   "attributes": {
-    "country": {
-      "plugin": "crm-plugin",
-      "model": "country"
-    },
     "name": {
       "type": "string"
     },
@@ -24,6 +20,10 @@
     },
     "end_date": {
       "type": "datetime"
+    },
+    "country": {
+      "model": "country",
+      "via": "financial_years"
     }
   }
 }

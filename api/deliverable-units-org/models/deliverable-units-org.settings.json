@@ -28,7 +28,7 @@
       "type": "string"
     },
     "organization": {
-      "plugin": "crm-plugin",
+      "via": "deliverable_units_orgs",
       "model": "organization"
     }
   }

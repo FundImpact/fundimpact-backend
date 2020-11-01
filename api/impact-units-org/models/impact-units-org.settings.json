@@ -28,7 +28,7 @@
       "type": "string"
     },
     "organization": {
-      "plugin": "crm-plugin",
+      "via": "impact_units_orgs",
       "model": "organization"
     }
   }

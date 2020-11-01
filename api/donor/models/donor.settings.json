@@ -20,11 +20,13 @@
       "type": "string"
     },
     "organization": {
-      "plugin": "crm-plugin",
-      "model": "organization"
+      "model": "organization",
+      "via": "donors"
+    },
+    "currency": {
+      "model": "currency"
     },
     "country": {
-      "plugin": "crm-plugin",
       "model": "country"
     }
   }

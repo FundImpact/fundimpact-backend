@@ -22,7 +22,7 @@
       "type": "richtext"
     },
     "organization": {
-      "plugin": "crm-plugin",
+      "via": "impact_category_orgs",
       "model": "organization"
     }
   }
