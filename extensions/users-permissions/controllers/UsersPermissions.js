@@ -15,7 +15,10 @@ module.exports = {
         try {
             let payload = ctx.request.body.input;
             const organization = ctx.state.user.organization;
-            const permissions = payload.permissions ? payload.permissions : await permissionsService.createAdminPermissions();
+            const permissions = payload.permissions; // ? payload.permissions : await permissionsService.createAdminPermissions();
+            if(!permissions){
+                return ctx.throw(400, `permissions are required to create role.`);
+            }
             const type = `${_.snakeCase(_.deburr(_.toLower(payload.name)))}-org-${organization}`;
             const roleParams = {
                 name: payload.name,

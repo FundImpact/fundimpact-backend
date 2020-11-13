@@ -10,7 +10,7 @@ const permissionsService =  require('../../../services/helper/permissions');
 module.exports = {
     async permissions(ctx) {
         try {
-            let permissions = await permissionsService.createAdminPermissions(false);
+            let permissions = await permissionsService.createAdminPermissions({enabled:false,purpose:"ORGROLECREATION"});
             ctx.send({permissions});
         } catch (err) {
             strapi.log.error(err);

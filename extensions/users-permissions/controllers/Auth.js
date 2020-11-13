@@ -285,7 +285,7 @@ module.exports = {
       const organization = await strapi.query('organization').create(params.organization);
       params.organization = organization.id;
 
-      const permissions = await permissionsService.createAdminPermissions();
+      const permissions = await permissionsService.createAdminPermissions({enabled:true, purpose:"ACCOUNTOWNERCREATION"});
       const roleParams = {
         name: "Owner",
         type: `owner-org-${organization.id}`,
