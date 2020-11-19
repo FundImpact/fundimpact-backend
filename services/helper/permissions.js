@@ -396,11 +396,11 @@ const defaultPermissions = {
 const getDefaultPermissions = async()=>{
     let permissions = Object.assign({},publicPermissions);
     let defPermissions = Object.assign({},defaultPermissions);
-    for(plugin in permissions){
+    for(let plugin in permissions){
         if(defPermissions[plugin]){
-            for(controller in permissions[plugin].controllers){
+            for(let controller in permissions[plugin].controllers){
                 if(defPermissions[plugin].controllers[controller]){
-                    for(action in permissions[plugin].controllers[controller]){
+                    for(let action in permissions[plugin].controllers[controller]){
                         if(!defPermissions[plugin].controllers[controller][action]){
                             defPermissions[plugin].controllers[controller][action] = permissions[plugin].controllers[controller][action];
                         }
@@ -413,11 +413,11 @@ const getDefaultPermissions = async()=>{
             defPermissions[plugin] = permissions[plugin];
         }
     }
-    for(plugin in defPermissions){
+    for(let plugin in defPermissions){
         if(permissions[plugin]){
-            for(controller in defPermissions[plugin].controllers){
+            for(let controller in defPermissions[plugin].controllers){
                 if(permissions[plugin].controllers[controller]){
-                    for(action in defPermissions[plugin].controllers[controller]){
+                    for(let action in defPermissions[plugin].controllers[controller]){
                         if(!permissions[plugin].controllers[controller][action]){
                             permissions[plugin].controllers[controller][action] = defPermissions[plugin].controllers[controller][action];
                         }
@@ -440,10 +440,10 @@ const createAdminPermissions = async(config={enabled: true, purpose:""})=>{
     for(let plugin in permissions){
         if(!systemPlugins.includes(plugin)){
             newPermissions[plugin] = {"controllers":{},"information": {}};
-            for(controller in permissions[plugin].controllers){
+            for(let controller in permissions[plugin].controllers){
                 if(!systemControllers.includes(controller)){
                     newPermissions[plugin].controllers[controller] = {};//permissions[plugin].controllers[controller];
-                    for(action in permissions[plugin].controllers[controller]){
+                    for(let action in permissions[plugin].controllers[controller]){
                         if(!writeActions.includes(action) && !deleteActions.includes(action)){
                             newPermissions[plugin].controllers[controller][action] = permissions[plugin].controllers[controller][action]; 
                         }
