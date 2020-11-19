@@ -35,6 +35,15 @@
     },
     "email_other": {
       "type": "email"
+    },
+    "emails": {
+      "type": "json"
+    },
+    "phone_numbers": {
+      "type": "json"
+    },
+    "addresses": {
+      "type": "json"
     }
   }
 }
