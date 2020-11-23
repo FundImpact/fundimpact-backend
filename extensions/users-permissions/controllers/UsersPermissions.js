@@ -89,6 +89,19 @@ module.exports = {
             return ctx.throw(400, err);
         }
     },
+    
+    async getRolesList(ctx) {
+        try {
+            // Object.assign(ctx.request.query, { organization: ctx.state.user.organization });
+            const roles = await strapi.query('role', 'users-permissions').find();
+            ctx.send(roles);
+        } catch (err) {
+            //ctx.badRequest(null, [{ messages: [{ id: 'Not found' }] }]);
+            return ctx.throw(400, err);
+        }
+    },
+
+
     async getRolePemissions(ctx) {
         try {
             ctx.request.query._limit = -1;
