@@ -1,37 +1,37 @@
-module.exports={
-    createAdminPermissions:async(enabled = true)=>{
-        const permissions = await strapi.plugins[
-            'users-permissions'
-        ].services.userspermissions.getActions();
-        let newPermissions = {};
-        let systemPlugins = ["content-manager", "content-type-builder","email","graphql"];
-        // let systemControllers = [
-        //     "account","annual-year","category",
-        //     "category","category-unit","unit",
-        //     "country","currency","organization-registration-type",
-        //     "public-donor","sustainable-development-goals",
-        //     "proxy"
-        // ];
-        let systemControllers = ["proxy"];
-        let crmPluginControllers = [
-            "activities", "activity", "activityassignee", 
-            "activitytype", "activitytypes", "contact", 
-            "contacts", "contacttag", "contacttags", 
-            "crmplugin","tag"
-        ];
-        for(let plugin in permissions){
-            if(!systemPlugins.includes(plugin)){
-                newPermissions[plugin] = {"controllers":{},"information": {}};
-                for(controller in permissions[plugin].controllers){
-                    if(!systemControllers.includes(controller) && !crmPluginControllers.includes(controller)){
-                        newPermissions[plugin].controllers[controller] = permissions[plugin].controllers[controller];
-                        for(action in permissions[plugin].controllers[controller]){
-                            newPermissions[plugin].controllers[controller][action].enabled = enabled;
+let systemPlugins = ["content-manager", "content-type-builder","email","graphql"];
+let systemControllers = [
+    "proxy","userspermissions"
+];
+let writeActions = [
+    "create","update"
+];
+
+let deleteActions = [
+    "delete","destroy","destroyAll"
+]
+const createAdminPermissions = async(config={enabled: true, purpose:""})=>{
+    const permissions = await strapi.plugins[
+        'users-permissions'
+    ].services.userspermissions.getActions();
+    let newPermissions = {};   
+    for(let plugin in permissions){
+        if(!systemPlugins.includes(plugin)){
+            newPermissions[plugin] = {"controllers":{},"information": {}};
+            for(let controller in permissions[plugin].controllers){
+                if(!systemControllers.includes(controller)){
+                    newPermissions[plugin].controllers[controller] = {};//permissions[plugin].controllers[controller];
+                    for(let action in permissions[plugin].controllers[controller]){
+                        if(!writeActions.includes(action) && !deleteActions.includes(action)){
+                            newPermissions[plugin].controllers[controller][action] = permissions[plugin].controllers[controller][action]; 
                         }
+                        // newPermissions[plugin].controllers[controller][action].enabled = config.enabled;
                     }
                 }
             }
         }
-        return newPermissions;
     }
+    return newPermissions;
+}
+module.exports={
+    createAdminPermissions:createAdminPermissions
 }
