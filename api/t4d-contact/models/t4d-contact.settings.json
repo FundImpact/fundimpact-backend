@@ -44,6 +44,9 @@
     },
     "addresses": {
       "type": "json"
+    },
+    "label": {
+      "type": "string"
     }
   }
 }
