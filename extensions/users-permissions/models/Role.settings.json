@@ -41,6 +41,10 @@
     "organization": {
       "model": "organization",
       "via": "roles"
+    },
+    "sequence": {
+      "type": "integer",
+      "default": 0
     }
   }
 }
