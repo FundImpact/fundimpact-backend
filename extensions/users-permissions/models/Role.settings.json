@@ -43,8 +43,7 @@
       "via": "roles"
     },
     "sequence": {
-      "default": 0,
-      "type": "integer"
+      "type": "string"
     }
   }
 }
