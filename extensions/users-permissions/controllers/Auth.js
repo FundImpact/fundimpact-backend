@@ -477,8 +477,7 @@ module.exports = {
   async inviteUser(ctx) {
     let payload = ctx.request.body.input;
     let roleQuery = {
-      id: payload.role,
-      organization: ctx.state.user.organization
+      id: payload.role
     };
     const role = await strapi.query('role', 'users-permissions').findOne(roleQuery);
     if (!role) {
