@@ -39,8 +39,11 @@
       "default": false
     },
     "organization": {
-      "via": "roles",
-      "model": "organization"
+      "model": "organization",
+      "via": "roles"
+    },
+    "order": {
+      "type": "integer"
     }
   }
 }
