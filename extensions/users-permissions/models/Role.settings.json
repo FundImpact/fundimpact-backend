@@ -42,7 +42,8 @@
       "model": "organization",
       "via": "roles"
     },
-    "order": {
+    "sequence": {
+      "default": 0,
       "type": "integer"
     }
   }
