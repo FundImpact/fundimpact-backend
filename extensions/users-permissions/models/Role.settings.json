@@ -41,9 +41,6 @@
     "organization": {
       "model": "organization",
       "via": "roles"
-    },
-    "sequence": {
-      "type": "string"
     }
   }
 }
