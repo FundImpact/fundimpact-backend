@@ -284,7 +284,8 @@ module.exports = {
 
       const organization = await strapi.query('organization').create(params.organization);
       params.organization = organization.id;
-
+    /* 
+      // Create role
       const permissions = await permissionsService.createAdminPermissions();
       const roleParams = {
         name: "Owner",
@@ -299,9 +300,11 @@ module.exports = {
       );
       const role = await strapi.query('role', 'users-permissions').findOne({
         type: roleParams.type, organization: roleParams.organization
-      },
-        []);
-
+      },[]);
+    */
+      const role = await strapi.query('role', 'users-permissions').findOne({
+        type: `owner`
+      },[]);
       params.role = role.id;
       const user = await strapi.query('user', 'users-permissions').create(params);
       user.organization = organization;
@@ -474,8 +477,7 @@ module.exports = {
   async inviteUser(ctx) {
     let payload = ctx.request.body.input;
     let roleQuery = {
-      id: payload.role,
-      organization: ctx.state.user.organization
+      id: payload.role
     };
     const role = await strapi.query('role', 'users-permissions').findOne(roleQuery);
     if (!role) {

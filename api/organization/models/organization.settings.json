@@ -87,9 +87,9 @@
       "via": "organization"
     },
     "roles": {
+      "via": "organization",
       "plugin": "users-permissions",
-      "collection": "role",
-      "via": "organization"
+      "collection": "role"
     },
     "workspaces": {
       "collection": "workspace",

@@ -1,0 +1,20 @@
+{
+    "routes": [
+      {
+        "method": "POST",
+        "path": "/file-morph",
+        "handler": "Upload.createFileMorph",
+        "config": {
+          "policies": []
+        }
+      },
+      {
+        "method": "DELETE",
+        "path": "/file-morph/:id",
+        "handler": "Upload.deleteFileMorph",
+        "config": {
+          "policies": []
+        }
+      }
+    ]
+}
