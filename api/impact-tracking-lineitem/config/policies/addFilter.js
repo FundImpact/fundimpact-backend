@@ -1,17 +1,18 @@
 module.exports = async (ctx, next) => {
   try {
     let orgs = await strapi.query('organization').find({ account: ctx.state.user.account });
-    let impactCategoryOrg = await strapi.query('impact-category-org').find({ organization: orgs.map(m => m.id) });
-    let impactCategoryunit = await strapi.query('impact-category-unit').find({ impact_category_org: impactCategoryOrg.map(m => m.id) });
-    let impactTargetProject = await strapi.query('impact-target-project').find({ impact_category_unit: impactCategoryunit.map(m => m.id) });
+    let wps = await strapi.query("workspace").find({ organization_in: orgs.map(m => m.id) });
+    let projects = await strapi.query("project").find({ workspace_in: wps.map(m => m.id) });
+   
 
     if (ctx.state.user.role && ctx.state.user.role.is_project_level === true) {
       let userProjects = await strapi.query("user-project").find({ user: ctx.state.user.id });
-      impactTargetProject = await strapi.query('impact-target-project').find({ impact_category_unit: userProjects.map(m => m.project) });
+      projects = userProjects.map(m => m.project)
     }
+    let impactTargetProjects = await strapi.query('impact-target-project').find({project_in: projects.map(m => m.id)});
 
     Object.assign(ctx.query, {
-      impact_target_project_in: impactTargetProject.map(m => m.id)
+      impact_target_project_in : impactTargetProjects.map(m => m.id)
     });
     return await next();
   } catch (err) {
