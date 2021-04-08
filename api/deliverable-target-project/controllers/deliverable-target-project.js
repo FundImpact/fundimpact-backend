@@ -5,6 +5,8 @@
  * to customize this controller
  */
 
+const {exportTableAsCsv} = require('../../../services/exportTable')
+
 module.exports = {
     deliverable_achieved : async ctx => {
         try {
@@ -16,6 +18,14 @@ module.exports = {
             
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    exportTable : async ctx => {
+        try{            
+            await exportTableAsCsv({ctx, tableName: 'deliverable_target_project', whereCondition: {project: ctx.query.project_in[0]}})
+        } catch(error) {
             console.log(error)
             return ctx.badRequest(null, error.message);
         }

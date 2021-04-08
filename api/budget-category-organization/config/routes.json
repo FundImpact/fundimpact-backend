@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/budget-category-organizations/export-table",
+      "handler": "budget-category-organization.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/budget-category-organizations/:id",
       "handler": "budget-category-organization.findOne",
       "config": {

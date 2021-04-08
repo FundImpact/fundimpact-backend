@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/deliverable-tracking-lineitems/export-table",
+      "handler": "deliverable-tracking-lineitem.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/deliverable-tracking-lineitems/:id",
       "handler": "deliverable-tracking-lineitem.findOne",
       "config": {

@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/donors/export-table",
+      "handler": "donor.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/donors/:id",
       "handler": "donor.findOne",
       "config": {

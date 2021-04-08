@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/deliverable-category-orgs/export-table",
+      "handler": "deliverable-category-org.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/deliverable-category-orgs/:id",
       "handler": "deliverable-category-org.findOne",
       "config": {

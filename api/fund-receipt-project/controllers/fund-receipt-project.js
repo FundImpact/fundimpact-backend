@@ -5,6 +5,8 @@
  * to customize this controller
  */
 
+const {exportTableAsCsv} = require('../../../services/exportTable')
+
 module.exports = {
     fund_recipet_values : async ctx => {
         try {
@@ -17,5 +19,21 @@ module.exports = {
             console.log(error)
             return ctx.badRequest(null, error.message);
         }
-    }
+    },
+    exportTable: async (ctx) => {
+        try {
+          await exportTableAsCsv({
+            ctx,
+            tableName: "fund_receipt_project",
+            whereCondition: (builder) =>
+              builder.whereIn(
+                "project_donor",
+                ctx.query.project_donor_in
+              ),
+          });
+        } catch (error) {
+          console.log(error);
+          return ctx.badRequest(null, error.message);
+        }
+    },
 };
