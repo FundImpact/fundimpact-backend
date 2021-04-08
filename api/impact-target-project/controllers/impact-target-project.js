@@ -54,7 +54,7 @@ module.exports = {
     },
     exportTable : async ctx => {
         try{            
-            await exportTableAsCsv({ctx, tableName: 'impact_target_project', whereCondition: {project: ctx.query.project_in[0]}})
+            await exportTableAsCsv({ tableName: 'impact_target_project', ctx, whereCondition: {project: ctx.query.project_in[0]}})
         } catch(error) {
             console.log(error)
             return ctx.badRequest(null, error.message);
