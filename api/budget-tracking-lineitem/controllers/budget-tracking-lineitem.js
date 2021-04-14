@@ -136,7 +136,7 @@ const checkIfBudgetTargetProjectBelongToUser = (
 
 const validateRowToBeInsertedInBudgetLineItem = async (rowObj) => {
   const areRequiredColumnsPresent = ["reporting_date", "amount"].every(
-    (column) => !!rowObj[column]
+    (col) => !!rowObj[col]
   );
 
   if (!areRequiredColumnsPresent) {
@@ -153,14 +153,14 @@ const validateRowToBeInsertedInBudgetLineItem = async (rowObj) => {
 };
 
 const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
-  const foreignKeys = [
+  const budgetTrackingLineitemForeignKeys = [
     { tableName: "grant_periods_project", columnName: "grant_periods_project" },
     { tableName: "annual_year", columnName: "annual_year" },
     { tableName: "financial_year", columnName: "fy_org" },
     { tableName: "financial_year", columnName: "fy_donor" },
   ];
-  for (let i = 0; i < foreignKeys.length; i++) {
-    const { tableName, columnName } = foreignKeys[i];
+  for (let i = 0; i < budgetTrackingLineitemForeignKeys.length; i++) {
+    const { tableName, columnName } = budgetTrackingLineitemForeignKeys[i];
     const isForeignKeyInvalid =
       rowObj[columnName] &&
       !(await isRowIdPresentInTable({
