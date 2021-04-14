@@ -42,14 +42,14 @@ module.exports = {
         .join("deliverable_target_project", {
           [`deliverable_tracking_lineitem.deliverable_target_project`]: "deliverable_target_project.id",
         })
+        .leftJoin("financial_year", {
+          ["financial_year.id"]: "deliverable_tracking_lineitem.financial_year",
+        })
         .join("deliverable_category_unit", {
           [`deliverable_target_project.deliverable_category_unit`]: "deliverable_category_unit.id",
         })
         .join("deliverable_unit_org", {
           [`deliverable_category_unit.deliverable_units_org`]: "deliverable_unit_org.id",
-        })
-        .leftJoin("financial_year", {
-          ["financial_year.id"]: "deliverable_tracking_lineitem.financial_year",
         })
         .leftJoin("annual_year", {
           ["annual_year.id"]: "deliverable_tracking_lineitem.annual_year",
@@ -61,8 +61,8 @@ module.exports = {
           strapi.connections.default.raw(
             `concat(deliverable_tracking_lineitem.value, ' ', deliverable_unit_org.name) as achieved`
           ),
-          "financial_year.name as financial year",
           "annual_year.name as annual year",
+          "financial_year.name as financial year",
         ])
         .where({
           deliverable_target_project: params.deliverableTargetsProjectId,
