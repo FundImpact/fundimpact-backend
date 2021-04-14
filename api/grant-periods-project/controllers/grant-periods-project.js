@@ -24,9 +24,9 @@ module.exports = {
         },
         transformOpts
       );
-      ctx.body = ctx.req.pipe;
       ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
       ctx.set("Content-Type", "text/csv");
+      ctx.body = ctx.req.pipe;
       const stream = strapi.connections
         .default("grant_periods_project")
         .join("donors", {

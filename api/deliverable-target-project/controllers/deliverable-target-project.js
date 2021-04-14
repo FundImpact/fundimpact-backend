@@ -41,7 +41,7 @@ module.exports = {
           ctx.body = ctx.req.pipe;
           ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
           ctx.set("Content-Type", "text/csv");
-          const stream = strapi.connections
+          const deliverableTargetProjectStream = strapi.connections
             .default("deliverable_target_project")
             .join("deliverable_category_unit", {
               [`deliverable_target_project.deliverable_category_unit`]: "deliverable_category_unit.id",
@@ -75,8 +75,8 @@ module.exports = {
             ])
             .where({ project: params.projectId })
             .stream();
-          stream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
-          return await new Promise((resolve) => stream.on("end", resolve));
+          deliverableTargetProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
+          return await new Promise((resolve) => deliverableTargetProjectStream.on("end", resolve));
         } catch (error) {
           console.log(error);
           return ctx.badRequest(null, error.message);

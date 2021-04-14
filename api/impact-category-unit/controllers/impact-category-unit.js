@@ -19,10 +19,9 @@ module.exports = {
         },
         transformOpts
       );
-      console.log(`locals`, locals);
-      ctx.body = ctx.req.pipe;
       ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
       ctx.set("Content-Type", "text/csv");
+      ctx.body = ctx.req.pipe;
       const stream = strapi.connections
         .default("impact_category_unit")
         .join("impact_category_org", {
