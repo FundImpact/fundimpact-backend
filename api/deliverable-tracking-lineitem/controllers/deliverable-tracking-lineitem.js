@@ -34,10 +34,10 @@ module.exports = {
         },
         transformOpts
       );
-      ctx.body = ctx.req.pipe;
       ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
       ctx.set("Content-Type", "text/csv");
-      const stream = strapi.connections
+      ctx.body = ctx.req.pipe;
+      const deliverableTrackingLineitemStream = strapi.connections
         .default("deliverable_tracking_lineitem")
         .join("deliverable_target_project", {
           [`deliverable_tracking_lineitem.deliverable_target_project`]: "deliverable_target_project.id",
@@ -68,8 +68,8 @@ module.exports = {
           deliverable_target_project: params.deliverableTargetsProjectId,
         })
         .stream();
-      stream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
-      return await new Promise((resolve) => stream.on("end", resolve));
+      deliverableTrackingLineitemStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
+      return await new Promise((resolve) => deliverableTrackingLineitemStream.on("end", resolve));
     } catch (error) {
       console.log(error);
       return ctx.badRequest(null, error.message);
