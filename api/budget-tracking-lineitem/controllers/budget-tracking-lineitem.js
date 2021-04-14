@@ -7,6 +7,8 @@
 
 const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
+const { importTable } = require("../../../services/importTable");
+const { isRowIdPresentInTable } = require("../../../utils");
 
 module.exports = {
   exportTable: async (ctx) => {
@@ -75,6 +77,43 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
+  createBudgetTrackingLineitemFromCsv: async (ctx) => {
+    try {
+      const { query, params } = ctx;
+      const columnsWhereValueCanBeInserted = [
+        "budget_targets_project",
+        "annual_year",
+        "grant_periods_project",
+        "amount",
+        "note",
+        "reporting_date",
+        "fy_org",
+        "fy_donor",
+      ];
+      //Todo move this to middleware
+      const budgetTargetProjectBelongToUser = checkIfBudgetTargetProjectBelongToUser(
+        query.budget_targets_project_in,
+        params.budgetTargetProjectId
+      );
+      if (!budgetTargetProjectBelongToUser) {
+        throw new Error("Budget Target Project Doesnot Belong To User");
+      }
+
+      await importTable({
+        columnsWhereValueCanBeInserted,
+        ctx,
+        tableName: "budget_tracking_lineitem",
+        validateRowToBeInserted: validateRowToBeInsertedInBudgetLineItem,
+        defaultFieldsToInsert: {
+          budget_targets_project: params.budgetTargetProjectId,
+        },
+      });
+      return { message: "Budget Lineitem Created", done: true };
+    } catch (error) {
+      console.log(error);
+      return ctx.badRequest(null, error.message);
+    }
+  },
 };
 
 const isBudgetTargetsProjectIdAvailableInUserBudgetTargetProjects = (
@@ -85,3 +124,53 @@ const isBudgetTargetsProjectIdAvailableInUserBudgetTargetProjects = (
     (userBudgetTargetProject) =>
       userBudgetTargetProject == budgetTargetsProjectId
   );
+
+const checkIfBudgetTargetProjectBelongToUser = (
+  userBudgetTargetProjects,
+  budgetTargetProjectId
+) =>
+  !!userBudgetTargetProjects.find(
+    (userBudgetTargetProject) =>
+      userBudgetTargetProject == budgetTargetProjectId
+  );
+
+const validateRowToBeInsertedInBudgetLineItem = async (rowObj) => {
+  const areRequiredColumnsPresent = ["reporting_date", "amount"].every(
+    (col) => !!rowObj[col]
+  );
+
+  if (!areRequiredColumnsPresent) {
+    return false;
+  }
+
+  let areForeignKeysValid = await checkIfAllTheForeignKeysToBeInsertedAreValid(
+    rowObj
+  );
+  if (!areForeignKeysValid) {
+    return false;
+  }
+  return true;
+};
+
+const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
+  const budgetTrackingLineitemForeignKeys = [
+    { tableName: "grant_periods_project", columnName: "grant_periods_project" },
+    { tableName: "annual_year", columnName: "annual_year" },
+    { tableName: "financial_year", columnName: "fy_org" },
+    { tableName: "financial_year", columnName: "fy_donor" },
+  ];
+  for (let i = 0; i < budgetTrackingLineitemForeignKeys.length; i++) {
+    const { tableName, columnName } = budgetTrackingLineitemForeignKeys[i];
+    const isForeignKeyInvalid =
+      rowObj[columnName] &&
+      !(await isRowIdPresentInTable({
+        tableName,
+        strapi,
+        rowId: rowObj[columnName],
+      }));
+    if (isForeignKeyInvalid) {
+      return false;
+    }
+  }
+  return true;
+};

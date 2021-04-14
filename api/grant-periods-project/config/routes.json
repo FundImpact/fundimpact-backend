@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/grant-periods-projects/import-table/:projectId",
+      "handler": "grant-periods-project.createGrantPeriodsProjectFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/grant-periods-projects/:id",
       "handler": "grant-periods-project.update",

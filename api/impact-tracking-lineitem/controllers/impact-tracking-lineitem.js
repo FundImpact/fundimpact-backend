@@ -4,6 +4,8 @@
  * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
  * to customize this controller
  */
+ const { importTable } = require("../../../services/importTable");
+ const { isRowIdPresentInTable } = require("../../../utils");
 
 const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
@@ -75,6 +77,43 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
+  createImpactTrackingLineitemFromCsv: async (ctx) => {
+    try {
+      const { query, params } = ctx;
+      const columnsWhereValueCanBeInserted = [
+        "impact_target_project",
+        "grant_periods_project",
+        "value",
+        "note",
+        "reporting_date",
+        "financial_year",
+        "annual_year",
+      ];
+      console.log(`query`, query)
+      //Todo move this to middleware
+      const impactTargetProjectBelongToUser = checkIfImpactTargetProjectBelongToUser(
+        query.impact_target_project_in,
+        params.impactTargetProjectId
+      );
+      if (!impactTargetProjectBelongToUser) {
+        throw new Error("Impact Target Project Doesnot Belong To User");
+      }
+
+      await importTable({
+        columnsWhereValueCanBeInserted,
+        ctx,
+        tableName: "impact_tracking_lineitem",
+        validateRowToBeInserted: validateRowToBeInsertedInImpactLineItem,
+        defaultFieldsToInsert: {
+          impact_target_project: params.impactTargetProjectId,
+        },
+      });
+      return { message: "Impact Lineitem Created", done: true };
+    } catch (error) {
+      console.log(error);
+      return ctx.badRequest(null, error.message);
+    }
+  },
 };
 
 const isImpactTargetsProjectIdAvailableInUserImpactTargetProjects = (
@@ -85,3 +124,52 @@ const isImpactTargetsProjectIdAvailableInUserImpactTargetProjects = (
     (userImpactTargetProject) =>
       userImpactTargetProject == impactTargetsProjectId
   );
+ 
+ const checkIfImpactTargetProjectBelongToUser = (
+   userImpactTargetProjects,
+   impactTargetProjectId
+ ) =>
+   !!userImpactTargetProjects.find(
+     (userImpactTargetProject) =>
+       userImpactTargetProject == impactTargetProjectId
+   );
+ 
+ const validateRowToBeInsertedInImpactLineItem = async (rowObj) => {
+   const areRequiredColumnsPresent = ["reporting_date", "value"].every(
+     (column) => !!rowObj[column]
+   );
+   if (!areRequiredColumnsPresent) {
+     return false;
+   }
+ 
+   let areForeignKeysValid = await checkIfAllTheForeignKeysToBeInsertedAreValid(
+     rowObj
+   );
+   if (!areForeignKeysValid) {
+     return false;
+   }
+   return true;
+ };
+ 
+ const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
+   const foreignKeys = [
+     { tableName: "grant_periods_project", columnName: "grant_periods_project" },
+     { tableName: "annual_year", columnName: "annual_year" },
+     { tableName: "financial_year", columnName: "financial_year" },
+   ];
+   for (let i = 0; i < foreignKeys.length; i++) {
+     const { tableName, columnName } = foreignKeys[i];
+     const isForeignKeyInvalid =
+       rowObj[columnName] &&
+       !(await isRowIdPresentInTable({
+         tableName,
+         strapi,
+         rowId: rowObj[columnName],
+       }));
+     if (isForeignKeyInvalid) {
+       return false;
+     }
+   }
+   return true;
+ };
+ 

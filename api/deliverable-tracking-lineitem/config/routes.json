@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/deliverable-tracking-lineitems/import-table/:deliverableTargetProjectId",
+      "handler": "deliverable-tracking-lineitem.createDeliverableTrackingLineitemFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/deliverable-tracking-lineitems/:id",
       "handler": "deliverable-tracking-lineitem.update",

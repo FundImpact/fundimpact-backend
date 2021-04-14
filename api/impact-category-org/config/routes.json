@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/impact-category-orgs/import-table",
+      "handler": "impact-category-org.createImpactCategoryOrgFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/impact-category-orgs/:id",
       "handler": "impact-category-org.update",

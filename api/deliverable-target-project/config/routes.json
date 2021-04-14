@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/deliverable-target-projects/import-table/:projectId",
+      "handler": "deliverable-target-project.createDeliverableTargetProjectFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/deliverable-target-projects/:id",
       "handler": "deliverable-target-project.update",

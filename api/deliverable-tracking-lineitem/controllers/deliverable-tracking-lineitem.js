@@ -7,6 +7,8 @@
 
 const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
+const { importTable } = require("../../../services/importTable");
+const { isRowIdPresentInTable } = require("../../../utils");
 
 module.exports = {
   exportTable: async (ctx) => {
@@ -75,7 +77,43 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
-};
+  createDeliverableTrackingLineitemFromCsv: async (ctx) => {
+    try {
+      const { query, params } = ctx;
+      const columnsWhereValueCanBeInserted = [
+        "deliverable_target_project",
+        "grant_periods_project",
+        "value",
+        "note",
+        "reporting_date",
+        "financial_year",
+        "annual_year",
+      ];
+      //Todo move this to middleware
+      const deliverableTargetProjectBelongToUser = checkIfDeliverableTargetProjectBelongToUser(
+        query.deliverable_target_project_in,
+        params.deliverableTargetProjectId
+      );
+      if (!deliverableTargetProjectBelongToUser) {
+        throw new Error("Deliverable Target Project Doesnot Belong To User");
+      }
+
+      await importTable({
+        columnsWhereValueCanBeInserted,
+        ctx,
+        tableName: "deliverable_tracking_lineitem",
+        validateRowToBeInserted: validateRowToBeInsertedInDeliverableLineItem,
+        defaultFieldsToInsert: {
+          deliverable_target_project: params.deliverableTargetProjectId,
+        },
+      });
+      return { message: "Deliverable Lineitem Created", done: true };
+    } catch (error) {
+      console.log(error);
+      return ctx.badRequest(null, error.message);
+    }
+  },
+}
 
 const isDeliverableTargetsProjectIdAvailableInUserDeliverableTargetProjects = (
   userDeliverableTargetProjects,
@@ -85,3 +123,50 @@ const isDeliverableTargetsProjectIdAvailableInUserDeliverableTargetProjects = (
     (userDeliverableTargetProject) =>
       userDeliverableTargetProject == deliverableTargetsProjectId
   );
+const checkIfDeliverableTargetProjectBelongToUser = (
+  userDeliverableTargetProjects,
+  deliverableTargetProjectId
+) =>
+  !!userDeliverableTargetProjects.find(
+    (userDeliverableTargetProject) =>
+      userDeliverableTargetProject == deliverableTargetProjectId
+  );
+
+const validateRowToBeInsertedInDeliverableLineItem = async (rowObj) => {
+  const areRequiredColsPresent = ["reporting_date", "value"].every(
+    (column) => !!rowObj[column]
+  );
+  if (!areRequiredColsPresent) {
+    return false;
+  }
+
+  let foreignKeysValid = await checkIfAllTheForeignKeysToBeInsertedAreValid(
+    rowObj
+  );
+  if (!foreignKeysValid) {
+    return false;
+  }
+  return true;
+};
+
+const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
+  const budgetTrackingLineitemForeignKeys = [
+    { tableName: "grant_periods_project", columnName: "grant_periods_project" },
+    { tableName: "annual_year", columnName: "annual_year" },
+    { tableName: "financial_year", columnName: "financial_year" },
+  ];
+  for (let i = 0; i < budgetTrackingLineitemForeignKeys.length; i++) {
+    const { tableName, columnName } = budgetTrackingLineitemForeignKeys[i];
+    const foreignKeyInvalid =
+      rowObj[columnName] &&
+      !(await isRowIdPresentInTable({
+        tableName,
+        strapi,
+        rowId: rowObj[columnName],
+      }));
+    if (foreignKeyInvalid) {
+      return false;
+    }
+  }
+  return true;
+};

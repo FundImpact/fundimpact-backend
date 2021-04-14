@@ -7,6 +7,8 @@
 
  const JSONStream = require("JSONStream");
  const { Transform } = require("json2csv");
+const { importTable } = require("../../../services/importTable");
+const { isRowIdPresentInTable } = require("../../../utils");
 
 module.exports = {
     project_expenditure_value : async ctx => {
@@ -139,8 +141,78 @@ module.exports = {
           console.log(error);
           return ctx.badRequest(null, error.message);
         }
-    }
+    },
+    createBudgetTargetProjectFromCsv: async (ctx) => {
+      try {
+        const { query, params } = ctx;
+        const projectBelongToUser = checkIfProjectBelongToUser(
+          query.project_in,
+          params.projectId
+        );
+        if (!projectBelongToUser) {
+          throw new Error("Project is not assigned to user");
+        }
+        const columnsWhereValueCanBeInserted = [
+          "name",
+          "description",
+          "total_target_amount",
+          "budget_category_organization",
+          "donor",
+        ];
+        const validateRowToBeInserted = async (rowObj) =>
+          await validateRowToBeInsertedInBudgetTargetProject(
+            rowObj,
+            params.projectId
+          );	
+
+        await importTable({
+          columnsWhereValueCanBeInserted,
+          ctx,
+          tableName: "budget_targets_project",
+          defaultFieldsToInsert: { project: params.projectId },
+          validateRowToBeInserted,
+        });
+        return { message: "Budget Target Created", done: true };
+      } catch (error) {
+        console.log(error);
+        return ctx.badRequest(null, error.message);
+      }
+  }
 };
 
 const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
+
+const validateRowToBeInsertedInBudgetTargetProject = async (
+  rowObj,
+  projectId
+) => {
+  const areRequiredColumnsPresent = [
+    "name",
+    "total_target_amount",
+    "budget_category_organization",
+    "donor",
+  ].every((column) => !!rowObj[column]);
+  if (!areRequiredColumnsPresent) {
+    return false;
+  }
+  if (
+    !(await isRowIdPresentInTable({
+      rowId: rowObj.budget_category_organization,
+      strapi,
+      tableName: "budget_category_organizations",
+    }))
+  ) {
+    return false;
+  }
+  const projectDonor = await strapi.connections
+    .default("project_donor")
+    .where({ donor: rowObj.donor, project: projectId });
+  if (!projectDonor.length) {
+    return false;
+  }
+  return true;
+};
+
+const checkIfProjectBelongToUser = (userProjects, projectId) =>
+  !!userProjects.find((userProject) => userProject == projectId);

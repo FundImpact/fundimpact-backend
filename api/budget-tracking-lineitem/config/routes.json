@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/budget-tracking-lineitems/import-table/:budgetTargetProjectId",
+      "handler": "budget-tracking-lineitem.createBudgetTrackingLineitemFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/budget-tracking-lineitems/:id",
       "handler": "budget-tracking-lineitem.update",

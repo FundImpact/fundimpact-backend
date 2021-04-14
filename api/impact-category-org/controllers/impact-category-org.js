@@ -6,6 +6,7 @@
  */
 
 const { exportTableAsCsv } = require("../../../services/exportTable");
+const { importTable } = require('../../../services/importTable')
 
 module.exports = {
     projectCountImpCatByOrg :  async ctx => {
@@ -119,8 +120,31 @@ module.exports = {
             tableColumnsToShow: ["id", "name", "code", "description"]
           });
         } catch (error) {
+            console.log(error);
+            return ctx.badRequest(null, error.message);
+        }
+    },
+    createImpactCategoryOrgFromCsv: async (ctx) => {
+        try {
+          const { query } = ctx;
+          const columnsWhereValueCanBeInserted = ["name", "code", "description", "shortname"];
+          const validateRowToBeInserted = (rowObj) => {
+            if(!rowObj.name){
+                return false;
+            }
+            return true;
+          }
+          await importTable({
+            columnsWhereValueCanBeInserted,
+            ctx,
+            tableName: "impact_category_org",
+            defaultFieldsToInsert: { organization: query.organization_in[0] },
+            validateRowToBeInserted
+          });
+          return { message: "Impact category created", done: true };
+        } catch (error) {
           console.log(error);
           return ctx.badRequest(null, error.message);
         }
     },
-};
+}
