@@ -36,8 +36,8 @@ module.exports = {
           },
           transformOpts
         );
-        ctx.body = ctx.req.pipe;
         ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
+        ctx.body = ctx.req.pipe;
         ctx.set("Content-Type", "text/csv");
         const stream = strapi.connections
           .default("fund_receipt_project")

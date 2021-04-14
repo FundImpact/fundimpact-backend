@@ -20,8 +20,8 @@ module.exports = {
         transformOpts
       );
       ctx.body = ctx.req.pipe;
-      ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
       ctx.set("Content-Type", "text/csv");
+      ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
       const stream = strapi.connections
         .default("deliverable_category_unit")
         .join("deliverable_category_org", {
@@ -40,12 +40,12 @@ module.exports = {
           ),
         ])
         .where({
-          "deliverable_category_org.organization": locals.organization_in[0],
           "deliverable_unit_org.organization": locals.organization_in[0],
+          "deliverable_category_org.organization": locals.organization_in[0],
         })
         .stream();
-      stream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
-      stream.on("error", (error) => sendError(error, ctx));
+        stream.on("error", (error) => sendError(error, ctx));
+        stream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
       return await new Promise((resolve) => stream.on("end", resolve));
     } catch (error) {
       return sendError(error, ctx);
