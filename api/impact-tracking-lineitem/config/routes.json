@@ -18,7 +18,7 @@
     },
     {
       "method": "GET",
-      "path": "/impact-tracking-lineitems/export-table",
+      "path": "/impact-tracking-lineitems/export-table/:impactTargetsProjectId",
       "handler": "impact-tracking-lineitem.exportTable",
       "config": {
         "policies": ["addFilter"]

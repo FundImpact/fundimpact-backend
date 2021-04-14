@@ -18,7 +18,7 @@
     },
     {
       "method": "GET",
-      "path": "/budget-tracking-lineitems/export-table",
+      "path": "/budget-tracking-lineitems/export-table/:budgetTargetsProjectId",
       "handler": "budget-tracking-lineitem.exportTable",
       "config": {
         "policies": ["addFilter"]

@@ -18,7 +18,7 @@
     },
     {
       "method": "GET",
-      "path": "/deliverable-target-projects/export-table",
+      "path": "/deliverable-target-projects/export-table/:projectId",
       "handler": "deliverable-target-project.exportTable",
       "config": {
         "policies": ["addFilter"]

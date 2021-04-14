@@ -14,6 +14,7 @@ module.exports = {
         ctx,
         tableName: "impact_units_org",
         whereCondition: { organization: ctx.query.organization_in[0] },
+        tableColumnsToShow: ["id", "name", "code", "description"],
       });
     } catch (error) {
       console.log(error);

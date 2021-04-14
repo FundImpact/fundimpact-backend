@@ -18,7 +18,7 @@
     },
     {
       "method": "GET",
-      "path": "/grant-periods-projects/export-table",
+      "path": "/grant-periods-projects/export-table/:projectId",
       "handler": "grant-periods-project.exportTable",
       "config": {
         "policies": ["addFilter"]

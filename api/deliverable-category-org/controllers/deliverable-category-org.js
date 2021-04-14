@@ -115,11 +115,16 @@ module.exports = {
         }
     },
     exportTable: async (ctx) => {
-        try{
-            await exportTableAsCsv({ctx, tableName: 'deliverable_category_org', whereCondition: {organization: ctx.query.organization_in[0]}});
-        } catch(error) {
-            console.log(error)
-            return ctx.badRequest(null, error.message);
+        try {
+          await exportTableAsCsv({
+            ctx,
+            tableName: "deliverable_category_org",
+            whereCondition: { organization: ctx.query.organization_in[0] },
+            tableColumnsToShow: ["id", "name", "code", "description"]
+          });
+        } catch (error) {
+          console.log(error);
+          return ctx.badRequest(null, error.message);
         }
-    },
+      }
 };
