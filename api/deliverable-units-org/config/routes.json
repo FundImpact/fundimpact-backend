@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/deliverable-units-orgs/import-table",
+      "handler": "deliverable-units-org.createDeliverableUnitOrgFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/deliverable-units-orgs/:id",
       "handler": "deliverable-units-org.update",

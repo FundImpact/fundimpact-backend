@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/impact-tracking-lineitems/import-table/:impactTargetProjectId",
+      "handler": "impact-tracking-lineitem.createImpactTrackingLineitemFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/impact-tracking-lineitems/:id",
       "handler": "impact-tracking-lineitem.update",

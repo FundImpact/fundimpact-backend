@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/budget-category-organizations/import-table",
+      "handler": "budget-category-organization.createBudgetCategoryOrgFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/budget-category-organizations/:id",
       "handler": "budget-category-organization.update",

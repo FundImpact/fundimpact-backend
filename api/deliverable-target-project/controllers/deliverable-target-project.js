@@ -4,6 +4,8 @@
  * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
  * to customize this controller
  */
+const { importTable } = require('../../../services/importTable');
+const { isRowIdPresentInTable } = require('../../../utils')
 
  const JSONStream = require("JSONStream");
  const { Transform } = require("json2csv");
@@ -81,8 +83,65 @@ module.exports = {
           console.log(error);
           return ctx.badRequest(null, error.message);
         }
+    },
+    createDeliverableTargetProjectFromCsv: async (ctx) => {
+      try {
+        const { query, params } = ctx;
+        const projectBelongToUser = checkIfProjectBelongToUser(
+          query.project_in,
+          params.projectId
+        );
+        if (!projectBelongToUser) {
+          throw new Error("Project is not assigned to user");
+        }
+        const columnsWhereValueCanBeInserted = [
+          "name",
+          "description",
+          "target_value",
+          "deliverable_category_unit",
+        ];
+        const validateRowToBeInserted = async (rowObj) =>
+          await validateRowToBeInsertedInDeliverableTargetProject(rowObj);
+    
+        await importTable({
+          columnsWhereValueCanBeInserted,
+          ctx,
+          tableName: "deliverable_target_project",
+          defaultFieldsToInsert: { project: params.projectId },
+          validateRowToBeInserted,
+        });
+        return { message: "Deliverable Target Created", done: true };
+      } catch (error) {
+        console.log(error);
+        return ctx.badRequest(null, error.message);
+      }
     }
 };
 
 const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
+
+const validateRowToBeInsertedInDeliverableTargetProject = async (rowObj) => {
+  const areRequiredColumnsPresent = [
+    "name",
+    "target_value",
+    "deliverable_category_unit",
+  ].every((column) => !!rowObj[column]);
+
+  if (!areRequiredColumnsPresent) {
+    return false;
+  }
+  if (
+    !(await isRowIdPresentInTable({
+      rowId: rowObj.deliverable_category_unit,
+      strapi,
+      tableName: "deliverable_category_unit",
+    }))
+  ) {
+    return false;
+  }
+  return true;
+};
+
+const checkIfProjectBelongToUser = (userProjects, projectId) =>
+  !!userProjects.find((userProject) => userProject == projectId);

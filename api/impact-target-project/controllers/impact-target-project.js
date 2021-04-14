@@ -7,6 +7,8 @@
 
  const JSONStream = require("JSONStream");
  const { Transform } = require("json2csv");
+const { importTable } = require('../../../services/importTable')
+const { isRowIdPresentInTable } = require('../../../utils')
 
 module.exports = {
     impact_achieved : async ctx => {
@@ -125,8 +127,77 @@ module.exports = {
           console.log(error);
           return ctx.badRequest(null, error.message);
         }
-    }
-};
+    },
+    createImpactTargetProjectFromCsv: async (ctx) => {
+        try {
+          const { query, params } = ctx;
+          const projectBelongToUser = checkIfProjectBelongToUser(
+            query.project_in,
+            params.projectId
+          );
+          if (!projectBelongToUser) {
+            throw new Error("Project is not assigned to user");
+          }
+          const columnsWhereValueCanBeInserted = [
+            "name",
+            "description",
+            "target_value",
+            "impact_category_unit",
+            "sustainable_development_goal"
+          ];
+          const validateRowToBeInserted = async (rowObj) =>
+            await validateRowToBeInsertedInImpactTargetProject(rowObj);
+      
+          await importTable({
+            columnsWhereValueCanBeInserted,
+            ctx,
+            tableName: "impact_target_project",
+            defaultFieldsToInsert: { project: params.projectId },
+            validateRowToBeInserted,
+          });
+          return { message: "Impact Target Created", done: true };
+        } catch (error) {
+          console.log(error);
+          return ctx.badRequest(null, error.message);
+        }
+   }
+ };
 
 const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
+
+const validateRowToBeInsertedInImpactTargetProject = async (rowObj) => {
+    const areRequiredColumnsPresent = [
+      "name",
+      "target_value",
+      "impact_category_unit",
+      "sustainable_development_goal"
+    ].every((column) => !!rowObj[column]);
+    console.log(`areRequiredColumnsPresent`, areRequiredColumnsPresent)
+    if (!areRequiredColumnsPresent) {
+      return false;
+    }
+    if (
+      !(await isRowIdPresentInTable({
+        rowId: rowObj.impact_category_unit,
+        strapi,
+        tableName: "impact_category_unit",
+      }))
+    ) {
+      return false;
+    }
+    if (
+      !(await isRowIdPresentInTable({
+        rowId: rowObj.sustainable_development_goal,
+        strapi,
+        tableName: "sustainable_development_goal",
+      }))
+    ) {
+      return false;
+    }
+    return true;
+  };
+  
+  const checkIfProjectBelongToUser = (userProjects, projectId) =>
+    !!userProjects.find((userProject) => userProject == projectId);
+  

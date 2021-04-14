@@ -7,6 +7,7 @@
 
  const JSONStream = require("JSONStream");
  const { Transform } = require("json2csv");
+const { importTable } = require('../../../services/importTable')
 
 module.exports = {
     fund_recipet_values : async ctx => {
@@ -61,8 +62,66 @@ module.exports = {
         console.log(error);
         return ctx.badRequest(null, error.message);
       }
+    },
+    createFundReceiptProjectFromCsv: async (ctx) => {
+      try {
+        const { params } = ctx;
+        const columnsWhereValueCanBeInserted = [
+          "amount",
+          "reporting_date",
+          "project_donor",
+        ];
+        const validateRowToBeInserted = async (rowObj) =>
+          await validateRowToBeInsertedInFundReceiptProject(
+            rowObj,
+            params.projectId
+          ); 
+        const updateRowToBeInserted = async (rowObj) =>
+          await updateFundReceiptProvidedInCsv(rowObj, params.projectId);
+        await importTable({
+          columnsWhereValueCanBeInserted,
+          ctx,
+          tableName: "fund_receipt_project",
+          validateRowToBeInserted,
+          updateRowToBeInserted
+        });
+        return { message: "Fund Receipt Created", done: true };
+
+      } catch (error) {
+        console.log(error);
+        return ctx.badRequest(null, error.message);
+      }
     }
 };
 
 const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
+
+const validateRowToBeInsertedInFundReceiptProject = async (
+  rowObj,
+  projectId
+) => {
+  const areAllRequiredFieldsPresent = [
+    "amount",
+    "reporting_date",
+    "project_donor",
+  ].every((column) => !!rowObj[column]);
+
+  if(!areAllRequiredFieldsPresent){
+    return false;
+  }
+  const projectDonor = await strapi.connections
+    .default("project_donor")
+    .where({ donor: rowObj.project_donor, project: projectId });
+  if (!projectDonor.length) {
+    return false;
+  }
+  return true;
+};
+
+const  updateFundReceiptProvidedInCsv = async (rowObj, projectId) => {
+  const projectDonor = await strapi.connections
+    .default("project_donor")
+    .where({ donor: rowObj.project_donor, project: projectId });
+  return { ...rowObj, project_donor: projectDonor[0].id };
+};

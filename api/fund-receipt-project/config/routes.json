@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/fund-receipt-projects/import-table/:projectId",
+      "handler": "fund-receipt-project.createFundReceiptProjectFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/fund-receipt-projects/:id",
       "handler": "fund-receipt-project.update",

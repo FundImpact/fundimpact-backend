@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
@@ -6,6 +6,7 @@
  */
 
  const {exportTableAsCsv} = require('../../../services/exportTable')
+const { importTable } = require("../../../services/importTable");
 
 module.exports = {
     project_count_budget_cat: async ctx => {
@@ -81,5 +82,28 @@ module.exports = {
           console.log(error);
           return ctx.badRequest(null, error.message);
         }
+  },
+  createBudgetCategoryOrgFromCsv: async (ctx) => {
+    try{
+      const { query } = ctx;
+      const columnsWhereValueCanBeInserted = ["name", "code", "description"];
+      const validateRowToBeInserted = (rowObj) => {
+        if(!rowObj.name){
+            return false;
+        }
+        return true;
+      }
+      await importTable({
+        columnsWhereValueCanBeInserted,
+        ctx,
+        tableName: "budget_category_organizations",
+        defaultFieldsToInsert: { organization: query.organization_in[0] },
+        validateRowToBeInserted
+      });
+      return {message:"Budget category created", done: true}
+    }catch(error){
+      console.log(error);
+      return ctx.badRequest(null, error.message);
     }
+  },
 };

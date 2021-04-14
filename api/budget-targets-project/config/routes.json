@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/budget-targets-projects/import-table/:projectId",
+      "handler": "budget-targets-project.createBudgetTargetProjectFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/budget-targets-projects/:id",
       "handler": "budget-targets-project.update",
