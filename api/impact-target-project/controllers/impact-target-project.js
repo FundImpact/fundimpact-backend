@@ -53,14 +53,6 @@ module.exports = {
             return ctx.badRequest(null, error.message);
         }
     },
-    exportTable : async ctx => {
-        try{            
-            await exportTableAsCsv({ tableName: 'impact_target_project', ctx, whereCondition: {project: ctx.query.project_in[0]}})
-        } catch(error) {
-            console.log(error)
-            return ctx.badRequest(null, error.message);
-        }
-    },
     exportTable : async (ctx) => {
         try {
           const { res, params, query } = ctx;
