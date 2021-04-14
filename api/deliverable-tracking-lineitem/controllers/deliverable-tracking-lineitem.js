@@ -140,10 +140,10 @@ const validateRowToBeInsertedInDeliverableLineItem = async (rowObj) => {
     return false;
   }
 
-  let areForeignKeysValid = await checkIfAllTheForeignKeysToBeInsertedAreValid(
+  let foreignKeysValid = await checkIfAllTheForeignKeysToBeInsertedAreValid(
     rowObj
   );
-  if (!areForeignKeysValid) {
+  if (!foreignKeysValid) {
     return false;
   }
   return true;
