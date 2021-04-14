@@ -5,6 +5,9 @@
  * to customize this controller
  */
 
+ const JSONStream = require("JSONStream");
+ const { Transform } = require("json2csv");
+
 module.exports = {
     deliverable_achieved : async ctx => {
         try {
@@ -19,5 +22,67 @@ module.exports = {
             console.log(error)
             return ctx.badRequest(null, error.message);
         }
+    },
+    exportTable : async (ctx) => {
+        try {
+          const { res, params, query } = ctx;
+          if (
+            !isProjectIdAvailableInUserProjects(query.project_in, params.projectId)
+          ) {
+            throw new Error("Project not assigned to user");
+          }
+          const deliverableTargetTransformOpts = { highWaterMark: 16384, encoding: "utf-8" };
+          const json2csv = new Transform(
+            {
+              fields: ["id", "name", "category", "target", "achieved", "progress"],
+            },
+            deliverableTargetTransformOpts
+          );
+          ctx.body = ctx.req.pipe;
+          ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
+          ctx.set("Content-Type", "text/csv");
+          const deliverableTargetProjectStream = strapi.connections
+            .default("deliverable_target_project")
+            .join("deliverable_category_unit", {
+              [`deliverable_target_project.deliverable_category_unit`]: "deliverable_category_unit.id",
+            })
+            .join("deliverable_category_org", {
+              [`deliverable_category_unit.deliverable_category_org`]: "deliverable_category_org.id",
+            })
+            .join("deliverable_unit_org", {
+              [`deliverable_category_unit.deliverable_units_org`]: "deliverable_unit_org.id",
+            })
+            .leftJoin("deliverable_tracking_lineitem", {
+              ["deliverable_target_project.id"]:
+                "deliverable_tracking_lineitem.deliverable_target_project",
+            })
+            .groupBy("deliverable_target_project.id")
+            .groupBy("deliverable_category_org.id")
+            .groupBy("deliverable_unit_org.id")
+            .column([
+              "deliverable_target_project.id",
+              "deliverable_target_project.name as name",
+              "deliverable_category_org.name as category",
+              strapi.connections.default.raw(
+                `concat(deliverable_target_project.target_value, ' ', deliverable_unit_org.name) as target`
+              ),
+              strapi.connections.default.raw(
+                `concat(sum(deliverable_tracking_lineitem.value), ' ', deliverable_unit_org.name) as achieved`
+              ),
+              strapi.connections.default.raw(
+                `sum(deliverable_tracking_lineitem.value) / deliverable_target_project.target_value * 100 as progress`
+              ),
+            ])
+            .where({ project: params.projectId })
+            .stream();
+          deliverableTargetProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
+          return await new Promise((resolve) => deliverableTargetProjectStream.on("end", resolve));
+        } catch (error) {
+          console.log(error);
+          return ctx.badRequest(null, error.message);
+        }
     }
 };
+
+const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
+  userProjects.some((userProject) => userProject == projectId);

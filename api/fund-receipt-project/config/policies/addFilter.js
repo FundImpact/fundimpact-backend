@@ -6,6 +6,8 @@ module.exports = async (ctx, next) => {
         Object.assign(ctx.query, {
             project_donor_in: project_donors.map(m => m.id)
         });
+        ctx.locals = {};
+        ctx.locals.project_in = projects.map(project => project.id)
         return await next();
     }catch(err){
         ctx.badRequest(`Error occured - ${err.message}`);

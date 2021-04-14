@@ -5,6 +5,8 @@
  * to customize this controller
  */
 
+ const {exportTableAsCsv} = require('../../../services/exportTable')
+
 module.exports = {
     project_count_budget_cat: async ctx => {
         try {
@@ -62,6 +64,22 @@ module.exports = {
         } catch (error) {
             console.log(error)
             return ctx.badRequest(null, error.message);
+        }
+    },
+    exportTable : async (ctx) => {
+        try {
+          await exportTableAsCsv({
+            ctx,
+            tableName: "budget_category_organizations",
+            whereCondition: { organization: ctx.query.organization_in[0] },
+            tableColumnsToShow: ["id", "name", "code", "description"]
+          });
+          return {
+            message: `budget_category_organizations.csv Downloaded Successfully`
+          }
+        } catch (error) {
+          console.log(error);
+          return ctx.badRequest(null, error.message);
         }
     }
 };

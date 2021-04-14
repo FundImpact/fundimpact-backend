@@ -5,6 +5,9 @@
  * to customize this controller
  */
 
+ const JSONStream = require("JSONStream");
+ const { Transform } = require("json2csv");
+
 module.exports = {
     fund_recipet_values : async ctx => {
         try {
@@ -17,5 +20,49 @@ module.exports = {
             console.log(error)
             return ctx.badRequest(null, error.message);
         }
+    },
+    exportTable : async (ctx) => {
+      try {
+        const { res, params } = ctx;
+        if (
+          !isProjectIdAvailableInUserProjects(ctx.locals.project_in, params.projectId)
+        ) {
+          throw new Error("Project not assigned to user");
+        }
+        const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
+        const json2csv = new Transform(
+          {
+            fields: ["id", "date", "amount", "donor"],
+          },
+          transformOpts
+        );
+        ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
+        ctx.body = ctx.req.pipe;
+        ctx.set("Content-Type", "text/csv");
+        const fundReceiptProjectStream = strapi.connections
+          .default("fund_receipt_project")
+          .join("project_donor", {
+            [`fund_receipt_project.project_donor`]: "project_donor.id",
+          })
+          .join("donors", {
+            [`project_donor.donor`]: "donors.id",
+          })
+          .column([
+            "fund_receipt_project.id",
+            "fund_receipt_project.reporting_date as date",
+            "fund_receipt_project.amount",
+            "donors.name as donor",
+          ])
+          .where({ project: params.projectId })
+          .stream();
+        fundReceiptProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
+        return await new Promise((resolve) => fundReceiptProjectStream.on("end", resolve));
+      } catch (error) {
+        console.log(error);
+        return ctx.badRequest(null, error.message);
+      }
     }
 };
+
+const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
+  userProjects.some((userProject) => userProject == projectId);

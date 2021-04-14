@@ -5,6 +5,9 @@
  * to customize this controller
  */
 
+ const JSONStream = require("JSONStream");
+ const { Transform } = require("json2csv");
+
 module.exports = {
     project_expenditure_value : async ctx => {
         try {
@@ -75,6 +78,69 @@ module.exports = {
             console.log(error)
             return ctx.badRequest(null, error.message);
         }
-    }, 
-
+    },
+    exportTable : async (ctx) => {
+        try {
+          const { res, params, query } = ctx;
+          if (
+            !isProjectIdAvailableInUserProjects(
+              query.project_in,
+              params.projectId
+            )
+          ) {
+            throw new Error("Project not assigned to user");
+          }
+          const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
+          const json2csv = new Transform(
+            {
+              fields: [
+                "id",
+                "name",
+                "description",
+                "budget category",
+                "total target amount",
+                "spent",
+                "progress"
+              ],
+            },
+            transformOpts
+          );
+          ctx.body = ctx.req.pipe;
+          ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
+          ctx.set("Content-Type", "text/csv");
+          const budgetTargetsProjectStream = strapi.connections
+            .default("budget_targets_project")
+            .join("budget_category_organizations", {
+              [`budget_targets_project.budget_category_organization`]: "budget_category_organizations.id",
+            })
+            .leftJoin("budget_tracking_lineitem", {
+              [`budget_tracking_lineitem.budget_targets_project`]: "budget_targets_project.id",
+            })
+            .groupBy("budget_targets_project.id")
+            .groupBy("budget_category_organizations.id")
+            .column([
+              "budget_targets_project.id",
+              "budget_targets_project.name as name",
+              "budget_targets_project.description",
+              "budget_category_organizations.name as budget category",
+              "budget_targets_project.total_target_amount as total target amount",
+              strapi.connections.default.raw(
+                `sum(budget_tracking_lineitem.amount) as spent`
+              ),
+              strapi.connections.default.raw(
+                `sum(budget_tracking_lineitem.amount) / budget_targets_project.total_target_amount * 100 as progress`
+              ),
+            ])
+            .where({ project: params.projectId })
+            .stream();
+          budgetTargetsProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
+          return await new Promise((resolve) => budgetTargetsProjectStream.on("end", resolve));
+        } catch (error) {
+          console.log(error);
+          return ctx.badRequest(null, error.message);
+        }
+    }
 };
+
+const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
+  userProjects.some((userProject) => userProject == projectId);
