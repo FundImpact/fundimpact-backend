@@ -31,12 +31,12 @@ module.exports = {
           ) {
             throw new Error("Project not assigned to user");
           }
-          const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
+          const deliverableTargetTransformOpts = { highWaterMark: 16384, encoding: "utf-8" };
           const json2csv = new Transform(
             {
               fields: ["id", "name", "category", "target", "achieved", "progress"],
             },
-            transformOpts
+            deliverableTargetTransformOpts
           );
           ctx.body = ctx.req.pipe;
           ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
