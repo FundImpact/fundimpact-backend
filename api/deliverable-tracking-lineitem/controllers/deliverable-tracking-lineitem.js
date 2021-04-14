@@ -133,10 +133,10 @@ const checkIfDeliverableTargetProjectBelongToUser = (
   );
 
 const validateRowToBeInsertedInDeliverableLineItem = async (rowObj) => {
-  const areRequiredColumnsPresent = ["reporting_date", "value"].every(
+  const areRequiredColsPresent = ["reporting_date", "value"].every(
     (column) => !!rowObj[column]
   );
-  if (!areRequiredColumnsPresent) {
+  if (!areRequiredColsPresent) {
     return false;
   }
 
