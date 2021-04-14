@@ -61,8 +61,8 @@ module.exports = {
           strapi.connections.default.raw(
             `concat(impact_tracking_lineitem.value, ' ', impact_units_org.name) as achieved`
           ),
-          "financial_year.name as financial year",
           "annual_year.name as annual year",
+          "financial_year.name as financial year",
         ])
         .where({
           impact_target_project: params.impactTargetsProjectId,
