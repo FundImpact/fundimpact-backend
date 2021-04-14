@@ -157,14 +157,14 @@ const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
   ];
   for (let i = 0; i < budgetTrackingLineitemForeignKeys.length; i++) {
     const { tableName, columnName } = budgetTrackingLineitemForeignKeys[i];
-    const isForeignKeyInvalid =
+    const foreignKeyInvalid =
       rowObj[columnName] &&
       !(await isRowIdPresentInTable({
         tableName,
         strapi,
         rowId: rowObj[columnName],
       }));
-    if (isForeignKeyInvalid) {
+    if (foreignKeyInvalid) {
       return false;
     }
   }
