@@ -12,10 +12,6 @@
       "required": true,
       "configurable": false
     },
-    "description": {
-      "type": "string",
-      "configurable": false
-    },
     "type": {
       "type": "string",
       "unique": true,
@@ -33,6 +29,10 @@
       "via": "role",
       "configurable": false,
       "plugin": "users-permissions"
+    },
+    "description": {
+      "type": "text",
+      "configurable": false
     },
     "is_project_level": {
       "type": "boolean",
