@@ -7,6 +7,27 @@ module.exports = {
      *
      * @return {Object}
      */
+    async updateRole(ctx) {
+        const roleID = ctx.params.role;
+
+        if (_.isEmpty(ctx.request.body)) {
+            return ctx.badRequest(null, [{ messages: [{ id: 'Bad request' }] }]);
+        }
+
+        try {
+            await strapi.plugins['users-permissions'].services.userspermissions.updateRole(
+                roleID,
+                ctx.request.body
+            );
+            if (ctx.request.body.customFields) {
+                await strapi.query('role', 'users-permissions').update({ id: roleID }, { ...ctx.request.body.customFields });
+            }
+            ctx.send({ ok: true });
+        } catch (err) {
+            strapi.log.error(err);
+            ctx.badRequest(null, [{ messages: [{ id: 'An error occurred' }] }]);
+        }
+    },
     async createOrganizationRole(ctx) {
         if (_.isEmpty(ctx.request.body)) {
             return ctx.throw(400, `Cannot be empty.`);
@@ -16,13 +37,13 @@ module.exports = {
             let payload = ctx.request.body.input;
             const organization = ctx.state.user.organization;
             const permissions = payload.permissions; // ? payload.permissions : await permissionsService.createAdminPermissions();
-            if(!permissions){
+            if (!permissions) {
                 return ctx.throw(400, `permissions are required to create role.`);
             }
             const type = `${_.snakeCase(_.deburr(_.toLower(payload.name)))}-org-${organization}`;
             const roleParams = {
                 name: payload.name,
-                is_project_level:payload.is_project_level,
+                is_project_level: payload.is_project_level,
                 type: type,
                 users: [],
                 organization: organization,
@@ -40,7 +61,7 @@ module.exports = {
                 roleParams
             );
             const role = await strapi.query('role', 'users-permissions').findOne(roleQuery, []);
-            let q = {_limit : -1, role:role.id};
+            let q = { _limit: -1, role: role.id };
             const allocatedPermissions = await strapi.query('permission', 'users-permissions').find(q, []);
             let d = JSON.parse(JSON.stringify(role));
             d['permissions'] = allocatedPermissions;
@@ -58,18 +79,18 @@ module.exports = {
         try {
             let roleId = ctx.request.body.id;
             let payload = ctx.request.body.input;
-            if(!roleId){
+            if (!roleId) {
                 return ctx.throw(400, `'id' is required field.`)
             }
-            if(!payload.permissions){
+            if (!payload.permissions) {
                 delete payload.permissions;
             }
             await strapi.plugins['users-permissions'].services.userspermissions.updateRole(
                 roleId,
                 payload
             );
-            const role = await strapi.query('role', 'users-permissions').findOne({id:roleId}, []);
-            let q = {_limit : -1, role:role.id};
+            const role = await strapi.query('role', 'users-permissions').findOne({ id: roleId }, []);
+            let q = { _limit: -1, role: role.id };
             const allocatedPermissions = await strapi.query('permission', 'users-permissions').find(q, []);
             let d = JSON.parse(JSON.stringify(role));
             d['permissions'] = allocatedPermissions;
@@ -89,7 +110,7 @@ module.exports = {
             return ctx.throw(400, err);
         }
     },
-    
+
     async getRolesList(ctx) {
         try {
             // Object.assign(ctx.request.query, { organization: ctx.state.user.organization });
@@ -106,11 +127,11 @@ module.exports = {
         try {
             ctx.request.query._limit = -1;
             const permissions = await strapi.query('permission', 'users-permissions').find(ctx.request.query, []);
-            let systemPlugins = ["proxy", "contenttypes","builder","contentmanager", "components", "connections"];
+            let systemPlugins = ["proxy", "contenttypes", "builder", "contentmanager", "components", "connections"];
             let newPermissions = []
-            for(let i = 0 ; i < permissions.length; i++){
-                if(!systemPlugins.includes(permissions[i].controller)){
-                   newPermissions.push(permissions[i])
+            for (let i = 0; i < permissions.length; i++) {
+                if (!systemPlugins.includes(permissions[i].controller)) {
+                    newPermissions.push(permissions[i])
                 }
             }
             ctx.send(newPermissions);
@@ -118,11 +139,11 @@ module.exports = {
             return ctx.throw(400, err);
         }
     },
-    async getOrganizationRolesCount(ctx){
+    async getOrganizationRolesCount(ctx) {
         try {
             Object.assign(ctx.request.query, { organization: ctx.state.user.organization });
             const count = await strapi.query('role', 'users-permissions').count(ctx.request.query, []);
-            ctx.send({count});
+            ctx.send({ count });
         } catch (err) {
             return ctx.throw(400, err);
         }
