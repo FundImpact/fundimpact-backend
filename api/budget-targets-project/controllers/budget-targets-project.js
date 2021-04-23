@@ -143,15 +143,8 @@ module.exports = {
         try {
           const { res, params, query } = ctx;
           const sendHeaderWhereValuesCanBeWritten = query.header;
-          const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+          const tableColumnsToShow = !sendHeaderWhereValuesCanBeWritten
             ? [
-                "name",
-                "description",
-                "total_target_amount",
-                "budget_category_organization",
-                "donor",
-              ]
-            : [
                 "id",
                 "name",
                 "description",
@@ -159,7 +152,14 @@ module.exports = {
                 "total target amount",
                 "spent",
                 "progress",
-              ]; 
+              ]
+            : [
+                "name",
+                "description",
+                "total_target_amount",
+                "budget_category_organization",
+                "donor",
+              ];
           if (
             !isProjectIdAvailableInUserProjects(
               query.project_in,
@@ -204,11 +204,19 @@ module.exports = {
             .where(
               sendHeaderWhereValuesCanBeWritten
                 ? false
-                : { project: params.projectId,["budget_targets_project.deleted"]: false }
+                : {
+                    project: params.projectId,
+                    ["budget_targets_project.deleted"]: false,
+                  }
             )
             .stream();
-          budgetTargetsProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
-          return await new Promise((resolve) => budgetTargetsProjectStream.on("end", resolve));
+          budgetTargetsProjectStream
+            .pipe(JSONStream.stringify())
+            .pipe(json2csv)
+            .pipe(res);
+          return await new Promise((resolve) =>
+            budgetTargetsProjectStream.on("end", resolve)
+          );
         } catch (error) {
           console.log(error);
           return ctx.badRequest(null, error.message);
