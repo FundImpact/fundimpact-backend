@@ -6,7 +6,8 @@ module.exports = async (ctx, next) => {
         let donors = await strapi.query("donor").find({ organization_in: orgs.map(m => m.id) });
         Object.assign(ctx.query, {
             project_in: projects.map(m => m.id),
-            donor_in: donors.map(m => m.id)
+            donor_in: donors.map(m => m.id),
+            deleted: false
         });
         Object.keys(ctx.query).forEach((key) => (Array.isArray(ctx.query[key]) && ctx.query[key].length == 0  ? delete ctx.query[key] : ctx.query[key]))
         return await next()

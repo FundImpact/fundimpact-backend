@@ -42,6 +42,8 @@ module.exports = {
         .where({
           "impact_category_org.organization": locals.organization_in[0],
           "impact_units_org.organization": locals.organization_in[0],
+          "impact_category_org.deleted": false,
+          "impact_units_org.deleted": false,
         })
         .stream();
       stream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);

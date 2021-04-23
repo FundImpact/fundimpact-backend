@@ -20,6 +20,8 @@ module.exports = {
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id  
             where dco.organization = ${ctx.query.organization}
+            and dtp.deleted = false
+            and dtl.deleted = false
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
             ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
             group by projects.id) select id, name , ROUND((sum_dtl * 100.0)/ sum_dtp) as avg_value from cte ORDER BY avg_value desc`)
@@ -80,7 +82,10 @@ module.exports = {
                 `sum(deliverable_tracking_lineitem.value) / deliverable_target_project.target_value * 100 as progress`
               ),
             ])
-            .where({ project: params.projectId })
+            .where({
+              project: params.projectId,
+              ["deliverable_target_project.deleted"]: false,
+            })
             .stream();
           deliverableTargetProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
           return await new Promise((resolve) => deliverableTargetProjectStream.on("end", resolve));

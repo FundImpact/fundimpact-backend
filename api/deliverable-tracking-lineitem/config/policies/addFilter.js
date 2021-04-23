@@ -10,7 +10,8 @@ module.exports = async (ctx, next) => {
       deliverableTargetProject = await strapi.query('deliverable-target-project').find({ project: userProjects.map(m => m.project) });
     }
     Object.assign(ctx.query, {
-      deliverable_target_project_in: deliverableTargetProject.map(m => m.id)
+      deliverable_target_project_in: deliverableTargetProject.map(m => m.id),
+      deleted: false
     });
     return await next();
   } catch (err) {

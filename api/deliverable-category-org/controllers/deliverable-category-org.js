@@ -11,9 +11,13 @@ const { importTable } = require("../../../services/importTable");
 module.exports = {
     projectCountDelCatByOrg :  async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`select dc.id, dc.name ,count(dtp.project) from deliverable_category_org dc 
+            let data = await strapi.connections.default.raw(`select dc.id, dc.name ,count(dtp.project) 
+            from deliverable_category_org dc 
             INNER JOIN deliverable_category_unit dcu  ON dc.id = dcu.deliverable_category_org 
-            INNER JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit  where dc.id IN (${ctx.query.deliverable_category_org})
+            INNER JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit  
+            where dc.id IN (${ctx.query.deliverable_category_org})
+            and dc.deleted = false
+            and dtp.deleted = false
             GROUP BY dc.id`)
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
@@ -23,9 +27,13 @@ module.exports = {
     },
     projectCountDelUnit :  async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`select du.id, du.name , count(dtp.project) from deliverable_unit_org du 
+            let data = await strapi.connections.default.raw(`select du.id, du.name , count(dtp.project) 
+            from deliverable_unit_org du 
             INNER JOIN deliverable_category_unit dcu ON du.id = dcu.deliverable_units_org 
-            INNER JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit  where du.id = ${ctx.query.deliverable_unit_org} 
+            INNER JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit 
+            where du.id = ${ctx.query.deliverable_unit_org} 
+            and du.deleted = false
+            and dtp.deleted = false
             GROUP BY du.id`)
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
@@ -35,9 +43,13 @@ module.exports = {
     },
     totalDeliverableByOrg :  async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`select count(dtp.project) from deliverable_category_org dco 
+            let data = await strapi.connections.default.raw(`select count(dtp.project) 
+            from deliverable_category_org dco 
             JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
-            JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id  where organization = ${ctx.query.organization}`)
+            JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id  
+            where organization = ${ctx.query.organization}
+            and dtp.deleted = false
+            `)
             return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
         } catch (error) {
             console.log(error)
@@ -47,12 +59,15 @@ module.exports = {
     totalAchivedProjectByOrg :  async ctx => {
         try {
             let data = await strapi.connections.default.raw(`WITH cte AS(select dtp.project ,sum(dtp.target_value) as sum_dtp ,  
-            sum(dtl.value) as sum_dtl from deliverable_category_org dco JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
+            sum(dtl.value) as sum_dtl from deliverable_category_org dco 
+            JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id 
             JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
             where organization = ${ctx.query.organization} 
+            and dtp.deleted = false
+            and dtl.deleted = false
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
             ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
             group by dtp.project) 
@@ -67,12 +82,15 @@ module.exports = {
     avgAchivementDeliverableByOrg :  async ctx => {
         try {
             let data = await strapi.connections.default.raw(`WITH cte AS(select sum(dtp.target_value) as sum_dtp ,  
-            sum(dtl.value) as sum_dtl from deliverable_category_org dco JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
+            sum(dtl.value) as sum_dtl 
+            from deliverable_category_org dco JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id 
             JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
             where organization = ${ctx.query.organization}
+            and dtp.deleted = false
+            and dtl.deleted = false
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
             ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}) 
             select ROUND((sum_dtl * 100.0)/ sum_dtp) as avg from cte where cte.sum_dtp <> cte.sum_dtl`)
@@ -85,12 +103,16 @@ module.exports = {
     achiveDeliverableVsTargetByOrg :  async ctx => {
         try {
             let data = await strapi.connections.default.raw(`WITH cte AS( select dtp.id ,sum(dtp.target_value) as sum_dtp ,  
-            sum(dtl.value) as sum_dtl from deliverable_category_org dco JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
+            sum(dtl.value) as sum_dtl 
+            from deliverable_category_org dco 
+            JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id 
             JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
             where organization = ${ctx.query.organization} 
+            and dtp.deleted = false
+            and dtl.deleted = false
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
             ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
             group by dtp.id) 
@@ -106,7 +128,10 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select dco.id , dco.name , count(dtp.project) from deliverable_category_org dco 
             JOIN deliverable_category_unit dcu ON dco.id = dcu.deliverable_category_org 
-            JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit where organization = ${ctx.query.organization} 
+            JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit 
+            where organization = ${ctx.query.organization} 
+            and dco.deleted = false
+            and dtp.deleted = false
             group by dco.id order by count desc`)
 
             return data.rows && data.rows.length > 0  ? data.rows : 0;
@@ -125,6 +150,9 @@ module.exports = {
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
             where organization = ${ctx.query.organization}
+            and dco.deleted = false
+            and dtp.deleted = false
+            and dtl.deleted = false
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
             ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
             group by dco.id
@@ -142,7 +170,10 @@ module.exports = {
             ctx,
             tableName: "deliverable_category_org",
             tableColumnsToShow: ["id", "name", "code", "description"],
-            whereCondition: { organization: ctx.query.organization_in[0] },
+            whereCondition: {
+              organization: ctx.query.organization_in[0],
+              deleted: false,
+            },
           });
         } catch (error) {
             console.log(error);

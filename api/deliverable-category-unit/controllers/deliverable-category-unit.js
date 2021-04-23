@@ -42,6 +42,8 @@ module.exports = {
         .where({
           "deliverable_unit_org.organization": locals.organization_in[0],
           "deliverable_category_org.organization": locals.organization_in[0],
+          "deliverable_unit_org.deleted": false,
+          "deliverable_category_org.deleted": false
         })
         .stream();
         stream.on("error", (error) => sendError(error, ctx));

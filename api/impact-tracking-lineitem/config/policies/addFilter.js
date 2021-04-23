@@ -11,7 +11,8 @@ module.exports = async (ctx, next) => {
     }
 
     Object.assign(ctx.query, {
-      impact_target_project_in: impactTargetProject.map(m => m.id)
+      impact_target_project_in: impactTargetProject.map(m => m.id),
+      deleted: false
     });
     return await next();
   } catch (err) {

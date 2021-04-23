@@ -4,7 +4,8 @@ module.exports = async (ctx, next) => {
         let project_donors = await strapi.query("project-donor").find({project_in:projects.map(m => m.id)});
         delete ctx.query.project
         Object.assign(ctx.query, {
-            project_donor_in: project_donors.map(m => m.id)
+            project_donor_in: project_donors.map(m => m.id),
+            deleted: false
         });
         ctx.locals = {};
         ctx.locals.project_in = projects.map(project => project.id)

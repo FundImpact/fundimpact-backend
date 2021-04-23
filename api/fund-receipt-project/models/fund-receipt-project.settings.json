@@ -32,6 +32,10 @@
     },
     "project_donor": {
       "model": "project-donor"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

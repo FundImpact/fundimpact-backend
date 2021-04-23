@@ -39,7 +39,10 @@ module.exports = {
           "grant_periods_project.start_date as start date",
           "grant_periods_project.end_date as end date",
         ])
-        .where({ project: params.projectId })
+        .where({
+          project: params.projectId,
+          ["grant_periods_project.deleted"]: false,
+        })
         .stream();
       grantPeriodProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
       return await new Promise((resolve) => grantPeriodProjectStream.on("end", resolve));

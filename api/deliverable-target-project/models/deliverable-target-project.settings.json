@@ -23,6 +23,10 @@
     },
     "deliverable_category_unit": {
       "model": "deliverable-category-unit"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -68,6 +68,7 @@ module.exports = {
         ])
         .where({
           impact_target_project: params.impactTargetsProjectId,
+          ["impact_tracking_lineitem.deleted"]: false,
         })
         .stream();
       impactTrackingLineitemStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);

@@ -26,6 +26,10 @@
     },
     "sustainable_development_goal": {
       "model": "sustainable-development-goals"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

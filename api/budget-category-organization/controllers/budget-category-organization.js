@@ -27,6 +27,7 @@ module.exports = {
             from budget_category_organizations bco 
             JOIN budget_targets_project btp ON bco.id = btp.budget_category_organization
             where bco.organization = ${ctx.query.organization}
+            and btp.deleted = false
             ${ctx.query.donor && ctx.query.donor.length  ? "and btp.donor in (" + ctx.query.donor.join() + ")" : ''}
             `)
             return data.rows && data.rows.length > 0 && data.rows[0].sum != null ? data.rows[0].sum : 0;
@@ -37,7 +38,6 @@ module.exports = {
     },
     budget_spent_value : async ctx => {
         try {
-            console.log(`ctx.query`, ctx.query)
             let data = await strapi.connections.default.raw(`select sum(btl.amount)  
             from budget_category_organizations bco 
             JOIN budget_targets_project btp ON bco.id = btp.budget_category_organization 
@@ -46,6 +46,8 @@ module.exports = {
             LEFT JOIN financial_year fy_donor ON btl.fy_donor = fy_donor.id
             LEFT JOIN annual_year ay ON btl.annual_year = ay.id
             where bco.organization = ${ctx.query.organization}
+            and btp.deleted = false
+            and btl.deleted = false
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy_org.id in ("+ ctx.query.financial_year.join() + ")" : ''}
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy_donor.id in (" + ctx.query.financial_year.join() + ")" : ''}
             ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
@@ -64,6 +66,8 @@ module.exports = {
             from budget_category_organizations bco 
             JOIN budget_targets_project btp ON bco.id = btp.budget_category_organization
             where bco.organization = ${ctx.query.organization} 
+            and btp.deleted = false
+            and bco.deleted = false
             ${ctx.query.donor && ctx.query.donor.length ? "and btp.donor in (" + ctx.query.donor.join() + ")" : ''}
             group by bco.id order by sum desc`)
             
@@ -84,6 +88,8 @@ module.exports = {
             LEFT JOIN financial_year fy_donor on fy_donor.id = btl.fy_donor
             LEFT  JOIN annual_year ay on ay.id = btl.annual_year
             where bco.organization = ${ctx.query.organization}
+            and btp.deleted = false
+            and btl.deleted = false
             ${ctx.query.donor && ctx.query.donor.length ? "and btp.donor in (" + ctx.query.donor.join() + ")" : ''}
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy_org.id in (" + ctx.query.financial_year.join() + ")" : ''}
             ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy_donor.id in (" + ctx.query.financial_year.join() + ")" : ''}
@@ -101,8 +107,11 @@ module.exports = {
           await exportTableAsCsv({
             ctx,
             tableName: "budget_category_organizations",
-            whereCondition: { organization: ctx.query.organization_in[0] },
-            tableColumnsToShow: ["id", "name", "code", "description"]
+            whereCondition: {
+              organization: ctx.query.organization_in[0],
+              deleted: false,
+            },
+            tableColumnsToShow: ["id", "name", "code", "description"],
           });
           return {
             message: `budget_category_organizations.csv Downloaded Successfully`

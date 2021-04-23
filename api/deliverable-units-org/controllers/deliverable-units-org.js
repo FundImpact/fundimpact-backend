@@ -14,9 +14,12 @@ module.exports = {
       await exportTableAsCsv({
         ctx,
         tableName: "deliverable_unit_org",
-        whereCondition: { organization: ctx.query.organization_in[0] },
-        tableColumnsToShow: ["id", "name", "code", "description"]
-      })
+        whereCondition: {
+          organization: ctx.query.organization_in[0],
+          deleted: false,
+        },
+        tableColumnsToShow: ["id", "name", "code", "description"],
+      });
     }catch (error) {
         console.log(error);
         return ctx.badRequest(null, error.message);
