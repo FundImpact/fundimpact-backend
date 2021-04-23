@@ -168,12 +168,12 @@ module.exports = {
           ) {
             throw new Error("Project not assigned to user");
           }
-          const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
+          const transformOpt = { highWaterMark: 16384, encoding: "utf-8" };
           const json2csv = new Transform(
             {
               fields: tableColumnsToShow,
             },
-            transformOpts
+            transformOpt
           );
           ctx.body = ctx.req.pipe;
           ctx.set("Content-Type", "text/csv");
