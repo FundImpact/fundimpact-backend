@@ -12,12 +12,13 @@ const { importTable } = require('../../../services/importTable')
 module.exports = {
     fund_recipet_values : async ctx => {
         try {
+            const { query } = ctx;
             let data = await strapi.connections.default.raw(`select sum(amount) from workspaces ws 
             join projects on ws.id = projects.workspace 
             join project_donor on project_donor.project = projects.id
             join fund_receipt_project frp on project_donor.id = frp.project_donor
             where ws.organization = ${ctx.query.organization}
-            ${ctx.query.donor && ctx.query.donor.length ? `and project_donor.donor in (${ctx.query.donor.join()})` : ''}
+            ${query.donor && query.donor.length ? `and project_donor.donor in (${query.donor.join()})` : ''}
             `)
             
             return data.rows && data.rows.length > 0 && data.rows[0].sum != null ? data.rows[0].sum : 0;
