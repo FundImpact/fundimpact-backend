@@ -48,8 +48,13 @@ module.exports = {
             let data = await strapi.connections.default.raw(`WITH cte AS(select itp.project ,sum(itp.target_value) as sum_itp ,  
             sum(itl.value) as sum_itl from impact_category_org ico JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
             JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
-            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project  
-            where organization = ${ctx.query.organization} group by itp.project) 
+            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project
+            LEFT JOIN financial_year fy ON itl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON itl.annual_year = ay.id
+            where organization = ${ctx.query.organization}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
+            group by itp.project) 
             select count(cte.project) from cte where cte.sum_itp = cte.sum_itl`)
 
             return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
@@ -63,7 +68,12 @@ module.exports = {
             let data = await strapi.connections.default.raw(`WITH cte AS(select sum(itp.target_value) as sum_itp ,  
             sum(itl.value) as sum_itl from impact_category_org ico JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
             JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
-            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project  where organization = ${ctx.query.organization}) 
+            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project
+            LEFT JOIN financial_year fy ON itl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON itl.annual_year = ay.id
+            where organization = ${ctx.query.organization}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" +  ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''})
             select ROUND((sum_itl * 100.0)/ sum_itp) as avg from cte where cte.sum_itp <> cte.sum_itl`)
             return data.rows && data.rows.length > 0 && data.rows[0].avg  ? data.rows[0].avg : 0;
         } catch (error) {
@@ -77,7 +87,12 @@ module.exports = {
             sum(itl.value) as sum_itl from impact_category_org ico JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
             JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
             JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project  
-            where organization = ${ctx.query.organization} group by itp.id) 
+            LEFT JOIN financial_year fy ON itl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON itl.annual_year = ay.id
+            where organization = ${ctx.query.organization} 
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
+            group by itp.id) 
             select count(id) from cte where sum_itp = sum_itl`)
 
             return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
@@ -103,8 +118,13 @@ module.exports = {
             let data = await strapi.connections.default.raw(`select ico.id , ico.name , sum(itl.value) from impact_category_org ico 
             JOIN impact_category_unit icu ON ico.id = icu.impact_category_org 
             JOIN impact_target_project itp ON icu.id = itp.impact_category_unit 
-            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project where organization = ${ctx.query.organization} group by ico.id order by sum desc`)
-
+            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project
+            LEFT JOIN financial_year fy ON itl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON itl.annual_year = ay.id
+            where organization = ${ctx.query.organization} 
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}   
+            group by ico.id order by sum desc`)
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
             console.log(error)

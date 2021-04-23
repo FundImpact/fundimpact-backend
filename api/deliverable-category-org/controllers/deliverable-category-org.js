@@ -50,7 +50,12 @@ module.exports = {
             sum(dtl.value) as sum_dtl from deliverable_category_org dco JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id 
             JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  
-            where organization = ${ctx.query.organization} group by dtp.project) 
+            LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
+            where organization = ${ctx.query.organization} 
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
+            group by dtp.project) 
             select count(cte.project) from cte where cte.sum_dtp = cte.sum_dtl`)
 
             return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
@@ -64,7 +69,12 @@ module.exports = {
             let data = await strapi.connections.default.raw(`WITH cte AS(select sum(dtp.target_value) as sum_dtp ,  
             sum(dtl.value) as sum_dtl from deliverable_category_org dco JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id 
-            JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  where organization = ${ctx.query.organization}) 
+            JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  
+            LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
+            where organization = ${ctx.query.organization}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}) 
             select ROUND((sum_dtl * 100.0)/ sum_dtp) as avg from cte where cte.sum_dtp <> cte.sum_dtl`)
             return data.rows && data.rows.length > 0 && data.rows[0].avg  ? data.rows[0].avg : 0;
         } catch (error) {
@@ -78,7 +88,12 @@ module.exports = {
             sum(dtl.value) as sum_dtl from deliverable_category_org dco JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id 
             JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  
-            where organization = ${ctx.query.organization} group by dtp.id) 
+            LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
+            where organization = ${ctx.query.organization} 
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
+            group by dtp.id) 
             select count(id) from cte where sum_dtp = sum_dtl`)
 
             return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
@@ -106,7 +121,13 @@ module.exports = {
             select dco.id , dco.name , sum(dtl.value) from deliverable_category_org dco 
             JOIN deliverable_category_unit dcu ON dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit 
-            JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project where organization = ${ctx.query.organization} group by dco.id
+            JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project
+            LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
+            where organization = ${ctx.query.organization}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
+            group by dco.id
              order by sum desc`)
 
             return data.rows && data.rows.length > 0  ? data.rows : 0;

@@ -12,7 +12,6 @@ module.exports = async (ctx, next) => {
     Object.assign(ctx.query, {
       deliverable_target_project_in: deliverableTargetProject.map(m => m.id)
     });
-    console.log(ctx.query);
     return await next();
   } catch (err) {
     ctx.badRequest(`Error occured - ${err.message}`);

@@ -5,21 +5,38 @@
  * to customize this controller
  */
 
- const JSONStream = require("JSONStream");
- const { Transform } = require("json2csv");
+const JSONStream = require("JSONStream");
+const { Transform } = require("json2csv");
 const { importTable } = require("../../../services/importTable");
 const { isRowIdPresentInTable } = require("../../../utils");
 
 module.exports = {
     project_expenditure_value : async ctx => {
         try {
-            let data = await strapi.connections.default.raw(` WITH btp AS ( select projects.id , projects.name,  sum(btp.total_target_amount) from budget_category_organizations bco 
+            let data = await strapi.connections.default.raw(` WITH btp AS ( select projects.id , projects.name,  sum(btp.total_target_amount)
+            from budget_category_organizations bco 
             JOIN budget_targets_project btp ON btp.budget_category_organization = bco.id 
-            JOIN projects ON projects.id = btp.project  where bco.organization = ${ctx.query.organization} group by projects.id) , 
-            btl AS (select btp.project ,  sum(btl.amount)  from budget_category_organizations bco 
+            JOIN projects ON projects.id = btp.project
+            where bco.organization = ${ctx.query.organization}
+            ${ctx.query.donor && ctx.query.donor.length ? `and btp.donor in (${ctx.query.donor.join()})` : ''}
+            group by projects.id) , 
+            btl AS (select btp.project ,  sum(btl.amount)  
+            from budget_category_organizations bco 
             JOIN budget_targets_project btp ON bco.id = btp.budget_category_organization 
-            JOIN budget_tracking_lineitem btl ON btp.id = btl.budget_targets_project  where bco.organization = ${ctx.query.organization} group by btp.project) 
-            select btl.project as project_id, btp.name,   ROUND((btl.sum * 100.0)/ btp.sum) as avg_value from btp JOIN btl ON btp.id = btl.project ORDER BY avg_value desc`)
+            JOIN budget_tracking_lineitem btl ON btp.id = btl.budget_targets_project
+            LEFT JOIN financial_year fy_org ON btl.fy_org = fy_org.id
+            LEFT JOIN financial_year fy_donor ON btl.fy_donor = fy_donor.id
+            LEFT JOIN annual_year ay ON btl.annual_year = ay.id
+            where bco.organization = ${ctx.query.organization}
+            ${ctx.query.donor && ctx.query.donor.length ? "and btp.donor in (" + ctx.query.donor.join() + ")" : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy_org.id in (" + ctx.query.financial_year.join() + ")" : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy_donor.id in (" + ctx.query.financial_year.join() + ")" : ''}
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
+            group by btp.project) 
+            select btl.project as project_id, btp.name, ROUND((btl.sum * 100.0)/ btp.sum) as avg_value 
+            from btp 
+            JOIN btl ON btp.id = btl.project 
+            ORDER BY avg_value desc`)
             
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
@@ -29,11 +46,26 @@ module.exports = {
     },
     project_allocation_value : async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`WITH btp AS ( select btp.project,  sum(btp.total_target_amount) from budget_category_organizations bco 
-            JOIN budget_targets_project btp ON btp.budget_category_organization = bco.id where bco.organization = ${ctx.query.organization} group by btp.project) , 
-            frp AS (select projects.id , projects.name ,sum(frp.amount) from workspaces JOIN projects ON projects.workspace = workspaces.id 
-            JOIN project_donor pd ON pd.project = projects.id JOIN fund_receipt_project frp ON frp.project_donor = pd.id where workspaces.organization = ${ctx.query.organization} group by projects.id)
-            select frp.id as project_id , frp.name as name,  ROUND((frp.sum * 100.0)/ btp.sum) as avg_value  from btp JOIN frp ON btp.project = frp.id ORDER BY avg_value desc`)
+            let data = await strapi.connections.default.raw(`WITH btp AS ( 
+            select btp.project,  sum(btp.total_target_amount)
+            from budget_category_organizations bco 
+            JOIN budget_targets_project btp ON btp.budget_category_organization = bco.id
+            JOIN donors on donors.id = btp.donor
+            where bco.organization = ${ctx.query.organization} 
+            ${ctx.query.donor && ctx.query.donor.length ? "and donors.id in (" + ctx.query.donor.join() + ")" : ''}
+            group by btp.project), 
+            frp AS (select projects.id , projects.name ,sum(frp.amount)
+            from workspaces 
+            JOIN projects ON projects.workspace = workspaces.id 
+            JOIN project_donor pd ON pd.project = projects.id 
+            JOIN fund_receipt_project frp ON frp.project_donor = pd.id 
+            where workspaces.organization = ${ctx.query.organization} 
+            ${ctx.query.donor && ctx.query.donor.length ? "and pd.donor in (" + ctx.query.donor.join() + ")" : ''}
+            group by projects.id)
+            select frp.id as project_id , frp.name as name,  ROUND((frp.sum * 100.0)/ btp.sum) as avg_value  
+            from btp 
+            JOIN frp ON btp.project = frp.id 
+            ORDER BY avg_value desc`)
             
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
@@ -44,10 +76,20 @@ module.exports = {
     completed_project_count : async ctx => {
         try {
             let data = await strapi.connections.default.raw(`
-            WITH btp AS ( select btp.project,  sum(btp.total_target_amount) from budget_category_organizations bco 
-                        JOIN budget_targets_project btp ON btp.budget_category_organization = bco.id where bco.organization = ${ctx.query.organization} group by btp.project) , 
-                        frp AS (select projects.id ,sum(frp.amount) from workspaces JOIN projects ON projects.workspace = workspaces.id 
-                        JOIN project_donor pd ON pd.project = projects.id JOIN fund_receipt_project frp ON frp.project_donor = pd.id where workspaces.organization = ${ctx.query.organization} group by projects.id)
+            WITH btp AS ( select btp.project,  sum(btp.total_target_amount)
+                        from budget_category_organizations bco 
+                        JOIN budget_targets_project btp ON btp.budget_category_organization = bco.id 
+                        where bco.organization = ${ctx.query.organization}
+                        ${ctx.query.donor && ctx.query.donor.length ? "and btp.donor in (" + ctx.query.donor.join() + ")" : ''}
+                        group by btp.project),
+                        frp AS (select projects.id ,sum(frp.amount) 
+                        from workspaces 
+                        JOIN projects ON projects.workspace = workspaces.id 
+                        JOIN project_donor pd ON pd.project = projects.id 
+                        JOIN fund_receipt_project frp ON frp.project_donor = pd.id
+                        where workspaces.organization = ${ctx.query.organization} 
+                        ${ctx.query.donor && ctx.query.donor.length ? "and pd.donor in (" + ctx.query.donor.join() + ")" : ''}
+                        group by projects.id)
                         select count(btp.project) from btp JOIN frp ON btp.sum = frp.sum;`)
             return data.rows && data.rows.length > 0 && data.rows[0].count ? data.rows[0].count : 0;
         } catch (error) {
@@ -60,7 +102,10 @@ module.exports = {
             let data = await strapi.connections.default.raw(`select donors.id , donors.name , sum(btp.total_target_amount) from workspaces 
             JOIN projects ON projects.workspace = workspaces.id JOIN project_donor pd ON projects.id = pd.project 
             JOIN donors ON donors.id = pd.donor 
-            JOIN budget_targets_project btp ON btp.project = projects.id where workspaces.organization = ${ctx.query.organization} group by donors.id ORDER BY sum desc`)
+            JOIN budget_targets_project btp ON btp.project = projects.id 
+            where workspaces.organization = ${ctx.query.organization}
+            ${ctx.query.donor && ctx.query.donor.length ? "and donors.id in (" + ctx.query.donor.join() + ")" : ''}
+            group by donors.id ORDER BY sum desc`)
             
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
@@ -70,11 +115,15 @@ module.exports = {
     },
     donors_recieved_value : async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`select donors.id , donors.name , sum(frp.amount) from workspaces JOIN projects ON projects.workspace = workspaces.id 
+            let data = await strapi.connections.default.raw(`select donors.id , donors.name , sum(frp.amount) 
+            from workspaces 
+            JOIN projects ON projects.workspace = workspaces.id 
             JOIN project_donor pd ON projects.id = pd.project 
             JOIN donors ON donors.id = pd.donor 
-            JOIN fund_receipt_project frp ON frp.project_donor = pd.id where workspaces.organization = ${ctx.query.organization} group by donors.id ORDER BY sum desc`)
-            
+            JOIN fund_receipt_project frp ON frp.project_donor = pd.id
+            where workspaces.organization = ${ctx.query.organization} 
+            ${ctx.query.donor && ctx.query.donor.length ? "and donors.id in (" + ctx.query.donor.join() + ")" : ''}
+            group by donors.id ORDER BY sum desc`)
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
             console.log(error)

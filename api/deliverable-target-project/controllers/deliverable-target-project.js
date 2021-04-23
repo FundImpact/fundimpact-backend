@@ -16,8 +16,13 @@ module.exports = {
             let data = await strapi.connections.default.raw(`WITH cte AS (select projects.id , projects.name ,sum(dtp.target_value) as sum_dtp ,  
             sum(dtl.value) as sum_dtl from deliverable_category_org dco JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
             JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id JOIN projects ON dtp.project = projects.id
-            JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  
-            where dco.organization = ${ctx.query.organization} group by projects.id) select id, name , ROUND((sum_dtl * 100.0)/ sum_dtp) as avg_value from cte ORDER BY avg_value desc`)
+            JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project
+            LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
+            LEFT JOIN annual_year ay ON dtl.annual_year = ay.id  
+            where dco.organization = ${ctx.query.organization}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
+            group by projects.id) select id, name , ROUND((sum_dtl * 100.0)/ sum_dtp) as avg_value from cte ORDER BY avg_value desc`)
             
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
