@@ -176,8 +176,8 @@ module.exports = {
             transformOpts
           );
           ctx.body = ctx.req.pipe;
-          ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
           ctx.set("Content-Type", "text/csv");
+          ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
           const budgetTargetsProjectStream = strapi.connections
             .default("budget_targets_project")
             .join("budget_category_organizations", {
