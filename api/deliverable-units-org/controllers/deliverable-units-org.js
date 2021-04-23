@@ -14,11 +14,11 @@ module.exports = {
       await exportTableAsCsv({
         ctx,
         tableName: "deliverable_unit_org",
+        tableColumnsToShow: ["id", "name", "code", "description"],
         whereCondition: {
           organization: ctx.query.organization_in[0],
           deleted: false,
         },
-        tableColumnsToShow: ["id", "name", "code", "description"],
       });
     }catch (error) {
         console.log(error);
