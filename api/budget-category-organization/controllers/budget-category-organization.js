@@ -11,7 +11,6 @@ const { importTable } = require("../../../services/importTable");
 module.exports = {
     project_count_budget_cat: async ctx => {
         try {
-            console.log(ctx.query);
             let data = await strapi.connections.default.raw(`select budget_category_organizations.id, budget_category_organizations.name ,
             count(budget_targets_project.project) as project_count from budget_category_organizations INNER JOIN budget_targets_project
             ON budget_category_organizations.id = budget_targets_project.budget_category_organization 
@@ -28,7 +27,7 @@ module.exports = {
             from budget_category_organizations bco 
             JOIN budget_targets_project btp ON bco.id = btp.budget_category_organization
             where bco.organization = ${ctx.query.organization}
-            ${ctx.query.donor && ctx.query.donor.length  ? `and btp.donor in (${ctx.query.donor.join()})` : ''}
+            ${ctx.query.donor && ctx.query.donor.length  ? `and btp.donor in (` + ctx.query.donor.join() + `)` : ''}
             `)
             return data.rows && data.rows.length > 0 && data.rows[0].sum != null ? data.rows[0].sum : 0;
         } catch (error) {
@@ -47,10 +46,10 @@ module.exports = {
             LEFT JOIN financial_year fy_donor ON btl.fy_donor = fy_donor.id
             LEFT JOIN annual_year ay ON btl.annual_year = ay.id
             where bco.organization = ${ctx.query.organization}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_org.id in (${ctx.query.financial_year.join()})` : ''}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_donor.id in (${ctx.query.financial_year.join()})` : ''}
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (${ctx.query.annual_year.join()})` : ''}
-            ${ctx.query.donor && ctx.query.donor.length ? `and btp.donor in (${ctx.query.donor.join()})` : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_org.id in (`+ ctx.query.financial_year.join() + `)` : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_donor.id in (` + ctx.query.financial_year.join() + `)` : ''}
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (` + ctx.query.annual_year.join() + `)` : ''}
+            ${ctx.query.donor && ctx.query.donor.length ? `and btp.donor in (` + ctx.query.donor.join() + `)` : ''}
             `)
             
             return data.rows && data.rows.length > 0 && data.rows[0].sum != null ? data.rows[0].sum : 0;
@@ -85,10 +84,10 @@ module.exports = {
             LEFT JOIN financial_year fy_donor on fy_donor.id = btl.fy_donor
             LEFT  JOIN annual_year ay on ay.id = btl.annual_year
             where bco.organization = ${ctx.query.organization}
-            ${ctx.query.donor && ctx.query.donor.length ? `and btp.donor in (${ctx.query.donor.join()})` : ''}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_org.id in (${ctx.query.financial_year.join()})` : ''}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_donor.id in (${ctx.query.financial_year.join()})` : ''}
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (${ctx.query.annual_year.join()})` : ''}
+            ${ctx.query.donor && ctx.query.donor.length ? `and btp.donor in (` + ctx.query.donor.join() + `)` : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_org.id in (` + ctx.query.financial_year.join() + `)` : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_donor.id in (` + ctx.query.financial_year.join() + `)` : ''}
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (` + ctx.query.annual_year.join() + `)` : ''}
             group by bco.id
             order by sum desc`)
             return data.rows && data.rows.length > 0  ? data.rows : [];

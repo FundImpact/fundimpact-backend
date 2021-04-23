@@ -20,8 +20,8 @@ module.exports = {
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id  
             where dco.organization = ${ctx.query.organization}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy.id in (${ctx.query.financial_year.join()})` : ''}   
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (${ctx.query.annual_year.join()})` : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy.id in (` + ctx.query.financial_year.join() + `)` : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (` + ctx.query.annual_year.join() + `)` : ''}
             group by projects.id) select id, name , ROUND((sum_dtl * 100.0)/ sum_dtp) as avg_value from cte ORDER BY avg_value desc`)
             
             return data.rows && data.rows.length > 0 ? data.rows : [];

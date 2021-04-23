@@ -18,7 +18,7 @@ module.exports = {
             join project_donor on project_donor.project = projects.id
             join fund_receipt_project frp on project_donor.id = frp.project_donor
             where ws.organization = ${ctx.query.organization}
-            ${query.donor && query.donor.length ? `and project_donor.donor in (${query.donor.join()})` : ''}
+            ${query.donor && query.donor.length ? `and project_donor.donor in (` + query.donor.join() + `)` : ''}
             `)
             
             return data.rows && data.rows.length > 0 && data.rows[0].sum != null ? data.rows[0].sum : 0;
