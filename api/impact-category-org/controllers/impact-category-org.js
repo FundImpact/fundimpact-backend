@@ -167,12 +167,12 @@ module.exports = {
             ? ["name", "code", "description"]
             : ["id", "name", "code", "description"];
           await exportTableAsCsv({
+            tableColumnsToShow,
             ctx,
             tableName: "impact_category_org",
             whereCondition: sendHeaderWhereValuesCanBeWritten
               ? false
               : { organization: ctx.query.organization_in[0], deleted: false},
-            tableColumnsToShow,
           });
         } catch (error) {
           console.log(error);
