@@ -14,6 +14,17 @@ module.exports = {
   exportTable: async (ctx) => {
     try {
       const { res, params, query } = ctx;
+      const sendHeaderWhereValuesCanBeWritten = query.header;
+      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+        ? [
+            "grant_periods_project",
+            "value",
+            "note",
+            "reporting_date",
+            "financial_year",
+            "annual_year",
+          ]
+        : ["id", "date", "note", "achieved", "annual year", "financial year"]; 
       if (
         !isImpactTargetsProjectIdAvailableInUserImpactTargetProjects(
           query.impact_target_project_in,
@@ -25,14 +36,7 @@ module.exports = {
       const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
       const json2csv = new Transform(
         {
-          fields: [
-            "id",
-            "date",
-            "note",
-            "achieved",
-            "annual year",
-            "financial year",
-          ],
+          fields: tableColumnsToShow,
         },
         transformOpts
       );
@@ -66,10 +70,14 @@ module.exports = {
           "annual_year.name as annual year",
           "financial_year.name as financial year",
         ])
-        .where({
-          impact_target_project: params.impactTargetsProjectId,
-          ["impact_tracking_lineitem.deleted"]: false,
-        })
+        .where(
+          sendHeaderWhereValuesCanBeWritten
+            ? false
+            : {
+                impact_target_project: params.impactTargetsProjectId,
+                ["impact_tracking_lineitem.deleted"]: false
+              }
+        )
         .stream();
       impactTrackingLineitemStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
       return await new Promise((resolve) => impactTrackingLineitemStream.on("end", resolve));
@@ -90,7 +98,6 @@ module.exports = {
         "financial_year",
         "annual_year",
       ];
-      console.log(`query`, query)
       //Todo move this to middleware
       const impactTargetProjectBelongToUser = checkIfImpactTargetProjectBelongToUser(
         query.impact_target_project_in,

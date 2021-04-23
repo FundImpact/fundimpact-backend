@@ -42,10 +42,19 @@ module.exports = {
                 let obj = ctx.query;
                 let conditions = [];
                 obj['ico.organization'] = ctx.state.user.organization; 
-                for(let k in obj){
-                    if(['ico.organization',"organization","project","itp.project"].includes(k)){
-                        conditions.push(k+"="+obj[k])    
-                    }
+                obj['itp.deleted'] = false; 
+                for (let k in obj) {
+                  if (
+                    [
+                      "ico.organization",
+                      "organization",
+                      "project",
+                      "itp.project",
+                      "itp.deleted",
+                    ].includes(k)
+                  ) {
+                    conditions.push(k + "=" + obj[k]);
+                  }
                 }
                 condition = conditions.join(" AND ");
             }
@@ -67,15 +76,16 @@ module.exports = {
     exportTable : async (ctx) => {
         try {
           const { res, params, query } = ctx;
-          if (
-            !isProjectIdAvailableInUserProjects(query.project_in, params.projectId)
-          ) {
-            throw new Error("Project not assigned to user");
-          }
-          const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
-          const json2csv = new Transform(
-            {
-              fields: [
+          const sendHeaderWhereValuesCanBeWritten = query.header;
+          const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+            ? [
+                "name",
+                "description",
+                "target_value",
+                "impact_category_unit",
+                "sustainable_development_goal",
+              ]
+            : [
                 "id",
                 "name",
                 "category",
@@ -83,7 +93,19 @@ module.exports = {
                 "achieved",
                 "progress",
                 "sdg",
-              ],
+              ];
+          if (
+            !isProjectIdAvailableInUserProjects(
+              query.project_in,
+              params.projectId
+            )
+          ) {
+            throw new Error("Project not assigned to user");
+          }
+          const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
+          const json2csv = new Transform(
+            {
+              fields: tableColumnsToShow,
             },
             transformOpts
           );
@@ -128,13 +150,19 @@ module.exports = {
               ),
               "sustainable_development_goal.icon as sdg",
             ])
-            .where({
-              project: params.projectId,
-              ["impact_target_project.deleted"]: false,
-            })
+            .where(
+              sendHeaderWhereValuesCanBeWritten
+                ? false
+                : { project: params.projectId, ["impact_target_project.deleted"]: false }
+            )
             .stream();
-          impactTargetProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
-          return await new Promise((resolve) => impactTargetProjectStream.on("end", resolve));
+          impactTargetProjectStream
+            .pipe(JSONStream.stringify())
+            .pipe(json2csv)
+            .pipe(res);
+          return await new Promise((resolve) =>
+            impactTargetProjectStream.on("end", resolve)
+          );
         } catch (error) {
           console.log(error);
           return ctx.badRequest(null, error.message);

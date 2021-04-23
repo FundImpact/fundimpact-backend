@@ -23,16 +23,20 @@ module.exports = {
         throw new Error("Deliverable Target Project Not Assigned To User");
       }
       const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
+      const sendHeaderWhereValuesCanBeWritten = query.header;
+      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+        ? [
+            "grant_periods_project",
+            "value",
+            "note",
+            "reporting_date",
+            "financial_year",
+            "annual_year",
+          ]
+        : ["id", "date", "note", "achieved", "annual year", "financial year"]; 
       const json2csv = new Transform(
         {
-          fields: [
-            "id",
-            "date",
-            "note",
-            "achieved",
-            "annual year",
-            "financial year",
-          ],
+          fields: tableColumnsToShow,
         },
         transformOpts
       );
@@ -66,10 +70,14 @@ module.exports = {
           "annual_year.name as annual year",
           "financial_year.name as financial year",
         ])
-        .where({
-          deliverable_target_project: params.deliverableTargetsProjectId,
-          ["deliverable_tracking_lineitem.deleted"]: false
-        })
+        .where(
+          sendHeaderWhereValuesCanBeWritten
+            ? false
+            : {
+                deliverable_target_project: params.deliverableTargetsProjectId,
+                ["deliverable_tracking_lineitem.deleted"]: false
+              }
+        )
         .stream();
       deliverableTrackingLineitemStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
       return await new Promise((resolve) => deliverableTrackingLineitemStream.on("end", resolve));

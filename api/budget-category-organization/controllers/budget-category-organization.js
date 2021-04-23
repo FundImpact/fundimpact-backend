@@ -104,17 +104,21 @@ module.exports = {
     },
     exportTable : async (ctx) => {
         try {
+          const { query } = ctx;
+          const sendHeaderWhereValuesCanBeWritten = query.header;
+          const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+            ? ["name", "code", "description"]
+            : ["id", "name", "code", "description"]; 
           await exportTableAsCsv({
             tableName: "budget_category_organizations",
-            tableColumnsToShow: ["id", "name", "code", "description"],
             ctx,
-            whereCondition: {
-              organization: ctx.query.organization_in[0],
-              deleted: false,
-            },
+            whereCondition: sendHeaderWhereValuesCanBeWritten
+              ? false
+              : { organization: query.organization_in[0], deleted: false },
+            tableColumnsToShow,
           });
           return {
-            message: `budget_category_organizations.csv Downloaded Successfully`
+            message: `budget_category_organizations Csv Downloaded Successfully`
           }
         } catch (error) {
           console.log(error);

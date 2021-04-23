@@ -142,6 +142,24 @@ module.exports = {
     exportTable : async (ctx) => {
         try {
           const { res, params, query } = ctx;
+          const sendHeaderWhereValuesCanBeWritten = query.header;
+          const tableColumnsToShow = !sendHeaderWhereValuesCanBeWritten
+            ? [
+                "id",
+                "name",
+                "description",
+                "budget category",
+                "total target amount",
+                "spent",
+                "progress",
+              ]
+            : [
+                "name",
+                "description",
+                "total_target_amount",
+                "budget_category_organization",
+                "donor",
+              ];
           if (
             !isProjectIdAvailableInUserProjects(
               query.project_in,
@@ -150,24 +168,16 @@ module.exports = {
           ) {
             throw new Error("Project not assigned to user");
           }
-          const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
+          const transformOpt = { highWaterMark: 16384, encoding: "utf-8" };
           const json2csv = new Transform(
             {
-              fields: [
-                "id",
-                "name",
-                "description",
-                "budget category",
-                "total target amount",
-                "spent",
-                "progress"
-              ],
+              fields: tableColumnsToShow,
             },
-            transformOpts
+            transformOpt
           );
           ctx.body = ctx.req.pipe;
-          ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
           ctx.set("Content-Type", "text/csv");
+          ctx.set("Content-Disposition", `attachment; filename="budget.csv"`);
           const budgetTargetsProjectStream = strapi.connections
             .default("budget_targets_project")
             .join("budget_category_organizations", {
@@ -191,13 +201,22 @@ module.exports = {
                 `sum(budget_tracking_lineitem.amount) / budget_targets_project.total_target_amount * 100 as progress`
               ),
             ])
-            .where({
-              project: params.projectId,
-              ["budget_targets_project.deleted"]: false,
-            })
+            .where(
+              sendHeaderWhereValuesCanBeWritten
+                ? false
+                : {
+                    project: params.projectId,
+                    ["budget_targets_project.deleted"]: false,
+                  }
+            )
             .stream();
-          budgetTargetsProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
-          return await new Promise((resolve) => budgetTargetsProjectStream.on("end", resolve));
+          budgetTargetsProjectStream
+            .pipe(JSONStream.stringify())
+            .pipe(json2csv)
+            .pipe(res);
+          return await new Promise((resolve) =>
+            budgetTargetsProjectStream.on("end", resolve)
+          );
         } catch (error) {
           console.log(error);
           return ctx.badRequest(null, error.message);

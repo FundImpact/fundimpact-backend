@@ -40,10 +40,19 @@ module.exports = {
           ) {
             throw new Error("Project not assigned to user");
           }
+          const sendHeaderWhereValuesCanBeWritten = query.header;
+          const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+            ? [
+                "name",
+                "description",
+                "target_value",
+                "deliverable_category_unit",
+              ]
+            : ["id", "name", "category", "target", "achieved", "progress"]; 
           const deliverableTargetTransformOpts = { highWaterMark: 16384, encoding: "utf-8" };
           const json2csv = new Transform(
             {
-              fields: ["id", "name", "category", "target", "achieved", "progress"],
+              fields: tableColumnsToShow,
             },
             deliverableTargetTransformOpts
           );
@@ -82,10 +91,11 @@ module.exports = {
                 `sum(deliverable_tracking_lineitem.value) / deliverable_target_project.target_value * 100 as progress`
               ),
             ])
-            .where({
-              project: params.projectId,
-              ["deliverable_target_project.deleted"]: false,
-            })
+            .where(
+              sendHeaderWhereValuesCanBeWritten
+                ? false
+                : { project: params.projectId, ["deliverable_target_project.deleted"]: false }
+            )
             .stream();
           deliverableTargetProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
           return await new Promise((resolve) => deliverableTargetProjectStream.on("end", resolve));
