@@ -106,10 +106,12 @@ module.exports = {
     },
     donors_allocation_value : async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`select donors.id , donors.name , sum(btp.total_target_amount) from workspaces 
-            JOIN projects ON projects.workspace = workspaces.id JOIN project_donor pd ON projects.id = pd.project 
-            JOIN donors ON donors.id = pd.donor 
+            let data = await strapi.connections.default.raw(`select donors.id , donors.name , sum(btp.total_target_amount)
+            from workspaces 
+            JOIN projects ON projects.workspace = workspaces.id 
             JOIN budget_targets_project btp ON btp.project = projects.id 
+            JOIN project_donor pd ON btp.donor = pd.id 
+            JOIN donors ON donors.id = pd.donor 
             where workspaces.organization = ${ctx.query.organization}
             and btp.deleted = false
             ${ctx.query.donor && ctx.query.donor.length ? "and donors.id in (" + ctx.query.donor.join() + ")" : ''}
