@@ -18,6 +18,7 @@ module.exports = {
             join project_donor on project_donor.project = projects.id
             join fund_receipt_project frp on project_donor.id = frp.project_donor
             where ws.organization = ${ctx.query.organization}
+            and frp.deleted = false
             ${query.donor && query.donor.length ? "and project_donor.donor in (" + query.donor.join() + ")" : ''}
             `)
             
@@ -59,7 +60,10 @@ module.exports = {
             "fund_receipt_project.amount",
             "donors.name as donor",
           ])
-          .where({ project: params.projectId })
+          .where({
+            project: params.projectId,
+            ["fund_receipt_project.deleted"]: false,
+          })
           .stream();
         fundReceiptProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
         return await new Promise((resolve) => fundReceiptProjectStream.on("end", resolve));

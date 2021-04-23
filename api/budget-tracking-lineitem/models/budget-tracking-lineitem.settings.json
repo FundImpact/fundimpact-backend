@@ -43,6 +43,10 @@
       ],
       "plugin": "upload",
       "required": false
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

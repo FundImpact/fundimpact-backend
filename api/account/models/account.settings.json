@@ -21,8 +21,11 @@
       "type": "richtext"
     },
     "organizations": {
-      "via": "account",
-      "collection": "organization"
+      "collection": "organization",
+      "via": "account"
+    },
+    "deleted": {
+      "type": "boolean"
     }
   }
 }

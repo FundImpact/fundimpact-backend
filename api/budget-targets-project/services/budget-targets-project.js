@@ -8,7 +8,7 @@
 module.exports = {
     totalTargetExpense: async ctx => {
         try {
-            let sumData = await strapi.connections.default.raw(`SELECT SUM(total_target_amount) FROM budget_targets_project where project = ${ctx.params.where.project}`)
+            let sumData = await strapi.connections.default.raw(`SELECT SUM(total_target_amount) FROM budget_targets_project where project = ${ctx.params.where.project} and COALESCE(budget_targets_project.deleted, false) <> true`)
             return sumData.rows && sumData.rows.length > 0 && sumData.rows[0].sum != null ? sumData.rows[0].sum : 0;
         } catch (error) {
             return ctx.badRequest(null, error.message);

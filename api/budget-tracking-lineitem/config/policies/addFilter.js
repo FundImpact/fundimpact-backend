@@ -13,7 +13,8 @@ module.exports = async (ctx, next) => {
         let budgetTargets = await strapi.query("budget-targets-project").find({project_in:projects.map(m => m.id)});
         
         Object.assign(ctx.query, {
-            budget_targets_project_in: budgetTargets.map(m => m.id)
+            budget_targets_project_in: budgetTargets.map(m => m.id),
+            deleted: false
         });
         return await next() 
     }catch(err){

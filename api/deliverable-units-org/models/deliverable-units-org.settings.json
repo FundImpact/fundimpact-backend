@@ -28,8 +28,12 @@
       "type": "string"
     },
     "organization": {
-      "via": "deliverable_units_orgs",
-      "model": "organization"
+      "model": "organization",
+      "via": "deliverable_units_orgs"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

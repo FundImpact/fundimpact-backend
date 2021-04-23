@@ -21,6 +21,10 @@
     "organization": {
       "model": "organization",
       "via": "deliverable_category_orgs"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

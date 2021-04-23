@@ -22,8 +22,12 @@
       "type": "richtext"
     },
     "organization": {
-      "via": "impact_category_orgs",
-      "model": "organization"
+      "model": "organization",
+      "via": "impact_category_orgs"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -11,7 +11,7 @@ module.exports = {
             let sumData = await strapi.connections.default.raw(`
                 SELECT SUM(fund_receipt_project.amount) as sum FROM fund_receipt_project 
                 INNER JOIN project_donor ON project_donor.id = fund_receipt_project.project_donor
-                where project_donor.project = ${ctx.params.where.project}`
+                where project_donor.project = ${ctx.params.where.project} and COALESCE(fund_receipt_project.deleted, false) <> true`
             )
             return sumData.rows && sumData.rows.length > 0 && sumData.rows[0].sum != null ? sumData.rows[0].sum : 0;
         } catch (error) {

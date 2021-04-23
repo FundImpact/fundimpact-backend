@@ -68,6 +68,7 @@ module.exports = {
         ])
         .where({
           deliverable_target_project: params.deliverableTargetsProjectId,
+          ["deliverable_tracking_lineitem.deleted"]: false
         })
         .stream();
       deliverableTrackingLineitemStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);

@@ -68,7 +68,10 @@ module.exports = {
           "financial_year_org.name as financial year org",
           "financial_year_donor.name as financial year donor",
         ])
-        .where({ budget_targets_project: params.budgetTargetsProjectId })
+        .where({
+          budget_targets_project: params.budgetTargetsProjectId,
+          ["budget_tracking_lineitem.deleted"]: false,
+        })
         .stream();
       stream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
       return await new Promise((resolve) => stream.on("end", resolve));
