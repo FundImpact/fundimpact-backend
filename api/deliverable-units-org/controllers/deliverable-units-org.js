@@ -17,8 +17,8 @@ module.exports = {
         ? ["name", "code", "description"]
         : ["id", "name", "code", "description"]; 
       await exportTableAsCsv({
-        ctx,
         tableName: "deliverable_unit_org",
+        ctx,
         whereCondition: sendHeaderWhereValuesCanBeWritten
           ? false
           : { organization: ctx.query.organization_in[0], deleted: false },
