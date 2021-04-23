@@ -11,14 +11,18 @@ const LineByLineReader = require("line-by-line");
 module.exports = {
   exportTable: async (ctx) => {
     try {
+      const { query } = ctx;
+      const sendHeaderWhereValuesCanBeWritten = query.header;
+      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+        ? ["name", "code", "description"]
+        : ["id", "name", "code", "description"]; 
       await exportTableAsCsv({
         ctx,
         tableName: "impact_units_org",
-        whereCondition: {
-          organization: ctx.query.organization_in[0],
-          deleted: false,
-        },
-        tableColumnsToShow: ["id", "name", "code", "description"],
+        whereCondition: sendHeaderWhereValuesCanBeWritten
+          ? false
+          : { organization: ctx.query.organization_in[0],  deleted: false },
+        tableColumnsToShow,
       });
     }catch (error) {
         console.log(error);

@@ -18,10 +18,21 @@ module.exports = {
       ) {
         throw new Error("Project not assigned to user");
       }
+      const sendHeaderWhereValuesCanBeWritten = query.header;
+      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+        ? [
+            "name",
+            "short_name",
+            "description",
+            "start_date",
+            "end_date",
+            "donor",
+          ]
+        : ["id", "donor", "start date", "end date"]; 
       const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
       const json2csv = new Transform(
         {
-          fields: ["id", "donor", "start date", "end date"],
+          fields: tableColumnsToShow,
         },
         transformOpts
       );
@@ -39,10 +50,14 @@ module.exports = {
           "grant_periods_project.start_date as start date",
           "grant_periods_project.end_date as end date",
         ])
-        .where({
-          project: params.projectId,
-          ["grant_periods_project.deleted"]: false,
-        })
+        .where(
+          sendHeaderWhereValuesCanBeWritten
+            ? false
+            : {
+                project: params.projectId,
+                ["grant_periods_project.deleted"]: false,
+              }
+        )
         .stream();
       grantPeriodProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
       return await new Promise((resolve) => grantPeriodProjectStream.on("end", resolve));

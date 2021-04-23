@@ -30,16 +30,20 @@ module.exports = {
     },
     exportTable : async (ctx) => {
       try {
-        const { res, params } = ctx;
+        const { res, params, query } = ctx;
         if (
           !isProjectIdAvailableInUserProjects(ctx.locals.project_in, params.projectId)
         ) {
           throw new Error("Project not assigned to user");
         }
+        const sendHeaderWhereValuesCanBeWritten = query.header;
+        const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+          ? ["amount", "reporting_date", "project_donor"]
+          : ["id", "date", "amount", "donor"];
         const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
         const json2csv = new Transform(
           {
-            fields: ["id", "date", "amount", "donor"],
+            fields: tableColumnsToShow,
           },
           transformOpts
         );
@@ -60,10 +64,14 @@ module.exports = {
             "fund_receipt_project.amount",
             "donors.name as donor",
           ])
-          .where({
-            project: params.projectId,
-            ["fund_receipt_project.deleted"]: false,
-          })
+          .where(
+            sendHeaderWhereValuesCanBeWritten
+              ? false
+              : {
+                  project: params.projectId,
+                  ["fund_receipt_project.deleted"]: false,
+                }
+          )
           .stream();
         fundReceiptProjectStream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
         return await new Promise((resolve) => fundReceiptProjectStream.on("end", resolve));

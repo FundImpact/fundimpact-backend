@@ -14,6 +14,27 @@ module.exports = {
   exportTable: async (ctx) => {
     try {
       const { res, params, query } = ctx;
+      const sendHeaderWhereValuesCanBeWritten = query.header;
+      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+        ? [
+            "annual_year",
+            "grant_periods_project",
+            "amount",
+            "note",
+            "reporting_date",
+            "fy_org",
+            "fy_donor",
+          ]
+        : [
+            "id",
+            "date",
+            "note",
+            "amount",
+            "grant period",
+            "annual year",
+            "financial year org",
+            "financial year donor",
+          ];
       if (
         !isBudgetTargetsProjectIdAvailableInUserBudgetTargetProjects(
           query.budget_targets_project_in,
@@ -25,16 +46,7 @@ module.exports = {
       const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
       const json2csv = new Transform(
         {
-          fields: [
-            "id",
-            "date",
-            "note",
-            "amount",
-            "grant period",
-            "annual year",
-            "financial year org",
-            "financial year donor",
-          ],
+          fields: tableColumnsToShow,
         },
         transformOpts
       );
@@ -68,10 +80,14 @@ module.exports = {
           "financial_year_org.name as financial year org",
           "financial_year_donor.name as financial year donor",
         ])
-        .where({
-          budget_targets_project: params.budgetTargetsProjectId,
-          ["budget_tracking_lineitem.deleted"]: false,
-        })
+        .where(
+          sendHeaderWhereValuesCanBeWritten
+            ? false
+            : {
+                budget_targets_project: params.budgetTargetsProjectId,
+                ["budget_tracking_lineitem.deleted"]: false,
+              }
+        )
         .stream();
       stream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
       return await new Promise((resolve) => stream.on("end", resolve));

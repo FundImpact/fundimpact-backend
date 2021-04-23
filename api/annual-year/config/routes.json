@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/annual-years/export-table",
+      "handler": "annual-year.exportTable",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/annual-years/:id",
       "handler": "annual-year.findOne",
       "config": {
