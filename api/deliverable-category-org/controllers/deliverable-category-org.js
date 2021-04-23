@@ -53,8 +53,8 @@ module.exports = {
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
             where organization = ${ctx.query.organization} 
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy.id in (` + ctx.query.financial_year.join() + `)` : ''}   
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (` + ctx.query.annual_year.join() + `)` : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
             group by dtp.project) 
             select count(cte.project) from cte where cte.sum_dtp = cte.sum_dtl`)
 
@@ -73,8 +73,8 @@ module.exports = {
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
             where organization = ${ctx.query.organization}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy.id in (` + ctx.query.financial_year.join() + `)` : ''}   
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (` + ctx.query.annual_year.join() + `)` : ''}) 
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}) 
             select ROUND((sum_dtl * 100.0)/ sum_dtp) as avg from cte where cte.sum_dtp <> cte.sum_dtl`)
             return data.rows && data.rows.length > 0 && data.rows[0].avg  ? data.rows[0].avg : 0;
         } catch (error) {
@@ -91,8 +91,8 @@ module.exports = {
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
             where organization = ${ctx.query.organization} 
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy.id in (` + ctx.query.financial_year.join() + `)` : ''}   
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (` + ctx.query.annual_year.join() + `)` : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
             group by dtp.id) 
             select count(id) from cte where sum_dtp = sum_dtl`)
 
@@ -125,8 +125,8 @@ module.exports = {
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
             where organization = ${ctx.query.organization}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy.id in (` + ctx.query.financial_year.join() + `)` : ''}   
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (` + ctx.query.annual_year.join() + `)` : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
             group by dco.id
              order by sum desc`)
 

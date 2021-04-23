@@ -64,7 +64,7 @@ module.exports = {
             from budget_category_organizations bco 
             JOIN budget_targets_project btp ON bco.id = btp.budget_category_organization
             where bco.organization = ${ctx.query.organization} 
-            ${ctx.query.donor && ctx.query.donor.length ? `and btp.donor in (${ctx.query.donor.join()})` : ''}
+            ${ctx.query.donor && ctx.query.donor.length ? "and btp.donor in (" + ctx.query.donor.join() + ")" : ''}
             group by bco.id order by sum desc`)
             
             return data.rows && data.rows.length > 0  ? data.rows : [];

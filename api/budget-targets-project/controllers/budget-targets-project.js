@@ -28,10 +28,10 @@ module.exports = {
             LEFT JOIN financial_year fy_donor ON btl.fy_donor = fy_donor.id
             LEFT JOIN annual_year ay ON btl.annual_year = ay.id
             where bco.organization = ${ctx.query.organization}
-            ${ctx.query.donor && ctx.query.donor.length ? `and btp.donor in (` + ctx.query.donor.join() + `)` : ''}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_org.id in (` + ctx.query.financial_year.join() + `)` : ''}
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? `and fy_donor.id in (` + ctx.query.financial_year.join() + `)` : ''}
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? `and ay.id in (` + ctx.query.annual_year.join() + `)` : ''}
+            ${ctx.query.donor && ctx.query.donor.length ? "and btp.donor in (" + ctx.query.donor.join() + ")" : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy_org.id in (" + ctx.query.financial_year.join() + ")" : ''}
+            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy_donor.id in (" + ctx.query.financial_year.join() + ")" : ''}
+            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
             group by btp.project) 
             select btl.project as project_id, btp.name, ROUND((btl.sum * 100.0)/ btp.sum) as avg_value 
             from btp 
@@ -52,7 +52,7 @@ module.exports = {
             JOIN budget_targets_project btp ON btp.budget_category_organization = bco.id
             JOIN donors on donors.id = btp.donor
             where bco.organization = ${ctx.query.organization} 
-            ${ctx.query.donor && ctx.query.donor.length ? `and donors.id in (` + ctx.query.donor.join() + `)` : ''}
+            ${ctx.query.donor && ctx.query.donor.length ? "and donors.id in (" + ctx.query.donor.join() + ")" : ''}
             group by btp.project), 
             frp AS (select projects.id , projects.name ,sum(frp.amount)
             from workspaces 
@@ -60,7 +60,7 @@ module.exports = {
             JOIN project_donor pd ON pd.project = projects.id 
             JOIN fund_receipt_project frp ON frp.project_donor = pd.id 
             where workspaces.organization = ${ctx.query.organization} 
-            ${ctx.query.donor && ctx.query.donor.length ? `and pd.donor in (` + ctx.query.donor.join() + `)` : ''}
+            ${ctx.query.donor && ctx.query.donor.length ? "and pd.donor in (" + ctx.query.donor.join() + ")" : ''}
             group by projects.id)
             select frp.id as project_id , frp.name as name,  ROUND((frp.sum * 100.0)/ btp.sum) as avg_value  
             from btp 
@@ -80,7 +80,7 @@ module.exports = {
                         from budget_category_organizations bco 
                         JOIN budget_targets_project btp ON btp.budget_category_organization = bco.id 
                         where bco.organization = ${ctx.query.organization}
-                        ${ctx.query.donor && ctx.query.donor.length ? `and btp.donor in (` + ctx.query.donor.join() + `)` : ''}
+                        ${ctx.query.donor && ctx.query.donor.length ? "and btp.donor in (" + ctx.query.donor.join() + ")" : ''}
                         group by btp.project),
                         frp AS (select projects.id ,sum(frp.amount) 
                         from workspaces 
@@ -88,7 +88,7 @@ module.exports = {
                         JOIN project_donor pd ON pd.project = projects.id 
                         JOIN fund_receipt_project frp ON frp.project_donor = pd.id
                         where workspaces.organization = ${ctx.query.organization} 
-                        ${ctx.query.donor && ctx.query.donor.length ? `and pd.donor in (` + ctx.query.donor.join() + `)` : ''}
+                        ${ctx.query.donor && ctx.query.donor.length ? "and pd.donor in (" + ctx.query.donor.join() + ")" : ''}
                         group by projects.id)
                         select count(btp.project) from btp JOIN frp ON btp.sum = frp.sum;`)
             return data.rows && data.rows.length > 0 && data.rows[0].count ? data.rows[0].count : 0;
@@ -104,7 +104,7 @@ module.exports = {
             JOIN donors ON donors.id = pd.donor 
             JOIN budget_targets_project btp ON btp.project = projects.id 
             where workspaces.organization = ${ctx.query.organization}
-            ${ctx.query.donor && ctx.query.donor.length ? `and donors.id in (` + ctx.query.donor.join() + `)` : ''}
+            ${ctx.query.donor && ctx.query.donor.length ? "and donors.id in (" + ctx.query.donor.join() + ")" : ''}
             group by donors.id ORDER BY sum desc`)
             
             return data.rows && data.rows.length > 0 ? data.rows : [];
@@ -122,7 +122,7 @@ module.exports = {
             JOIN donors ON donors.id = pd.donor 
             JOIN fund_receipt_project frp ON frp.project_donor = pd.id
             where workspaces.organization = ${ctx.query.organization} 
-            ${ctx.query.donor && ctx.query.donor.length ? `and donors.id in (` + ctx.query.donor.join() + `)` : ''}
+            ${ctx.query.donor && ctx.query.donor.length ? "and donors.id in (" + ctx.query.donor.join() + ")" : ''}
             group by donors.id ORDER BY sum desc`)
             return data.rows && data.rows.length > 0 ? data.rows : [];
         } catch (error) {
