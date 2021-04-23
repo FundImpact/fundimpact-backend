@@ -105,13 +105,13 @@ module.exports = {
     exportTable : async (ctx) => {
         try {
           await exportTableAsCsv({
-            ctx,
             tableName: "budget_category_organizations",
+            tableColumnsToShow: ["id", "name", "code", "description"],
+            ctx,
             whereCondition: {
               organization: ctx.query.organization_in[0],
               deleted: false,
             },
-            tableColumnsToShow: ["id", "name", "code", "description"],
           });
           return {
             message: `budget_category_organizations.csv Downloaded Successfully`
