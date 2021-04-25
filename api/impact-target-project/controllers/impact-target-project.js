@@ -5,34 +5,45 @@
  * to customize this controller
  */
 
- const JSONStream = require("JSONStream");
- const { Transform } = require("json2csv");
+const JSONStream = require("JSONStream");
+const { Transform } = require("json2csv");
 const { importTable } = require('../../../services/importTable')
 const { isRowIdPresentInTable } = require('../../../utils')
+const {
+  getQueryForImpactTargetProjectTargetValueSumForEachProject,
+  getQueryForImpactTracklineValueSumForEachProject,
+} = require("../../impact-category-org/services/impact-category-org");
 
 module.exports = {
     impact_achieved : async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`WITH cte AS (select projects.id , projects.name ,sum(itp.target_value) as sum_itp ,  
-            sum(itl.value) as sum_itl 
-            from impact_category_org ico 
-            JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
-            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id JOIN projects ON itp.project = projects.id
-            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project
-            LEFT JOIN financial_year fy ON itl.financial_year = fy.id
-            LEFT JOIN annual_year ay ON itl.annual_year = ay.id    
-            where ico.organization = ${ctx.query.organization}
-            and itp.deleted = false
-            and itl.deleted = false
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
-            group by projects.id) select id, name , ROUND((sum_itl * 100.0)/ sum_itp) as 
-            avg_value from cte ORDER BY avg_value desc`)
-            
-            return data.rows && data.rows.length > 0 ? data.rows : [];
+          const knex = strapi.connections.default;
+          let data = await knex({
+            itp_sum_table: getQueryForImpactTargetProjectTargetValueSumForEachProject(
+              ctx.query
+            ),
+          })
+            .join(
+              {
+                itl_sum_table: getQueryForImpactTracklineValueSumForEachProject(
+                  ctx.query
+                ),
+              },
+              { "itl_sum_table.id": "itp_sum_table.id" }
+            )
+            .select(
+              "itl_sum_table.id",
+              "itl_sum_table.name",
+              knex.raw(
+                `ROUND((itl_sum_table.itl_sum/itp_sum_table.itp_sum)*100) as avg_value`
+              )
+            )
+            .orderBy("avg_value", "desc");
+
+          return data;
         } catch (error) {
-            console.log(error)
-            return ctx.badRequest(null, error.message);
+          console.log(error);
+          return ctx.badRequest(null, error.message);
         }
     },
     sdg_target_count : async ctx =>{

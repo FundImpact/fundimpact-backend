@@ -7,6 +7,10 @@
 
 const { exportTableAsCsv } = require("../../../services/exportTable");
 const { importTable } = require('../../../services/importTable')
+const {
+  getQueryForImpactTargetProjectTargetValueSumForEachProject,
+  getQueryForImpactTracklineValueSumForEachProject,
+} = require("../services/impact-category-org");
 
 module.exports = {
     projectCountImpCatByOrg :  async ctx => {
@@ -57,51 +61,98 @@ module.exports = {
     },
     totalAchivedImpactProjectByOrg :  async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`WITH cte AS(select itp.project ,sum(itp.target_value) as sum_itp ,  
-            sum(itl.value) as sum_itl from impact_category_org ico JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
-            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
-            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project
-            LEFT JOIN financial_year fy ON itl.financial_year = fy.id
-            LEFT JOIN annual_year ay ON itl.annual_year = ay.id
-            where organization = ${ctx.query.organization}
-            and itp.deleted = false
-            and itl.deleted = false
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" + ctx.query.financial_year.join() + ")" : ''}   
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''}
-            group by itp.project) 
-            select count(cte.project) from cte where cte.sum_itp = cte.sum_itl`)
+          const knex = strapi.connections.default;
+          let data = await knex({
+            itp_sum_table: getQueryForImpactTargetProjectTargetValueSumForEachProject(
+              ctx.query
+            ),
+          })
+            .join(
+              {
+                itl_sum_table: getQueryForImpactTracklineValueSumForEachProject(
+                  ctx.query
+                ),
+              },
+              {
+                "itl_sum_table.id": "itp_sum_table.id",
+                "itl_sum_table.itl_sum": "itp_sum_table.itp_sum",
+              }
+            )
+            .count("itl_sum_table.id");
 
-            return data.rows && data.rows.length > 0 && data.rows[0].count  ? data.rows[0].count : 0;
+          return data && data.length > 0 && data[0].count ? data[0].count : 0;
         } catch (error) {
-            console.log(error)
-            return ctx.badRequest(null, error.message);
+          console.log(error);
+          return ctx.badRequest(null, error.message);
         }
     },
     avgAchivementImpactByOrg :  async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`WITH cte AS(select sum(itp.target_value) as sum_itp , sum(itl.value) as sum_itl 
-            from impact_category_org ico 
-            JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
-            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
-            JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project
-            LEFT JOIN financial_year fy ON itl.financial_year = fy.id
-            LEFT JOIN annual_year ay ON itl.annual_year = ay.id
-            where organization = ${ctx.query.organization}
-            and itp.deleted = false
-            and itl.deleted = false
-            ${ctx.query.financial_year && ctx.query.financial_year.length ? "and fy.id in (" +  ctx.query.financial_year.join() + ")" : ''}   
-            ${ctx.query.annual_year && ctx.query.annual_year.length ? "and ay.id in (" + ctx.query.annual_year.join() + ")" : ''})
-            select ROUND((sum_itl * 100.0)/ sum_itp) as avg from cte where cte.sum_itp <> cte.sum_itl`)
-            return data.rows && data.rows.length > 0 && data.rows[0].avg  ? data.rows[0].avg : 0;
+          const knex = strapi.connections.default;
+          let data = await knex({
+            itp_sum_table: knex
+              .select(knex.raw("sum(itp.target_value) as itp_sum"))
+              .from("workspaces")
+              .join("projects", { "workspaces.id": "projects.workspace" })
+              .join("impact_target_project as itp", {
+                "itp.project": "projects.id",
+              })
+              .where({
+                "workspaces.organization": ctx.query.organization,
+                "itp.deleted": false,
+              }),
+            itl_sum_table: knex
+              .select(knex.raw("sum(itl.value) as itl_sum"))
+              .from("workspaces")
+              .join("projects", { "workspaces.id": "projects.workspace" })
+              .join("impact_target_project as itp", {
+                "itp.project": "projects.id",
+              })
+              .join("impact_tracking_lineitem as itl", {
+                "itl.impact_target_project": "itp.id",
+              })
+              .leftJoin("financial_year", {
+                "financial_year.id": "itl.financial_year",
+              })
+              .leftJoin("annual_year", {
+                "annual_year.id": "itl.annual_year",
+              })
+              .where({
+                "workspaces.organization": ctx.query.organization,
+                "itp.deleted": false,
+                "itl.deleted": false,
+              })
+              .modify(function (queryBuilder) {
+                if (
+                  ctx.query.financial_year &&
+                  ctx.query.financial_year.length
+                ) {
+                  queryBuilder.whereIn(
+                    "financial_year.id",
+                    ctx.query.financial_year
+                  );
+                }
+                if (ctx.query.annual_year && ctx.query.annual_year.length) {
+                  queryBuilder.whereIn("annual_year.id", ctx.query.annual_year);
+                }
+              }),
+          }).select(
+            knex.raw(
+              `ROUND((itl_sum_table.itl_sum/itp_sum_table.itp_sum)*100) as avg`
+            )
+          );
+          return data.length && data[0].avg ? data[0].avg : 0;
         } catch (error) {
-            console.log(error)
-            return ctx.badRequest(null, error.message);
+          console.log(error);
+          return ctx.badRequest(null, error.message);
         }
     },
     achiveImpactVsTargetByOrg :  async ctx => {
         try {
-            let data = await strapi.connections.default.raw(`WITH cte AS( select itp.id ,sum(itp.target_value) as sum_itp , sum(itl.value) as sum_itl 
-            from impact_category_org ico JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
+            let data = await strapi.connections.default.raw(`WITH cte AS( 
+            select itp.id , itp.target_value as sum_itp , sum(itl.value) as sum_itl 
+            from impact_category_org ico 
+            JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
             JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
             JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project  
             LEFT JOIN financial_year fy ON itl.financial_year = fy.id
