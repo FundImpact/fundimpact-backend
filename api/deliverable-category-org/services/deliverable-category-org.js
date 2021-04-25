@@ -51,16 +51,16 @@ const getQueryForDeliverableTracklineValueSumForEachProject = (userQuery) => {
       "annual_year.id": "dtl.annual_year",
     })
     .where({
-      "workspaces.organization": userQuery.organization,
-      "dtp.deleted": false,
       "dtl.deleted": false,
+      "dtp.deleted": false,
+      "workspaces.organization": userQuery.organization,
     })
     .modify(function (queryBuilder) {
-      if (userQuery.financial_year && userQuery.financial_year.length) {
-        queryBuilder.whereIn("financial_year.id", userQuery.financial_year);
-      }
       if (userQuery.annual_year && userQuery.annual_year.length) {
         queryBuilder.whereIn("annual_year.id", userQuery.annual_year);
+      }
+      if (userQuery.financial_year && userQuery.financial_year.length) {
+        queryBuilder.whereIn("financial_year.id", userQuery.financial_year);
       }
     })
     .groupBy("projects.id");
