@@ -7,6 +7,10 @@
 
 const {exportTableAsCsv} = require('../../../services/exportTable')
 const { importTable } = require("../../../services/importTable");
+const {
+  getQueryForDeliverableTargetProjectTargetValueSumForEachProject,
+  getQueryForDeliverableTracklineValueSumForEachProject,
+} = require("../services/deliverable-category-org");
 
 module.exports = {
     projectCountDelCatByOrg :  async ctx => {
@@ -60,68 +64,15 @@ module.exports = {
         try {
           const knex = strapi.connections.default;
           let data = await knex({
-            dtp_sum_table: knex
-              .select(
-                "projects.id",
-                "projects.name",
-                knex.raw("sum(dtp.target_value) as dtp_sum")
-              )
-              .from("workspaces")
-              .join("projects", { "workspaces.id": "projects.workspace" })
-              .join("deliverable_target_project as dtp", {
-                "dtp.project": "projects.id",
-              })
-              .where({
-                "workspaces.organization": ctx.query.organization,
-                "dtp.deleted": false,
-              })
-              .groupBy("projects.id"),
+            dtp_sum_table: getQueryForDeliverableTargetProjectTargetValueSumForEachProject(
+              ctx.query
+            ),
           })
             .join(
               {
-                dtl_sum_table: knex
-                  .select(
-                    "projects.id",
-                    "projects.name",
-                    knex.raw("sum(dtl.value) as dtl_sum")
-                  )
-                  .from("workspaces")
-                  .join("projects", { "workspaces.id": "projects.workspace" })
-                  .join("deliverable_target_project as dtp", {
-                    "dtp.project": "projects.id",
-                  })
-                  .join("deliverable_tracking_lineitem as dtl", {
-                    "dtl.deliverable_target_project": "dtp.id",
-                  })
-                  .leftJoin("financial_year", {
-                    "financial_year.id": "dtl.financial_year",
-                  })
-                  .leftJoin("annual_year", {
-                    "annual_year.id": "dtl.annual_year",
-                  })
-                  .where({
-                    "workspaces.organization": ctx.query.organization,
-                    "dtp.deleted": false,
-                    "dtl.deleted": false,
-                  })
-                  .modify(function (queryBuilder) {
-                    if (
-                      ctx.query.financial_year &&
-                      ctx.query.financial_year.length
-                    ) {
-                      queryBuilder.whereIn(
-                        "financial_year.id",
-                        ctx.query.financial_year
-                      );
-                    }
-                    if (ctx.query.annual_year && ctx.query.annual_year.length) {
-                      queryBuilder.whereIn(
-                        "annual_year.id",
-                        ctx.query.annual_year
-                      );
-                    }
-                  })
-                  .groupBy("projects.id"),
+                dtl_sum_table: getQueryForDeliverableTracklineValueSumForEachProject(
+                  ctx.query
+                ),
               },
               {
                 "dtl_sum_table.id": "dtp_sum_table.id",

@@ -9,74 +9,25 @@ const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
 const { importTable } = require('../../../services/importTable')
 const { isRowIdPresentInTable } = require('../../../utils')
+const {
+  getQueryForImpactTargetProjectTargetValueSumForEachProject,
+  getQueryForImpactTracklineValueSumForEachProject,
+} = require("../../impact-category-org/services/impact-category-org");
 
 module.exports = {
     impact_achieved : async ctx => {
         try {
           const knex = strapi.connections.default;
           let data = await knex({
-            itp_sum_table: knex
-              .select(
-                "projects.id",
-                "projects.name",
-                knex.raw("sum(itp.target_value) as itp_sum")
-              )
-              .from("workspaces")
-              .join("projects", { "workspaces.id": "projects.workspace" })
-              .join("impact_target_project as itp", {
-                "itp.project": "projects.id",
-              })
-              .where({
-                "workspaces.organization": ctx.query.organization,
-                "itp.deleted": false,
-              })
-              .groupBy("projects.id"),
+            itp_sum_table: getQueryForImpactTargetProjectTargetValueSumForEachProject(
+              ctx.query
+            ),
           })
             .join(
               {
-                itl_sum_table: knex
-                  .select(
-                    "projects.id",
-                    "projects.name",
-                    knex.raw("sum(itl.value) as itl_sum")
-                  )
-                  .from("workspaces")
-                  .join("projects", { "workspaces.id": "projects.workspace" })
-                  .join("impact_target_project as itp", {
-                    "itp.project": "projects.id",
-                  })
-                  .join("impact_tracking_lineitem as itl", {
-                    "itl.impact_target_project": "itp.id",
-                  })
-                  .leftJoin("financial_year", {
-                    "financial_year.id": "itl.financial_year",
-                  })
-                  .leftJoin("annual_year", {
-                    "annual_year.id": "itl.annual_year",
-                  })
-                  .where({
-                    "workspaces.organization": ctx.query.organization,
-                    "itp.deleted": false,
-                    "itl.deleted": false,
-                  })
-                  .modify(function (queryBuilder) {
-                    if (
-                      ctx.query.financial_year &&
-                      ctx.query.financial_year.length
-                    ) {
-                      queryBuilder.whereIn(
-                        "financial_year.id",
-                        ctx.query.financial_year
-                      );
-                    }
-                    if (ctx.query.annual_year && ctx.query.annual_year.length) {
-                      queryBuilder.whereIn(
-                        "annual_year.id",
-                        ctx.query.annual_year
-                      );
-                    }
-                  })
-                  .groupBy("projects.id"),
+                itl_sum_table: getQueryForImpactTracklineValueSumForEachProject(
+                  ctx.query
+                ),
               },
               { "itl_sum_table.id": "itp_sum_table.id" }
             )
