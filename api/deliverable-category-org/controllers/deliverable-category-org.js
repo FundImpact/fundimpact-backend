@@ -119,11 +119,14 @@ module.exports = {
                 "annual_year.id": "dtl.annual_year",
               })
               .where({
-                "workspaces.organization": ctx.query.organization,
-                "dtp.deleted": false,
                 "dtl.deleted": false,
+                "dtp.deleted": false,
+                "workspaces.organization": ctx.query.organization,
               })
               .modify(function (queryBuilder) {
+                if (ctx.query.annual_year && ctx.query.annual_year.length) {
+                  queryBuilder.whereIn("annual_year.id", ctx.query.annual_year);
+                }
                 if (
                   ctx.query.financial_year &&
                   ctx.query.financial_year.length
@@ -132,9 +135,6 @@ module.exports = {
                     "financial_year.id",
                     ctx.query.financial_year
                   );
-                }
-                if (ctx.query.annual_year && ctx.query.annual_year.length) {
-                  queryBuilder.whereIn("annual_year.id", ctx.query.annual_year);
                 }
               }),
           }).select(
