@@ -110,6 +110,7 @@ module.exports = {
             },
             updateDeliverableCategory:{
                 resolverOf:'application::deliverable-category-org.deliverable-category-org.update',
+                policies: ['application::deliverable-category-org.isDeliverableCategoryAssociatedWithDeliverableTarget'],
                 resolver: async (obj, options, { context }) => {
                     context.params = _.toPlainObject(options);
                     context.request.body = _.toPlainObject(options.input);

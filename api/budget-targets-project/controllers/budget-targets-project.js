@@ -288,7 +288,6 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
   const projectDonor = await strapi.connections
     .default("project_donor")
     .where({ donor: rowObj.donor, project: projectId });
-    console.log(`projectDonor`, projectDonor)
   if (!projectDonor.length) {
     return false;
   }

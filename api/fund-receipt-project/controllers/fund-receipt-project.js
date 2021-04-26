@@ -68,7 +68,7 @@ module.exports = {
             sendHeaderWhereValuesCanBeWritten
               ? false
               : {
-                  project: params.projectId,
+                  "project_donor.project": params.projectId,
                   ["fund_receipt_project.deleted"]: false,
                 }
           )
