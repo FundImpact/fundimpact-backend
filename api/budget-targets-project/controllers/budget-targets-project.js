@@ -283,7 +283,6 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
       tableName: "budget_category_organizations",
     }))
   ) {
-    console.log("here", rowObj.budget_category_organization)
     return false;
   }
   const projectDonor = await strapi.connections
