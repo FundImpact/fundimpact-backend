@@ -125,6 +125,7 @@ module.exports = {
         validateRowToBeInserted: validateRowToBeInsertedInBudgetLineItem,
         defaultFieldsToInsert: {
           budget_targets_project: params.budgetTargetProjectId,
+          deleted: false,
         },
       });
       return { message: "Budget Lineitem Created", done: true };

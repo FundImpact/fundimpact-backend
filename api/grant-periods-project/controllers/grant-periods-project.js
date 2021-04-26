@@ -92,7 +92,7 @@ module.exports = {
         ctx,
         tableName: "grant_periods_project",
         validateRowToBeInserted,
-        defaultFieldsToInsert: { project: params.projectId },
+        defaultFieldsToInsert: { project: params.projectId, delete: false },
       });
       return { message: "Grant Period Created", done: true };
     } catch (error) {

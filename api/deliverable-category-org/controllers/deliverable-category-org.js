@@ -247,7 +247,7 @@ module.exports = {
             columnsWhereValueCanBeInserted,
             ctx,
             tableName: "deliverable_category_org",
-            defaultFieldsToInsert: { organization: query.organization_in[0] },
+            defaultFieldsToInsert: { organization: query.organization_in[0], deleted: false },
             validateRowToBeInserted
           });
           return { message: "Deliverable Category Created", done: true };

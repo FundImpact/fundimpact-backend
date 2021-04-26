@@ -81,7 +81,7 @@ const insertRowInDeliverableUnitOrganizationsTable = async (
         insertObj[columnName] = rowToInsert.split(",")[columnIndex];
         return insertObj;
       },
-      { organization: query.organization_in[0] }
+      { organization: query.organization_in[0], deleted: false }
     );
     const deliverableCategoryOrgId = getColumnValueFromRowToBeInserted(
       "deliverable_category_org",

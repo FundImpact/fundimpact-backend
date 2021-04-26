@@ -114,6 +114,7 @@ module.exports = {
         validateRowToBeInserted: validateRowToBeInsertedInDeliverableLineItem,
         defaultFieldsToInsert: {
           deliverable_target_project: params.deliverableTargetProjectId,
+          deleted: false,
         },
       });
       return { message: "Deliverable Lineitem Created", done: true };

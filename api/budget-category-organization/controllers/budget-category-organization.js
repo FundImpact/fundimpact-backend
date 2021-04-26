@@ -139,8 +139,11 @@ module.exports = {
         columnsWhereValueCanBeInserted,
         ctx,
         tableName: "budget_category_organizations",
-        defaultFieldsToInsert: { organization: query.organization_in[0] },
-        validateRowToBeInserted
+        defaultFieldsToInsert: {
+          organization: query.organization_in[0],
+          deleted: false,
+        },
+        validateRowToBeInserted,
       });
       return {message:"Budget category created", done: true}
     }catch(error){

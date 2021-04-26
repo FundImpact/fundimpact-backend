@@ -146,7 +146,7 @@ module.exports = {
         columnsWhereValueCanBeInserted,
         ctx,
         tableName: "deliverable_target_project",
-        defaultFieldsToInsert: { project: params.projectId },
+        defaultFieldsToInsert: { project: params.projectId, deleted: false, },
         validateRowToBeInserted,
       });
       return { message: "Deliverable Target Created", done: true };

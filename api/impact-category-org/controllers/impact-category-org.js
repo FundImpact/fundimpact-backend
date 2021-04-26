@@ -244,7 +244,7 @@ module.exports = {
             columnsWhereValueCanBeInserted,
             ctx,
             tableName: "impact_category_org",
-            defaultFieldsToInsert: { organization: query.organization_in[0] },
+            defaultFieldsToInsert: { organization: query.organization_in[0], deleted: false, },
             validateRowToBeInserted
           });
           return { message: "Impact category created", done: true };

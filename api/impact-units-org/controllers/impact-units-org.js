@@ -81,7 +81,7 @@ const insertRowInImpactUnitOrganizationsTable = async (
         insertObj[columnName] = rowToInsert.split(",")[columnIndex];
         return insertObj;
       },
-      { organization: query.organization_in[0] }
+      { organization: query.organization_in[0], deleted: false, }
     );
     const impactCategoryOrgId = getColumnValueFromRowToBeInserted(
       "impact_category_org",

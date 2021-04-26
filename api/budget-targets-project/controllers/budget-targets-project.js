@@ -249,7 +249,7 @@ module.exports = {
           columnsWhereValueCanBeInserted,
           ctx,
           tableName: "budget_targets_project",
-          defaultFieldsToInsert: { project: params.projectId },
+          defaultFieldsToInsert: { project: params.projectId, deleted: false },
           validateRowToBeInserted,
         });
         return { message: "Budget Target Created", done: true };
@@ -288,6 +288,7 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
   const projectDonor = await strapi.connections
     .default("project_donor")
     .where({ donor: rowObj.donor, project: projectId });
+    console.log(`projectDonor`, projectDonor)
   if (!projectDonor.length) {
     return false;
   }
