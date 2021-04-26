@@ -112,6 +112,7 @@ module.exports = {
       },
       updateImpactCategoryOrgInput: {
         resolverOf: "application::impact-category-org.impact-category-org.update",
+        policies: ['application::impact-category-org.isImpactCategoryAssociatedWithImpactTarget'],
         resolver: async (obj, options, { context }) => {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);

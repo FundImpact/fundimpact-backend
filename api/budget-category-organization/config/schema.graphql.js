@@ -82,6 +82,7 @@ module.exports = {
       }, 
       updateOrgBudgetCategory: {
         resolverOf:'application::budget-category-organization.budget-category-organization.update',
+        policies: ['application::budget-category-organization.isBudgetCategoryAssociatedWithBudgetTarget'],
         resolver: async (obj, options, {context}) => {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);
