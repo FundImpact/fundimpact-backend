@@ -90,11 +90,11 @@ module.exports = {
           const sendHeaderWhereValuesCanBeWritten = query.header;
           const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
             ? [
-                "name",
+                "name *",
                 "description",
-                "target_value",
-                "impact_category_unit",
-                "sustainable_development_goal",
+                "target_value *",
+                "impact_category_unit *",
+                "sustainable_development_goal *",
               ]
             : [
                 "id",

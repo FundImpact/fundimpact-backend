@@ -14,7 +14,7 @@ module.exports = {
       const { query } = ctx;
       const sendHeaderWhereValuesCanBeWritten = query.header;
       const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
-        ? ["name", "code", "description"]
+        ? ["name *", "code", "description"]
         : ["id", "name", "code", "description"]; 
       await exportTableAsCsv({
         ctx,

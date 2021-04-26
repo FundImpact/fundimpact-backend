@@ -27,9 +27,9 @@ module.exports = {
       const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
         ? [
             "grant_periods_project",
-            "value",
+            "value *",
             "note",
-            "reporting_date",
+            "reporting_date * (YYYY-MM-DD)",
             "financial_year",
             "annual_year",
           ]

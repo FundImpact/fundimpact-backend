@@ -156,9 +156,9 @@ module.exports = {
             : [
                 "name",
                 "description",
-                "total_target_amount",
-                "budget_category_organization",
-                "donor",
+                "total_target_amount *",
+                "budget_category_organization *",
+                "donor *",
               ];
           if (
             !isProjectIdAvailableInUserProjects(

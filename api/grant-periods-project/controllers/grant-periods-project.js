@@ -21,12 +21,12 @@ module.exports = {
       const sendHeaderWhereValuesCanBeWritten = query.header;
       const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
         ? [
-            "name",
+            "name *",
             "short_name",
             "description",
-            "start_date",
-            "end_date",
-            "donor",
+            "start_date * (YYYY-MM-DD)",
+            "end_date * (YYYY-MM-DD)",
+            "donor *",
           ]
         : ["id", "donor", "start date", "end date"]; 
       const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };

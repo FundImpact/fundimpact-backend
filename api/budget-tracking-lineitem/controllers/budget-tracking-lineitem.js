@@ -19,9 +19,9 @@ module.exports = {
         ? [
             "annual_year",
             "grant_periods_project",
-            "amount",
+            "amount *",
             "note",
-            "reporting_date",
+            "reporting_date * (YYYY-MM-DD)",
             "fy_org",
             "fy_donor",
           ]

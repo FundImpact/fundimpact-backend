@@ -55,7 +55,7 @@ module.exports = {
       }
       const sendHeaderWhereValuesCanBeWritten = query.header;
       const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
-        ? ["name", "description", "target_value", "deliverable_category_unit"]
+        ? ["name *", "description", "target_value *", "deliverable_category_unit *"]
         : ["id", "name", "category", "target", "achieved", "progress"];
       const deliverableTargetTransformOpts = {
         highWaterMark: 16384,
