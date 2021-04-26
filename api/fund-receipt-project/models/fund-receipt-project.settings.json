@@ -36,6 +36,12 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "project": {
+      "model": "project"
+    },
+    "donor": {
+      "model": "donor"
     }
   }
 }
