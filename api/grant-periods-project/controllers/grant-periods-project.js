@@ -28,7 +28,7 @@ module.exports = {
             "end_date * (YYYY-MM-DD)",
             "donor *",
           ]
-        : ["id", "donor", "start date", "end date"]; 
+        : ["id", "name", "donor", "start date", "end date"]; 
       const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
       const json2csv = new Transform(
         {
@@ -46,6 +46,7 @@ module.exports = {
         })
         .column([
           "grant_periods_project.id",
+          "grant_periods_project.name",
           "donors.name as donor",
           "grant_periods_project.start_date as start date",
           "grant_periods_project.end_date as end date",
