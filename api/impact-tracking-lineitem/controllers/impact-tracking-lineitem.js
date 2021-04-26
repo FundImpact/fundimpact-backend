@@ -114,6 +114,7 @@ module.exports = {
         validateRowToBeInserted: validateRowToBeInsertedInImpactLineItem,
         defaultFieldsToInsert: {
           impact_target_project: params.impactTargetProjectId,
+          deleted: false,
         },
       });
       return { message: "Impact Lineitem Created", done: true };

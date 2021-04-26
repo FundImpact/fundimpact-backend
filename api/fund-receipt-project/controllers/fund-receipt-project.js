@@ -100,7 +100,8 @@ module.exports = {
           ctx,
           tableName: "fund_receipt_project",
           validateRowToBeInserted,
-          updateRowToBeInserted
+          updateRowToBeInserted,
+          defaultFieldsToInsert: { deleted: false },
         });
         return { message: "Fund Receipt Created", done: true };
 

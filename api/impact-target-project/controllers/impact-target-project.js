@@ -203,7 +203,7 @@ module.exports = {
             columnsWhereValueCanBeInserted,
             ctx,
             tableName: "impact_target_project",
-            defaultFieldsToInsert: { project: params.projectId },
+            defaultFieldsToInsert: { project: params.projectId, deleted: false, },
             validateRowToBeInserted,
           });
           return { message: "Impact Target Created", done: true };
