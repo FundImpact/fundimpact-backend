@@ -38,7 +38,7 @@ module.exports = {
         }
         const sendHeaderWhereValuesCanBeWritten = query.header;
         const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
-          ? ["amount", "reporting_date", "project_donor"]
+          ? ["amount *", "reporting_date * (YYYY-MM-DD)", "project_donor *"]
           : ["id", "date", "amount", "donor"];
         const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
         const json2csv = new Transform(

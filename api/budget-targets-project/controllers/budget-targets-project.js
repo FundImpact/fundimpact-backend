@@ -156,9 +156,9 @@ module.exports = {
             : [
                 "name",
                 "description",
-                "total_target_amount",
-                "budget_category_organization",
-                "donor",
+                "total_target_amount *",
+                "budget_category_organization *",
+                "donor *",
               ];
           if (
             !isProjectIdAvailableInUserProjects(
@@ -283,6 +283,7 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
       tableName: "budget_category_organizations",
     }))
   ) {
+    console.log("here", rowObj.budget_category_organization)
     return false;
   }
   const projectDonor = await strapi.connections
