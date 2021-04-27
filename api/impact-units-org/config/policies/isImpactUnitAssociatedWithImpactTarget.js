@@ -9,7 +9,7 @@ const checkIfImpactUnitBelongToImpactTargetProject = async (
     })
     .where({
       "impact_category_unit.impact_units_org": impactUnitId,
-      deleted: false,
+      "impact_target_project.deleted": false,
     });
   if (impactTargetProjects.length) {
     return true;

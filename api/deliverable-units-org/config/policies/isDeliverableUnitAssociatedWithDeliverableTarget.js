@@ -9,7 +9,7 @@ const checkIfDeliverableUnitBelongToDeliverableTargetProject = async (
     })
     .where({
       "deliverable_category_unit.deliverable_units_org": deliverableUnitId,
-      deleted: false,
+      "deliverable_target_project.deleted": false,
     });
   if (deliverableTargetProjects.length) {
     return true;

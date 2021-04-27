@@ -9,7 +9,7 @@ const checkIfImpactCategoryBelongToImpactTargetProject = async (
     })
     .where({
       "impact_category_unit.impact_category_org": impactCategoryId,
-      deleted: false,
+      "impact_target_project.deleted": false,
     });
   if (impactTargetProjects.length) {
     return true;
@@ -28,7 +28,7 @@ module.exports = async (ctx, next) => {
       );
       if (impactCategoryBelongToImpactTargetProject) {
         throw new Error(
-          "Impact category associated with deiverable target"
+          "Impact category associated with impact target"
         );
       }
     }
