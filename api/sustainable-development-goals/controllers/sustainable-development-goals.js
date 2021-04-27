@@ -14,7 +14,7 @@ module.exports = {
         ctx,
         tableName: "sustainable_development_goal",
         whereCondition: {},
-        tableColumnsToShow: ["id", "name", "icon"],
+        tableColumns: ["id", "name", "icon"],
       });
       return {
         message: `sustainable_development_goal Csv Downloaded Successfully`,

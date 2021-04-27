@@ -214,11 +214,12 @@ module.exports = {
         try {
           const { query } = ctx;
           const sendHeaderWhereValuesCanBeWritten = query.header;
-          const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+          const tableColumns = sendHeaderWhereValuesCanBeWritten
             ? ["name *", "code", "description"]
             : ["id", "name", "code", "description"];
           await exportTableAsCsv({
-            tableColumnsToShow,
+            tableColumns: tableColumns.map((column) => column.replace("*", "")),
+            tableColumnsToShwowInCsv: tableColumns,
             ctx,
             tableName: "impact_category_org",
             whereCondition: sendHeaderWhereValuesCanBeWritten

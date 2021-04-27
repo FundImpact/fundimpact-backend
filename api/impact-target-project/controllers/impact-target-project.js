@@ -88,7 +88,7 @@ module.exports = {
         try {
           const { res, params, query } = ctx;
           const sendHeaderWhereValuesCanBeWritten = query.header;
-          const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+          const tableColumns = sendHeaderWhereValuesCanBeWritten
             ? [
                 "name *",
                 "description",
@@ -116,7 +116,7 @@ module.exports = {
           const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
           const json2csv = new Transform(
             {
-              fields: tableColumnsToShow,
+              fields: tableColumns,
             },
             transformOpts
           );
