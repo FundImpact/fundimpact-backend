@@ -13,7 +13,7 @@ module.exports = {
     try {
       const { query } = ctx;
       const sendHeaderWhereValuesCanBeWritten = query.header;
-      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+      const tableColumns = sendHeaderWhereValuesCanBeWritten
         ? ["name *", "code", "description"]
         : ["id", "name", "code", "description"]; 
       await exportTableAsCsv({
@@ -22,7 +22,8 @@ module.exports = {
         whereCondition: sendHeaderWhereValuesCanBeWritten
           ? false
           : { organization: ctx.query.organization_in[0], deleted: false },
-        tableColumnsToShow,
+        tableColumns: tableColumns.map((column) => column.replace("*", "")),
+        tableColumnsToShwowInCsv: tableColumns,
       });
     }catch (error) {
         console.log(error);

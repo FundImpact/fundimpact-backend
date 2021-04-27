@@ -13,21 +13,22 @@ module.exports = {
     try {
       const { query } = ctx;
       const sendHeaderWhereValuesCanBeWritten = query.header;
-      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+      const tableColumns = sendHeaderWhereValuesCanBeWritten
         ? ["name *", "code", "description"]
-        : ["id", "name", "code", "description"]; 
+        : ["id", "name", "code", "description"];
       await exportTableAsCsv({
         ctx,
         tableName: "impact_units_org",
         whereCondition: sendHeaderWhereValuesCanBeWritten
           ? false
-          : { organization: ctx.query.organization_in[0],  deleted: false },
-        tableColumnsToShow,
+          : { organization: ctx.query.organization_in[0], deleted: false },
+        tableColumns: tableColumns.map((column) => column.replace("*", "")),
+        tableColumnsToShwowInCsv: tableColumns,
       });
-    }catch (error) {
-        console.log(error);
-        return ctx.badRequest(null, error.message);
-      }
+    } catch (error) {
+      console.log(error);
+      return ctx.badRequest(null, error.message);
+    }
   },
   createImpactUnitOrgFromCsv: async (ctx) => {
     try {
@@ -58,7 +59,7 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
-}
+};
 
 const insertRowInImpactUnitOrganizationsTable = async (
   tableColumns,
@@ -81,7 +82,7 @@ const insertRowInImpactUnitOrganizationsTable = async (
         insertObj[columnName] = rowToInsert.split(",")[columnIndex];
         return insertObj;
       },
-      { organization: query.organization_in[0], deleted: false, }
+      { organization: query.organization_in[0], deleted: false }
     );
     const impactCategoryOrgId = getColumnValueFromRowToBeInserted(
       "impact_category_org",

@@ -19,7 +19,7 @@ module.exports = {
         throw new Error("Project not assigned to user");
       }
       const sendHeaderWhereValuesCanBeWritten = query.header;
-      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+      const tableColumns = sendHeaderWhereValuesCanBeWritten
         ? [
             "name *",
             "short_name",
@@ -32,7 +32,7 @@ module.exports = {
       const transformOpts = { highWaterMark: 16384, encoding: "utf-8" };
       const json2csv = new Transform(
         {
-          fields: tableColumnsToShow,
+          fields: tableColumns,
         },
         transformOpts
       );

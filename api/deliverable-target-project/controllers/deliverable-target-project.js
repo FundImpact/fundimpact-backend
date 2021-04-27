@@ -54,7 +54,7 @@ module.exports = {
         throw new Error("Project not assigned to user");
       }
       const sendHeaderWhereValuesCanBeWritten = query.header;
-      const tableColumnsToShow = sendHeaderWhereValuesCanBeWritten
+      const tableColumns = sendHeaderWhereValuesCanBeWritten
         ? ["name *", "description", "target_value *", "deliverable_category_unit *"]
         : ["id", "name", "category", "target", "achieved", "progress"];
       const deliverableTargetTransformOpts = {
@@ -63,7 +63,7 @@ module.exports = {
       };
       const json2csv = new Transform(
         {
-          fields: tableColumnsToShow,
+          fields: tableColumns,
         },
         deliverableTargetTransformOpts
       );

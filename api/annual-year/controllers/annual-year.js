@@ -14,7 +14,7 @@ module.exports = {
         ctx,
         tableName: "annual_year",
         whereCondition: {},
-        tableColumnsToShow: ["id", "name"],
+        tableColumns: ["id", "name"],
       });
       return {
         message: `annual_year Csv Downloaded Successfully`,
