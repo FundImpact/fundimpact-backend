@@ -35,11 +35,11 @@ module.exports = {
   createImpactUnitOrgFromCsv: async (ctx) => {
     try {
       const { request } = ctx;
-      var destinationPath = request.files.importTable.path;
-      var lr = new LineByLineReader(destinationPath);
       let csvHeader = null;
       const columnsWhereValueCanBeInserted = ["name", "code", "description"];
       const rowObjsToBeInserted = [];
+      var destinationPath = request.files.importTable.path;
+      var lr = new LineByLineReader(destinationPath);
 
       lr.on("line", async (line) => {
         try {
