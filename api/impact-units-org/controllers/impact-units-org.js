@@ -35,72 +35,57 @@ module.exports = {
   createImpactUnitOrgFromCsv: async (ctx) => {
     try {
       const { request } = ctx;
-      var destinationPath = request.files.importTable.path;
-      var lr = new LineByLineReader(destinationPath);
       let csvHeader = null;
       const columnsWhereValueCanBeInserted = ["name", "code", "description"];
+      const rowObjsToBeInserted = [];
+      var destinationPath = request.files.importTable.path;
+      var lr = new LineByLineReader(destinationPath);
+
       lr.on("line", async (line) => {
-        if (!csvHeader) {
-          csvHeader = line.split(",");
-        } else {
-          await insertRowInImpactUnitOrganizationsTable(
-            csvHeader,
-            line,
-            columnsWhereValueCanBeInserted,
-            ctx
-          );
+        try {
+          if (!csvHeader) {
+            csvHeader = line.split(",");
+          } else {
+            lr.pause();
+            const rowObj = await getRowObjToBeInserted(
+              csvHeader,
+              line,
+              columnsWhereValueCanBeInserted,
+              ctx
+            );
+            rowObjsToBeInserted.push(rowObj);
+            lr.resume();
+          }
+        } catch (err) {
+          throw lr.emit("error", err);
         }
       });
-      lr.on("error", (error) => {
-        throw error;
+      await new Promise((resolve, reject) => {
+        lr.on("end", async () => {
+          try {
+            await insertRowsInImpactUnitOrgTable(rowObjsToBeInserted);
+            resolve();
+          } catch (err) {
+            lr.emit("error", err);
+          }
+        });
+        lr.on("error", (error) => reject(error));
       });
-      await new Promise((resolve) => lr.on("end", resolve));
       return { message: "Impact Unit Created", done: true };
     } catch (error) {
       console.log(error);
-      return ctx.badRequest(null, error.message);
+      return ctx.badRequest(error.message);
     }
   },
 };
 
-const insertRowInImpactUnitOrganizationsTable = async (
-  tableColumns,
-  rowToInsert,
-  columnsWhereValueCanBeInserted,
-  ctx
-) => {
-  try {
-    const { query } = ctx;
-    const insertObj = tableColumns.reduce(
-      (insertObj, columnName, columnIndex) => {
-        if (
-          !checkIfValueCanBeInsertedInGivenColumn(
-            columnsWhereValueCanBeInserted,
-            columnName
-          )
-        ) {
-          return insertObj;
-        }
-        insertObj[columnName] = rowToInsert.split(",")[columnIndex];
-        return insertObj;
-      },
-      { organization: query.organization_in[0], deleted: false }
-    );
-    const impactCategoryOrgId = getColumnValueFromRowToBeInserted(
-      "impact_category_org",
-      rowToInsert,
-      tableColumns
-    );
-    const isRowValid = await validateRowToBeInserted({
-      ...insertObj,
-      impact_category_org: impactCategoryOrgId,
-    });
-    if (!isRowValid) {
-      return;
-    }
+const insertRowsInImpactUnitOrgTable = async (rowObjsToBeInserted) => {
+  for (let rowObj of rowObjsToBeInserted) {
+    const { impactCategoryOrgId } = rowObj;
+    delete rowObj.impactCategoryOrgId;
     await strapi.connections
       .default("impact_units_org")
-      .insert(insertObj)
+      .insert(rowObj)
       .returning("id")
       .then(([impactUnitOrgId]) =>
         strapi.connections.default("impact_category_unit").insert({
@@ -109,35 +94,74 @@ const insertRowInImpactUnitOrganizationsTable = async (
           status: true,
         })
       );
-  } catch (error) {
-    console.log(error);
-    return ctx.badRequest(null, error.message);
   }
 };
 
-const validateRowToBeInserted = async (rowObj) => {
+const getRowObjToBeInserted = async (
+  tableColumns,
+  rowToInsert,
+  columnsWhereValueCanBeInserted,
+  ctx
+) => {
+  const { query } = ctx;
+  const insertObj = tableColumns.reduce(
+    (insertObj, colName, colIndex) => {
+      if (
+        !checkIfValueCanBeInsertedInGivenColumn(
+          columnsWhereValueCanBeInserted,
+          colName
+        )
+      ) {
+        return insertObj;
+      }
+      insertObj[colName] = rowToInsert.split(",")[colIndex];
+      return insertObj;
+    },
+    { organization: query.organization_in[0], deleted: false }
+  );
+  const impactCategoryOrgId = getColumnValueFromRowToBeInserted(
+    "impact_category_org",
+    rowToInsert,
+    tableColumns
+  );
+  const isRowValid = await validateRowToBeInserted(
+    {
+      ...insertObj,
+      impact_category_org: impactCategoryOrgId,
+    },
+    query.organization_in[0]
+  );
+  if (!isRowValid.valid) {
+    throw new Error(`${isRowValid.errorMessage} for row ${rowToInsert}`);
+  }
+  return { ...insertObj, impactCategoryOrgId };
+};
+
+const validateRowToBeInserted = async (rowObj, organizationId) => {
   if (!rowObj.name) {
-    return false;
+    return { valid: false, errorMessage: "Name not provided" };
   }
   if (!rowObj.impact_category_org) {
-    return false;
+    return { valid: false, errorMessage: "impact_category_org not provided" };
   }
   if (
     !(await canImpactCategoryOrgInsertedInImpactCategoryUnitTable(
-      rowObj.impact_category_org
+      rowObj.impact_category_org,
+      organizationId
     ))
   ) {
-    return false;
+    return { valid: false, errorMessage: "impact_category_org not valid" };
   }
-  return true;
+  return { valid: true };
 };
 
 const canImpactCategoryOrgInsertedInImpactCategoryUnitTable = async (
-  impactCategoryOrgId
+  impactCategoryOrgId,
+  organizationId
 ) => {
   const impactCategoryOrgWithGivenId = await strapi.connections
     .default("impact_category_org")
-    .where({ id: impactCategoryOrgId });
+    .where({ id: impactCategoryOrgId, organization: organizationId });
 
   if (!(impactCategoryOrgWithGivenId && impactCategoryOrgWithGivenId.length)) {
     return false;
