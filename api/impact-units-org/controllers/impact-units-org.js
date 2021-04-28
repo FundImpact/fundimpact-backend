@@ -72,16 +72,16 @@ const insertRowInImpactUnitOrganizationsTable = async (
   try {
     const { query } = ctx;
     const insertObj = tableColumns.reduce(
-      (insertObj, colName, colIndex) => {
+      (insertObj, columnName, columnIndex) => {
         if (
           !checkIfValueCanBeInsertedInGivenColumn(
             columnsWhereValueCanBeInserted,
-            colName
+            columnName
           )
         ) {
           return insertObj;
         }
-        insertObj[colName] = rowToInsert.split(",")[colIndex];
+        insertObj[columnName] = rowToInsert.split(",")[columnIndex];
         return insertObj;
       },
       { organization: query.organization_in[0], deleted: false }
