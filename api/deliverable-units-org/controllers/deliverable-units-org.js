@@ -23,7 +23,7 @@ module.exports = {
           ? false
           : { organization: ctx.query.organization_in[0], deleted: false },
         tableColumns: tableColumns.map((column) => column.replace("*", "")),
-        tableColumnsToShwowInCsv: tableColumns,
+        tableColumnsToShwowInCsv: ["name *", "code", "description", "deliverable_category_org *"],
       });
     }catch (error) {
         console.log(error);
