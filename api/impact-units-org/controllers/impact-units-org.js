@@ -23,7 +23,9 @@ module.exports = {
           ? false
           : { organization: ctx.query.organization_in[0], deleted: false },
         tableColumns: tableColumns.map((column) => column.replace("*", "")),
-        tableColumnsToShwowInCsv: ["name *", "code", "description", "impact_category_org *"],
+        tableColumnsToShwowInCsv: sendHeaderWhereValuesCanBeWritten
+          ? ["name *", "code", "description", "impact_category_org *"]
+          : ["id", "name", "code", "description"],
       });
     } catch (error) {
       console.log(error);
