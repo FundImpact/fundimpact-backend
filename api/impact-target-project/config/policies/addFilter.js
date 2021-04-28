@@ -8,12 +8,21 @@ module.exports = async (ctx, next) => {
         let userProjects = await strapi.query("user-project").find({ user: ctx.state.user.id });
         projects = userProjects.map(m => m.project)
       }
-      Object.assign(ctx.query, {
-        project_in: project.map(m => m.id),
+
+      const userProjects = await strapi.connections
+        .default("workspaces")
+        .select("projects.id")
+        .join("projects", { "projects.workspace": "workspaces.id" })
+        .where({ "workspaces.organization": org[0].id });
+        
+        Object.assign(ctx.query, {
+        project_in: userProjects.map(m => m.id),
         deleted: false
       });
+      ctx.locals = { organizationId: org[0].id }
       return await next();
     } catch (err) {
+      console.log(`err`, err)
       ctx.badRequest(`Error occured - ${err.message}`);
     }
   };

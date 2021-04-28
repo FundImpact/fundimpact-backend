@@ -140,7 +140,7 @@ module.exports = {
         "deliverable_category_unit",
       ];
       const validateRowToBeInserted = async (rowObj) =>
-        await validateRowToBeInsertedInDeliverableTargetProject(rowObj);
+        await validateRowToBeInsertedInDeliverableTargetProject(rowObj, ctx.locals.organizationId);
 
       await importTable({
         columnsWhereValueCanBeInserted,
@@ -160,7 +160,7 @@ module.exports = {
 const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
 
-const validateRowToBeInsertedInDeliverableTargetProject = async (rowObj) => {
+const validateRowToBeInsertedInDeliverableTargetProject = async (rowObj, organizationId) => {
   const requiredColumns = [
     "name",
     "target_value",
@@ -177,18 +177,36 @@ const validateRowToBeInsertedInDeliverableTargetProject = async (rowObj) => {
     return { valid: false, errorMessage: "target_value is not a number" };
   }
 
-  if (
-    !(await isRowIdPresentInTable({
-      rowId: rowObj.deliverable_category_unit,
-      strapi,
-      tableName: "deliverable_category_unit",
-    }))
-  ) {
+  const deliberableCategoryUnit = await strapi.connections
+    .default("deliverable_category_org")
+    .join("deliverable_category_unit", {
+      "deliverable_category_org.id":
+        "deliverable_category_unit.deliverable_category_org",
+    })
+    .where({
+      "deliverable_category_org.organization": organizationId,
+      "deliverable_category_unit.id": rowObj.deliverable_category_unit,
+    });
+
+    if (!deliberableCategoryUnit.length) {
     return {
       valid: false,
       errorMessage: "deliverable_category_unit not valid",
     };
   }
+
+  // if (
+  //   !(await isRowIdPresentInTable({
+  //     rowId: rowObj.deliverable_category_unit,
+  //     strapi,
+  //     tableName: "deliverable_category_unit",
+  //   }))
+  // ) {
+  //   return {
+  //     valid: false,
+  //     errorMessage: "deliverable_category_unit not valid",
+  //   };
+  // }
   return { valid: true };
 };
 
