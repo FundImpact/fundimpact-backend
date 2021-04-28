@@ -242,7 +242,8 @@ module.exports = {
         const validateRowToBeInserted = async (rowObj) =>
           await validateRowToBeInsertedInBudgetTargetProject(
             rowObj,
-            params.projectId
+            params.projectId,
+            ctx.locals.organizationId
           );	
 
         await importTable({
@@ -265,7 +266,8 @@ const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
 
 const validateRowToBeInsertedInBudgetTargetProject = async (
   rowObj,
-  projectId
+  projectId,
+  organizationId
 ) => {
   const requiredColumns = [
     "name",
@@ -289,6 +291,7 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
       rowId: rowObj.budget_category_organization,
       strapi,
       tableName: "budget_category_organizations",
+      where: { organization: organizationId },
     }))
   ) {
     return {

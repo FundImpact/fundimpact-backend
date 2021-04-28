@@ -1,5 +1,5 @@
-const isRowIdPresentInTable = async ({ tableName, rowId, strapi }) =>
-  !!(await strapi.connections.default(tableName).where({ id: rowId })).length;
+const isRowIdPresentInTable = async ({ tableName, rowId, strapi, where = {} }) =>
+  !!(await strapi.connections.default(tableName).where({ id: rowId, ...where })).length;
 
 module.exports = {
   isRowIdPresentInTable,

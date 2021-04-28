@@ -197,7 +197,7 @@ module.exports = {
             "sustainable_development_goal"
           ];
           const validateRowToBeInserted = async (rowObj) =>
-            await validateRowToBeInsertedInImpactTargetProject(rowObj);
+            await validateRowToBeInsertedInImpactTargetProject(rowObj, ctx.locals.organizationId);
       
           await importTable({
             columnsWhereValueCanBeInserted,
@@ -217,7 +217,7 @@ module.exports = {
 const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
 
-const validateRowToBeInsertedInImpactTargetProject = async (rowObj) => {
+const validateRowToBeInsertedInImpactTargetProject = async (rowObj, organizationId) => {
   const requiredColumns = [
     "name",
     "target_value",
@@ -238,18 +238,34 @@ const validateRowToBeInsertedInImpactTargetProject = async (rowObj) => {
     };
   }
 
-  if (
-    !(await isRowIdPresentInTable({
-      rowId: rowObj.impact_category_unit,
-      strapi,
-      tableName: "impact_category_unit",
-    }))
-  ) {
+  const impactCategoryUnit = await strapi.connections
+    .default("impact_category_org")
+    .join("impact_category_unit", {
+      "impact_category_org.id": "impact_category_unit.impact_category_org",
+    })
+    .where({
+      "impact_category_org.organization": organizationId,
+      "impact_category_unit.id": rowObj.impact_category_unit,
+    });
+  if (!impactCategoryUnit.length) {
     return {
       valid: false,
       errorMessage: "impact_category_unit not valid",
     };
   }
+
+  // if (
+  //   !(await isRowIdPresentInTable({
+  //     rowId: rowObj.impact_category_unit,
+  //     strapi,
+  //     tableName: "impact_category_unit",
+  //   }))
+  // ) {
+  //   return {
+  //     valid: false,
+  //     errorMessage: "impact_category_unit not valid",
+  //   };
+  // }
   if (
     !(await isRowIdPresentInTable({
       rowId: rowObj.sustainable_development_goal,
