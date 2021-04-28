@@ -5,9 +5,10 @@
  * to customize this controller
  */
 
- const JSONStream = require("JSONStream");
- const { Transform } = require("json2csv");
+const JSONStream = require("JSONStream");
+const { Transform } = require("json2csv");
 const { importTable } = require('../../../services/importTable')
+var isValid = require('date-fns/isValid')
 
 module.exports = {
     fund_recipet_values : async ctx => {
@@ -119,22 +120,32 @@ const validateRowToBeInsertedInFundReceiptProject = async (
   rowObj,
   projectId
 ) => {
-  const areAllRequiredFieldsPresent = [
-    "amount",
-    "reporting_date",
-    "project_donor",
-  ].every((column) => !!rowObj[column]);
+  const requiredFields = ["amount", "reporting_date", "project_donor"];
 
-  if(!areAllRequiredFieldsPresent){
-    return false;
+  for (let field of requiredFields) {
+    if (!rowObj[field]) {
+      return {
+        valid: false,
+        errorMessage: `${field} not present`,
+      };
+    }
   }
+
+  if (isNaN(rowObj.amount)) {
+    return { valid: false, errorMessage: "amount is not a number" };
+  }
+
+  if (!isValid(new Date(rowObj.reporting_date))) {
+    return { valid: false, errorMessage: "reporting_date is not valid" };
+  }
+
   const projectDonor = await strapi.connections
     .default("project_donor")
     .where({ donor: rowObj.project_donor, project: projectId });
   if (!projectDonor.length) {
-    return false;
+    return { valid: false, errorMessage: "donor not valid" };
   }
-  return true;
+  return { valid: true };
 };
 
 const  updateFundReceiptProvidedInCsv = async (rowObj, projectId) => {

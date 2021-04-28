@@ -9,6 +9,7 @@ const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
 const { importTable } = require("../../../services/importTable");
 const { isRowIdPresentInTable } = require("../../../utils");
+var isValid = require('date-fns/isValid')
 
 module.exports = {
   exportTable: async (ctx) => {
@@ -143,20 +144,32 @@ const checkIfDeliverableTargetProjectBelongToUser = (
   );
 
 const validateRowToBeInsertedInDeliverableLineItem = async (rowObj) => {
-  const areRequiredColsPresent = ["reporting_date", "value"].every(
-    (column) => !!rowObj[column]
-  );
-  if (!areRequiredColsPresent) {
-    return false;
+  const requiredCols= ["reporting_date", "value"];
+  
+  for (let col of requiredCols) {
+    if (!rowObj[col]) {
+      return {
+        valid: false,
+        errorMessage: `${col} not present`,
+      };
+    }
+  }
+
+  if (!isValid(new Date(rowObj.reporting_date))) {
+    return { valid: false, errorMessage: "reporting_date not valid" };
+  }
+
+  if (isNaN(rowObj.value)) {
+    return { valid: false, errorMessage: "value not valid" };
   }
 
   let foreignKeysValid = await checkIfAllTheForeignKeysToBeInsertedAreValid(
     rowObj
   );
-  if (!foreignKeysValid) {
-    return false;
+  if (!foreignKeysValid.valid) {
+    return foreignKeysValid;
   }
-  return true;
+  return { valid: true };
 };
 
 const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
@@ -175,8 +188,8 @@ const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
         rowId: rowObj[columnName],
       }));
     if (foreignKeyInvalid) {
-      return false;
+      return { valid: false, errorMessage: `${columnName} not valid` };
     }
   }
-  return true;
+  return { valid: true };
 };

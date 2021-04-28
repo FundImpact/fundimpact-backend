@@ -9,6 +9,7 @@
 
 const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
+var isValid = require('date-fns/isValid')
 
 module.exports = {
   exportTable: async (ctx) => {
@@ -144,25 +145,37 @@ const isImpactTargetsProjectIdAvailableInUserImpactTargetProjects = (
    );
  
  const validateRowToBeInsertedInImpactLineItem = async (rowObj) => {
-   const areRequiredColumnsPresent = ["reporting_date", "value"].every(
-     (column) => !!rowObj[column]
-   );
-   if (!areRequiredColumnsPresent) {
-     return false;
+   const requiredColumns = ["reporting_date", "value"];
+
+   for (let column of requiredColumns) {
+     if (!rowObj[column]) {
+       return { valid: false, errorMessage: `${column} not present` };
+     }
    }
- 
+
+   if (isNaN(rowObj.value)) {
+     return { valid: false, errorMessage: "value not valid" };
+   }
+
+   if (!isValid(new Date(rowObj.reporting_date))) {
+     return { valid: false, errorMessage: "reporting_date not valid" };
+   }
+
    let areForeignKeysValid = await checkIfAllTheForeignKeysToBeInsertedAreValid(
      rowObj
    );
-   if (!areForeignKeysValid) {
-     return false;
+   if (!areForeignKeysValid.valid) {
+     return areForeignKeysValid;
    }
-   return true;
+   return { valid: true };
  };
  
  const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
    const foreignKeys = [
-     { tableName: "grant_periods_project", columnName: "grant_periods_project" },
+     {
+       tableName: "grant_periods_project",
+       columnName: "grant_periods_project",
+     },
      { tableName: "annual_year", columnName: "annual_year" },
      { tableName: "financial_year", columnName: "financial_year" },
    ];
@@ -176,9 +189,9 @@ const isImpactTargetsProjectIdAvailableInUserImpactTargetProjects = (
          rowId: rowObj[columnName],
        }));
      if (isForeignKeyInvalid) {
-       return false;
+       return { valid: false, errorMessage: `${columnName} not valid` };
      }
    }
-   return true;
+   return { valid: true };
  };
  

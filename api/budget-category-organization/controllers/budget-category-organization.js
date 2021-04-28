@@ -131,11 +131,11 @@ module.exports = {
       const { query } = ctx;
       const columnsWhereValueCanBeInserted = ["name", "code", "description"];
       const validateRowToBeInserted = (rowObj) => {
-        if(!rowObj.name){
-            return false;
+        if (!rowObj.name) {
+          return { valid: false, errorMessage: "name not provided" };
         }
-        return true;
-      }
+        return { valid: true };
+      };
       await importTable({
         columnsWhereValueCanBeInserted,
         ctx,

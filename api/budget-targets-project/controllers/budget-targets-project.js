@@ -267,14 +267,22 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
   rowObj,
   projectId
 ) => {
-  const areRequiredColumnsPresent = [
+  const requiredColumns = [
     "name",
     "total_target_amount",
     "budget_category_organization",
     "donor",
-  ].every((column) => !!rowObj[column]);
-  if (!areRequiredColumnsPresent) {
-    return false;
+  ];
+  for (let column of requiredColumns) {
+    if (!rowObj[column]) {
+      return { valid: false, errorMessage: `${column} not present` };
+    }
+  }
+  if (isNaN(rowObj.total_target_amount)) {
+    return {
+      valid: false,
+      errorMessage: "total_target_amount is not a number",
+    };
   }
   if (
     !(await isRowIdPresentInTable({
@@ -283,15 +291,21 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
       tableName: "budget_category_organizations",
     }))
   ) {
-    return false;
+    return {
+      valid: false,
+      errorMessage: "budget_category_organization not valid",
+    };
   }
   const projectDonor = await strapi.connections
     .default("project_donor")
     .where({ donor: rowObj.donor, project: projectId });
   if (!projectDonor.length) {
-    return false;
+    return {
+      valid: false,
+      errorMessage: "donor not valid",
+    };
   }
-  return true;
+  return { valid: true };
 };
 
 const checkIfProjectBelongToUser = (userProjects, projectId) =>
