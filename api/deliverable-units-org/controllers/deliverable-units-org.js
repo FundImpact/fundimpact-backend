@@ -47,13 +47,13 @@ module.exports = {
             csvHeader = line.split(",");
           } else {
             lr.pause();
-            const rowObj = await getRowObjToBeInserted(
+            const rowObject = await getRowObjToBeInserted(
               csvHeader,
               line,
               columnsWhereValueCanBeInserted,
               ctx
             );
-            rowObjsToBeInserted.push(rowObj);
+            rowObjsToBeInserted.push(rowObject);
             lr.resume();
           }
         } catch (err) {
