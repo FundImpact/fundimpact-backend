@@ -218,36 +218,52 @@ const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
 
 const validateRowToBeInsertedInImpactTargetProject = async (rowObj) => {
-    const areRequiredColumnsPresent = [
-      "name",
-      "target_value",
-      "impact_category_unit",
-      "sustainable_development_goal"
-    ].every((column) => !!rowObj[column]);
-    console.log(`areRequiredColumnsPresent`, areRequiredColumnsPresent)
-    if (!areRequiredColumnsPresent) {
-      return false;
+  const requiredColumns = [
+    "name",
+    "target_value",
+    "impact_category_unit",
+    "sustainable_development_goal",
+  ];
+
+  for (let column of requiredColumns) {
+    if (!rowObj[column]) {
+      return { valid: false, errorMessage: `${column} not present` };
     }
-    if (
-      !(await isRowIdPresentInTable({
-        rowId: rowObj.impact_category_unit,
-        strapi,
-        tableName: "impact_category_unit",
-      }))
-    ) {
-      return false;
-    }
-    if (
-      !(await isRowIdPresentInTable({
-        rowId: rowObj.sustainable_development_goal,
-        strapi,
-        tableName: "sustainable_development_goal",
-      }))
-    ) {
-      return false;
-    }
-    return true;
-  };
+  }
+
+  if (isNaN(rowObj.target_value)) {
+    return {
+      valid: false,
+      errorMessage: "target_value not valid",
+    };
+  }
+
+  if (
+    !(await isRowIdPresentInTable({
+      rowId: rowObj.impact_category_unit,
+      strapi,
+      tableName: "impact_category_unit",
+    }))
+  ) {
+    return {
+      valid: false,
+      errorMessage: "impact_category_unit not valid",
+    };
+  }
+  if (
+    !(await isRowIdPresentInTable({
+      rowId: rowObj.sustainable_development_goal,
+      strapi,
+      tableName: "sustainable_development_goal",
+    }))
+  ) {
+    return {
+      valid: false,
+      errorMessage: "sustainable_development_goal not valid",
+    };
+  }
+  return { valid: true };
+};
   
   const checkIfProjectBelongToUser = (userProjects, projectId) =>
     !!userProjects.find((userProject) => userProject == projectId);

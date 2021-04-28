@@ -8,6 +8,7 @@ const { importTable } = require("../../../services/importTable");
 
 const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
+var isValid = require('date-fns/isValid')
 
 module.exports = {
   exportTable: async (ctx) => {
@@ -93,7 +94,7 @@ module.exports = {
         ctx,
         tableName: "grant_periods_project",
         validateRowToBeInserted,
-        defaultFieldsToInsert: { project: params.projectId, delete: false },
+        defaultFieldsToInsert: { project: params.projectId, deleted: false },
       });
       return { message: "Grant Period Created", done: true };
     } catch (error) {
@@ -110,22 +111,28 @@ const validateRowToBeInsertedInGrantPeriodProject = async (
   rowObj,
   projectId
 ) => {
-  const areAllRequiredFieldsPresent = [
-    "name",
-    "donor",
-    "start_date",
-    "end_date",
-  ].every((column) => !!rowObj[column]);
-  if (!areAllRequiredFieldsPresent) {
-    return false;
+  const requiredFields = ["name", "donor", "start_date", "end_date"];
+  for (let field of requiredFields) {
+    if (!rowObj[field]) {
+      return {
+        valid: false,
+        errorMessage: `${field} not present`,
+      };
+    }
+  }
+  if (!isValid(new Date(rowObj.start_date))) {
+    return { valid: false, errorMessage: "start_date not valid" };
+  }
+  if (!isValid(new Date(rowObj.end_date))) {
+    return { valid: false, errorMessage: "end_date not valid" };
   }
   const projectDonor = await strapi.connections
     .default("project_donor")
     .where({ donor: rowObj.donor, project: projectId });
   if (!projectDonor.length) {
-    return false;
+    return { valid: false, errorMessage: "donor not valid" };
   }
-  return true;
+  return { valid: true };
 };
 
 const checkIfGivenProjectBelongToUser = (userProjects, projectId) =>

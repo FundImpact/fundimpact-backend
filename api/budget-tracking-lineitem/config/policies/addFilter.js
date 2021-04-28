@@ -10,8 +10,13 @@ module.exports = async (ctx, next) => {
             projects  = userProjects.map(m => m.project)
         }
         
-        let budgetTargets = await strapi.query("budget-targets-project").find({project_in:projects.map(m => m.id)});
-        
+        // let budgetTargets = await strapi.query("budget-targets-project").find({project_in:projects.map(m => m.id)});
+        let budgetTargets = await strapi.connections
+          .default("budget_targets_project")
+          .whereIn(
+            "project",
+            projects.map((m) => m.id)
+          );
         Object.assign(ctx.query, {
             budget_targets_project_in: budgetTargets.map(m => m.id),
             deleted: false

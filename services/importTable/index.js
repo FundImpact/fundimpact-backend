@@ -13,70 +13,76 @@ const importTable = async ({
     var destinationPath = request.files.importTable.path;
     var lr = new LineByLineReader(destinationPath);
     let tableColumns = null;
+    const rowObjsToBeInserted = [];
 
     lr.on("line", async (line) => {
-      if (!tableColumns) {
-        tableColumns = line.split(",").map((column) => column.trim());
-      } else {
-        await insertRowInTable(
-          tableColumns,
-          line,
-          columnsWhereValueCanBeInserted,
-          tableName,
-          defaultFieldsToInsert,
-          ctx,
-          validateRowToBeInserted,
-          updateRowToBeInserted
-        );
+      try {
+        if (!tableColumns) {
+          tableColumns = line.split(",").map((column) => column.trim());
+        } else {
+          lr.pause();
+          const rowObj = await getRowObjToBeInserted(
+            tableColumns,
+            line,
+            columnsWhereValueCanBeInserted,
+            defaultFieldsToInsert,
+            validateRowToBeInserted,
+            updateRowToBeInserted
+          );
+          rowObjsToBeInserted.push(rowObj);
+          lr.resume();
+        }
+      } catch (error) {
+        lr.emit("error", error);
       }
     });
-    lr.on("error", (error) => sendErrorMessage(error, ctx));
-    await new Promise((resolve) => lr.on("end", resolve));
+
+    await new Promise((resolve, reject) => {
+      lr.on("end", async () => {
+        await strapi.connections.default(tableName).insert(rowObjsToBeInserted);
+        resolve();
+      });
+      lr.on("error", reject);
+    });
   } catch (error) {
     return sendErrorMessage(error, ctx);
   }
 };
 
-const insertRowInTable = async (
+const getRowObjToBeInserted = async (
   tableColumns,
   rowToInsert,
   columnsWhereValueCanBeInserted,
-  tableName,
   defaultFieldsToInsert,
-  ctx,
   validateRowToBeInserted,
   updateRowToBeInserted
 ) => {
-  try {
-    const insertObj = tableColumns.reduce(
-      (insertObj, columnName, columnIndex) => {
-        if (
-          !checkIfValueCanBeInsertedInGivenColumn(
-            columnsWhereValueCanBeInserted,
-            columnName
-          )
-        ) {
-          return insertObj;
-        }
-        insertObj[columnName] = rowToInsert.split(",")[columnIndex];
+  const insertObj = tableColumns.reduce(
+    (insertObj, columnName, columnIndex) => {
+      if (
+        !checkIfValueCanBeInsertedInGivenColumn(
+          columnsWhereValueCanBeInserted,
+          columnName
+        )
+      ) {
         return insertObj;
-      },
-      { ...defaultFieldsToInsert }
-    );
-    const isRowValid = await validateRowToBeInserted(insertObj);
-    if (!isRowValid) {
-      return;
-    }
-    const updatedInsertObj = await updateRowToBeInserted(insertObj);
-    await strapi.connections.default(tableName).insert([updatedInsertObj]);
-  } catch (error) {
-    return sendErrorMessage(error, ctx);
+      }
+      insertObj[columnName] = rowToInsert.split(",")[columnIndex];
+      return insertObj;
+    },
+    { ...defaultFieldsToInsert }
+  );
+  const validateObj = await validateRowToBeInserted(insertObj);
+  if (!validateObj.valid) {
+    throw new Error(`${validateObj.errorMessage} for row ${rowToInsert}`);
   }
+  const updatedInsertObj = await updateRowToBeInserted(insertObj);
+  return updatedInsertObj;
 };
 
 const sendErrorMessage = (error, ctx) => {
-  console.error(error);
-  return ctx.badRequest(null, error.message);
+  console.log(error);
+  return ctx.badRequest(error.message);
 };
 
 const checkIfValueCanBeInsertedInGivenColumn = (

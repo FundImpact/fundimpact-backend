@@ -161,15 +161,22 @@ const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
 
 const validateRowToBeInsertedInDeliverableTargetProject = async (rowObj) => {
-  const areRequiredColumnsPresent = [
+  const requiredColumns = [
     "name",
     "target_value",
     "deliverable_category_unit",
-  ].every((column) => !!rowObj[column]);
+  ];
 
-  if (!areRequiredColumnsPresent) {
-    return false;
+  for (let column of requiredColumns) {
+    if (!rowObj[column]) {
+      return { valid: false, errorMessage: `${column} not present` };
+    }
   }
+
+  if (isNaN(rowObj.target_value)) {
+    return { valid: false, errorMessage: "target_value is not a number" };
+  }
+
   if (
     !(await isRowIdPresentInTable({
       rowId: rowObj.deliverable_category_unit,
@@ -177,9 +184,12 @@ const validateRowToBeInsertedInDeliverableTargetProject = async (rowObj) => {
       tableName: "deliverable_category_unit",
     }))
   ) {
-    return false;
+    return {
+      valid: false,
+      errorMessage: "deliverable_category_unit not valid",
+    };
   }
-  return true;
+  return { valid: true };
 };
 
 const checkIfProjectBelongToUser = (userProjects, projectId) =>
