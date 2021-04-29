@@ -1,8 +1,3 @@
-const getUserOrganization = async (user) => {
-  const knex = strapi.connections.default;
-  return await knex("organizations").where({ account: user.account });
-};
-
 const checkIfUserIsProjectLevelUserAndGetProjectsAssigned = async (user) => {
   const knex = strapi.connections.default;
   if (user.role && user.role.is_project_level === true) {
@@ -15,25 +10,22 @@ const checkIfUserIsProjectLevelUserAndGetProjectsAssigned = async (user) => {
 
 module.exports = async (ctx, next) => {
   try {
-    const userOrganization = await getUserOrganization(ctx.state.user);
-    // let orgs = await strapi.query("organization").find({
-    //   account: ctx.state.user.account,
-    // });
-    let workspaces = await strapi.query("workspace").find({
-      organization_in: userOrganization.map((m) => m.id),
+    const knex = strapi.connections.default;
+    let orgs = await knex("organizations").where({
+      account: ctx.state.user.account,
     });
     Object.assign(ctx.query, {
-      workspace_in: workspaces.map((m) => m.id),
+      deleted: false,
     });
     ctx.locals = {
-      organizationId: userOrganization[0].id,
       restrictedProjects: await checkIfUserIsProjectLevelUserAndGetProjectsAssigned(
         ctx.state.user
       ),
+      organizationId: orgs[0].id,
     };
     return await next();
-  } catch (err) {
-    // console.log("error",err);
+  } catch (error) {
+    console.log(error);
     ctx.badRequest(`Error occured - ${err.message}`);
   }
 };

@@ -41,6 +41,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/donors/import-table",
+      "handler": "donor.createDonorFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "PUT",
       "path": "/donors/:id",
       "handler": "donor.update",
