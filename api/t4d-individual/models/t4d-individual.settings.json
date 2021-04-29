@@ -19,6 +19,10 @@
     "organization": {
       "model": "organization",
       "via": "t_4_d_individuals"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
