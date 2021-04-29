@@ -89,10 +89,10 @@ module.exports = {
       }
 
       let csvHeader = null;
-      const columnsWhereValueCanBeInserted = ["name"];
-      const rowObjsToBeInserted = [];
       var destinationPath = request.files.importTable.path;
       var lr = new LineByLineReader(destinationPath);
+      const columnsWhereValueCanBeInserted = ["name"];
+      const rowObjsToBeInserted = [];
 
       lr.on("line", async (line) => {
         try {
