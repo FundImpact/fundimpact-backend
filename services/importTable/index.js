@@ -59,15 +59,17 @@ const getRowObjToBeInserted = async (
 ) => {
   const insertObj = tableColumns.reduce(
     (insertObj, columnName, columnIndex) => {
+      const columnValue = rowToInsert.split(",")[columnIndex];
       if (
         !checkIfValueCanBeInsertedInGivenColumn(
           columnsWhereValueCanBeInserted,
           columnName
-        )
+        ) ||
+        columnValue.trim() === ""
       ) {
         return insertObj;
       }
-      insertObj[columnName] = rowToInsert.split(",")[columnIndex];
+      insertObj[columnName] = columnValue;
       return insertObj;
     },
     { ...defaultFieldsToInsert }
