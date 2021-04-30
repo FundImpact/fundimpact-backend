@@ -25,15 +25,19 @@ module.exports = async (ctx, next) => {
     Object.assign(ctx.query, {
       workspace_in: workspaces.map((m) => m.id),
     });
+    const restrictedProjects = await checkIfUserIsProjectLevelUserAndGetProjectsAssigned(
+      ctx.state.user
+    );
+    if (restrictedProjects) {
+      ctx.query.id_in = restrictedProjects;
+    }
     ctx.locals = {
       organizationId: userOrganization[0].id,
-      restrictedProjects: await checkIfUserIsProjectLevelUserAndGetProjectsAssigned(
-        ctx.state.user
-      ),
+      restrictedProjects,
     };
     return await next();
   } catch (err) {
-    // console.log("error",err);
+    console.erro("error",err);
     ctx.badRequest(`Error occured - ${err.message}`);
   }
 };
