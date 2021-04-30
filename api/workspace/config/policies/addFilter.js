@@ -6,10 +6,10 @@ const getUserOrganization = async (user) => {
 const checkIfUserIsProjectLevelUserAndGetProjectsAssigned = async (user) => {
   const knex = strapi.connections.default;
   if (user.role && user.role.is_project_level === true) {
-    const userProjects = await knex("user_projects").where({
+    const projects = await knex("user_projects").where({
       user: user.id,
     });
-    return userProjects.map((userProject) => userProject.project);
+    return projects.map((userProject) => userProject.project);
   }
 };
 
