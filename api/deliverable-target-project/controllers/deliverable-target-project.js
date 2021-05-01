@@ -108,6 +108,7 @@ module.exports = {
             : {
                 project: params.projectId,
                 ["deliverable_target_project.deleted"]: false,
+                ["deliverable_tracking_lineitem.deleted"]: false,
               }
         )
         .stream();

@@ -27,9 +27,9 @@ module.exports = {
           ? ["name *", "code", "description", "deliverable_category_org *"]
           : ["id", "name", "code", "description"],
       });
-    }catch (error) {
-        console.log(error);
-        return ctx.badRequest(null, error.message);
+    } catch (error) {
+      console.error(error);
+      return ctx.badRequest(null, error.message);
     }
   },
   createDeliverableUnitOrgFromCsv: async (ctx) => {
@@ -44,7 +44,11 @@ module.exports = {
       lr.on("line", async (line) => {
         try {
           if (!csvHeader) {
-            csvHeader = line.split(",");
+            csvHeader = line
+              .split(",")
+              .map((column) =>
+                column.replace("*", "").replace("(YYYY-MM-DD)", "").trim()
+              );
           } else {
             lr.pause();
             const rowObject = await getRowObjToBeInserted(
@@ -76,8 +80,8 @@ module.exports = {
       console.log(error);
       return ctx.badRequest(error.message);
     }
-  }
-}
+  },
+};
 
 const insertRowsInDeliverableUnitOrgTable = async (rowObjsToBeInserted) => {
   for (let rowObj of rowObjsToBeInserted) {
@@ -137,13 +141,15 @@ const getRowObjToBeInserted = async (
   return { ...insertObj, deliverableCategoryOrgId };
 };
 
-
 const validateRowToBeInserted = async (rowObj, organizationId) => {
   if (!rowObj.name) {
     return { valid: false, errorMessage: "Name not provided" };
   }
   if (!rowObj.deliverable_category_org) {
-    return { valid: false, errorMessage: "deliverable_category_org not provided" };
+    return {
+      valid: false,
+      errorMessage: "deliverable_category_org not provided",
+    };
   }
   if (
     !(await canDeliverableCategoryOrgInsertedInDeliverableCategoryUnitTable(
@@ -164,7 +170,12 @@ const canDeliverableCategoryOrgInsertedInDeliverableCategoryUnitTable = async (
     .default("deliverable_category_org")
     .where({ id: deliverableCategoryOrgId, organization: organizationId });
 
-  if (!(deliverableCategoryOrgWithGivenId && deliverableCategoryOrgWithGivenId.length)) {
+  if (
+    !(
+      deliverableCategoryOrgWithGivenId &&
+      deliverableCategoryOrgWithGivenId.length
+    )
+  ) {
     return false;
   }
 

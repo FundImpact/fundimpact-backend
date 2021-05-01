@@ -164,7 +164,11 @@ module.exports = {
             .where(
               sendHeaderWhereValuesCanBeWritten
                 ? false
-                : { project: params.projectId, ["impact_target_project.deleted"]: false }
+                : {
+                    project: params.projectId,
+                    ["impact_target_project.deleted"]: false,
+                    ["impact_tracking_lineitem.deleted"]: false,
+                  }
             )
             .stream();
           impactTargetProjectStream

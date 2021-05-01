@@ -33,6 +33,14 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/donors/export-table/:projectId",
+      "handler": "donor.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
       "method": "POST",
       "path": "/donors",
       "handler": "donor.create",

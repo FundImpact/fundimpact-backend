@@ -154,7 +154,7 @@ module.exports = {
                 "progress",
               ]
             : [
-                "name",
+                "name *",
                 "description",
                 "total_target_amount *",
                 "budget_category_organization *",
@@ -207,6 +207,7 @@ module.exports = {
                 : {
                     project: params.projectId,
                     ["budget_targets_project.deleted"]: false,
+                    ["budget_tracking_lineitem.deleted"]: false,
                   }
             )
             .stream();
