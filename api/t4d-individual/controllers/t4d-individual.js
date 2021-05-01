@@ -54,7 +54,10 @@ module.exports = {
         .where(
           checkIfUserWantHeaderWhereValueCanBeWritten(query)
             ? false
-            : { "t4d_individuals.organization": locals.organizationId }
+            : {
+                "t4d_individuals.organization": locals.organizationId,
+                "t4d_individuals.deleted": false,
+              }
         )
         .modify(function (queryBuilder) {
           if (params.projectId) {
