@@ -35,7 +35,10 @@ module.exports = {
         .where(
           sendHeaderWhereValuesCanBeWritten
             ? false
-            : { organization: query.organization_in[0] }
+            : {
+                organization: query.organization_in[0],
+                "donors.deleted": false,
+              }
         )
         .modify(function (queryBuilder) {
           if (ctx.params.projectId && !sendHeaderWhereValuesCanBeWritten) {
