@@ -44,7 +44,11 @@ module.exports = {
       lr.on("line", async (line) => {
         try {
           if (!csvHeader) {
-            csvHeader = line.split(",");
+            csvHeader = line
+              .split(",")
+              .map((column) =>
+                column.replace("*", "").replace("(YYYY-MM-DD)", "").trim()
+              );
           } else {
             lr.pause();
             const rowObj = await getRowObjToBeInserted(

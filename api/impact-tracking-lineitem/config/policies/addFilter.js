@@ -25,8 +25,8 @@ module.exports = async (ctx, next) => {
       impactTargetProject = await strapi.connections
         .default("impact_target_project")
         .whereIn(
-          "impact_category_unit",
-          userProjects.map((m) => m.project)
+          "project",
+          userProjects.map((m) => m.project.id)
         );
     }
 
@@ -36,6 +36,7 @@ module.exports = async (ctx, next) => {
     });
     return await next();
   } catch (err) {
+    console.error(err);
     ctx.badRequest(`Error occured - ${err.message}`);
   }
 };

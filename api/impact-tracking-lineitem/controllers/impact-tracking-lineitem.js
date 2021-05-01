@@ -18,7 +18,6 @@ module.exports = {
       const sendHeaderWhereValuesCanBeWritten = query.header;
       const tableColumns = sendHeaderWhereValuesCanBeWritten
         ? [
-            "grant_periods_project",
             "value *",
             "note",
             "reporting_date * (YYYY-MM-DD)",
@@ -92,7 +91,6 @@ module.exports = {
       const { query, params } = ctx;
       const columnsWhereValueCanBeInserted = [
         "impact_target_project",
-        "grant_periods_project",
         "value",
         "note",
         "reporting_date",
@@ -172,10 +170,6 @@ const isImpactTargetsProjectIdAvailableInUserImpactTargetProjects = (
  
  const checkIfAllTheForeignKeysToBeInsertedAreValid = async (rowObj) => {
    const foreignKeys = [
-     {
-       tableName: "grant_periods_project",
-       columnName: "grant_periods_project",
-     },
      { tableName: "annual_year", columnName: "annual_year" },
      { tableName: "financial_year", columnName: "financial_year" },
    ];

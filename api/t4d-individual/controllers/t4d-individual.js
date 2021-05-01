@@ -97,7 +97,11 @@ module.exports = {
       lr.on("line", async (line) => {
         try {
           if (!csvHeader) {
-            csvHeader = line.split(",");
+            csvHeader = line
+              .split(",")
+              .map((column) =>
+                column.replace("*", "").replace("(YYYY-MM-DD)", "").trim()
+              );
           } else {
             lr.pause();
             const rowObj = await getRowObjToBeInserted(
@@ -209,7 +213,7 @@ const validateRowToBeInsertedInT4dIndividual = async (rowObj, ctx) => {
 const checkIfUserWantHeaderWhereValueCanBeWritten = (query) => query.header;
 
 const getTableColumnsWhereValueCanBeWritten = (params) =>
-  params.projectId ? ["name"] : ["name", "project"];
+  params.projectId ? ["name *"] : ["name *", "project"];
 
 const getColumnValueFromRowToBeInserted = (
   columnName,

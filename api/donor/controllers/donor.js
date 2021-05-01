@@ -32,6 +32,20 @@ module.exports = {
         .join("countries", {
           [`donors.country`]: "countries.id",
         })
+        .where(
+          sendHeaderWhereValuesCanBeWritten
+            ? false
+            : { organization: query.organization_in[0] }
+        )
+        .modify(function (queryBuilder) {
+          if (ctx.params.projectId && !sendHeaderWhereValuesCanBeWritten) {
+            queryBuilder
+              .join("project_donor", {
+                "donors.id": "project_donor.donor",
+              })
+              .where({ "project_donor.project": ctx.params.projectId });
+          }
+        })
         .column([
           "donors.id",
           "donors.name as name",
@@ -39,7 +53,6 @@ module.exports = {
           "donors.short_name",
           "countries.name as country",
         ])
-        .where({ organization: query.organization_in[0] })
         .stream();
       stream.pipe(JSONStream.stringify()).pipe(json2csv).pipe(res);
       return await new Promise((resolve) => stream.on("end", resolve));
