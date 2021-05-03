@@ -19,14 +19,13 @@ module.exports = async (ctx, next) => {
         "deliverable_category_unit",
         deliverableCategoryunit.map((m) => m.id)
       );
-
     if (ctx.state.user.role && ctx.state.user.role.is_project_level === true) {
       let userProjects = await strapi.query("user-project").find({ user: ctx.state.user.id });
       deliverableTargetProject = await strapi.connections
         .default("deliverable_target_project")
         .whereIn(
           "project",
-          userProjects.map((m) => m.project)
+          userProjects.map((m) => m.project.id)
         );
     }
     Object.assign(ctx.query, {

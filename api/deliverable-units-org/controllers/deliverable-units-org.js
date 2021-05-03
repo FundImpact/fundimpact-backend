@@ -27,9 +27,9 @@ module.exports = {
           ? ["name *", "code", "description", "deliverable_category_org *"]
           : ["id", "name", "code", "description"],
       });
-    }catch (error) {
-        console.log(error);
-        return ctx.badRequest(null, error.message);
+    } catch (error) {
+      console.error(error);
+      return ctx.badRequest(null, error.message);
     }
   },
   createDeliverableUnitOrgFromCsv: async (ctx) => {
@@ -39,68 +39,57 @@ module.exports = {
       var lr = new LineByLineReader(destinationPath);
       let csvHeader = null;
       const columnsWhereValueCanBeInserted = ["name", "code", "description"];
+      const rowObjsToBeInserted = [];
+
       lr.on("line", async (line) => {
-        if (!csvHeader) {
-          csvHeader = line.split(",");
-        } else {
-          await insertRowInDeliverableUnitOrganizationsTable(
-            csvHeader,
-            line,
-            columnsWhereValueCanBeInserted,
-            ctx
-          );
+        try {
+          if (!csvHeader) {
+            csvHeader = line
+              .split(",")
+              .map((column) =>
+                column.replace("*", "").replace("(YYYY-MM-DD)", "").trim()
+              );
+          } else {
+            lr.pause();
+            const rowObject = await getRowObjToBeInserted(
+              csvHeader,
+              line,
+              columnsWhereValueCanBeInserted,
+              ctx
+            );
+            rowObjsToBeInserted.push(rowObject);
+            lr.resume();
+          }
+        } catch (err) {
+          throw lr.emit("error", err);
         }
       });
-      lr.on("error", (error) => {
-        throw error;
+      await new Promise((resolve, reject) => {
+        lr.on("end", async () => {
+          try {
+            await insertRowsInDeliverableUnitOrgTable(rowObjsToBeInserted);
+            resolve();
+          } catch (err) {
+            lr.emit("error", err);
+          }
+        });
+        lr.on("error", (error) => reject(error));
       });
-      await new Promise((resolve) => lr.on("end", resolve));
       return { message: "Deliverable Unit Created", done: true };
     } catch (error) {
       console.log(error);
-      return ctx.badRequest(null, error.message);
+      return ctx.badRequest(error.message);
     }
   },
-}
+};
 
-const insertRowInDeliverableUnitOrganizationsTable = async (
-  tableColumns,
-  rowToInsert,
-  columnsWhereValueCanBeInserted,
-  ctx
-) => {
-  try {
-    const { query } = ctx;
-    const insertObj = tableColumns.reduce(
-      (insertObj, columnName, columnIndex) => {
-        if (
-          !checkIfValueCanBeInsertedInGivenColumn(
-            columnsWhereValueCanBeInserted,
-            columnName
-          )
-        ) {
-          return insertObj;
-        }
-        insertObj[columnName] = rowToInsert.split(",")[columnIndex];
-        return insertObj;
-      },
-      { organization: query.organization_in[0], deleted: false }
-    );
-    const deliverableCategoryOrgId = getColumnValueFromRowToBeInserted(
-      "deliverable_category_org",
-      rowToInsert,
-      tableColumns
-    );
-    const isRowValid = await validateRowToBeInserted({
-      ...insertObj,
-      deliverable_category_org: deliverableCategoryOrgId,
-    });
-    if (!isRowValid) {
-      return;
-    }
+const insertRowsInDeliverableUnitOrgTable = async (rowObjsToBeInserted) => {
+  for (let rowObj of rowObjsToBeInserted) {
+    const { deliverableCategoryOrgId } = rowObj;
+    delete rowObj.deliverableCategoryOrgId;
     await strapi.connections
       .default("deliverable_unit_org")
-      .insert(insertObj)
+      .insert(rowObj)
       .returning("id")
       .then(([deliverableUnitOrgId]) =>
         strapi.connections.default("deliverable_category_unit").insert({
@@ -109,35 +98,77 @@ const insertRowInDeliverableUnitOrganizationsTable = async (
           status: true,
         })
       );
-  } catch (error) {
-    console.log(error);
-    return ctx.badRequest(null, error.message);
   }
 };
 
-const validateRowToBeInserted = async (rowObj) => {
+const getRowObjToBeInserted = async (
+  tableColumns,
+  rowToInsert,
+  columnsWhereValueCanBeInserted,
+  ctx
+) => {
+  const { query } = ctx;
+  const insertObj = tableColumns.reduce(
+    (insertObj, columnName, columnIndex) => {
+      if (
+        !checkIfValueCanBeInsertedInGivenColumn(
+          columnsWhereValueCanBeInserted,
+          columnName
+        )
+      ) {
+        return insertObj;
+      }
+      insertObj[columnName] = rowToInsert.split(",")[columnIndex];
+      return insertObj;
+    },
+    { organization: query.organization_in[0], deleted: false }
+  );
+  const deliverableCategoryOrgId = getColumnValueFromRowToBeInserted(
+    "deliverable_category_org",
+    rowToInsert,
+    tableColumns
+  );
+  const isRowValid = await validateRowToBeInserted(
+    {
+      ...insertObj,
+      deliverable_category_org: deliverableCategoryOrgId,
+    },
+    query.organization_in[0]
+  );
+  if (!isRowValid.valid) {
+    throw new Error(`${isRowValid.errorMessage} for row ${rowToInsert}`);
+  }
+  return { ...insertObj, deliverableCategoryOrgId };
+};
+
+const validateRowToBeInserted = async (rowObj, organizationId) => {
   if (!rowObj.name) {
-    return false;
+    return { valid: false, errorMessage: "Name not provided" };
   }
   if (!rowObj.deliverable_category_org) {
-    return false;
+    return {
+      valid: false,
+      errorMessage: "deliverable_category_org not provided",
+    };
   }
   if (
     !(await canDeliverableCategoryOrgInsertedInDeliverableCategoryUnitTable(
-      rowObj.deliverable_category_org
+      rowObj.deliverable_category_org,
+      organizationId
     ))
   ) {
-    return false;
+    return { valid: false, errorMessage: "deliverable_category_org not valid" };
   }
-  return true;
+  return { valid: true };
 };
 
 const canDeliverableCategoryOrgInsertedInDeliverableCategoryUnitTable = async (
-  deliverableCategoryOrgId
+  deliverableCategoryOrgId,
+  organizationId
 ) => {
   const deliverableCategoryOrgWithGivenId = await strapi.connections
     .default("deliverable_category_org")
-    .where({ id: deliverableCategoryOrgId });
+    .where({ id: deliverableCategoryOrgId, organization: organizationId });
 
   if (
     !(

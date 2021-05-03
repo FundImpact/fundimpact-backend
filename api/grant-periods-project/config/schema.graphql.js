@@ -27,6 +27,7 @@ module.exports = {
             },
             updateGrantPeriodsProjectDetail:{
                 resolverOf: "application::grant-periods-project.grant-periods-project.update",
+                policies: ["application::grant-periods-project.isGrantPeriodAssociatedWithOtherTable"],
                 resolver:  async (obj, options, { context }) => {
                     context.params = _.toPlainObject(options);
                     context.request.body = _.toPlainObject(options.input);

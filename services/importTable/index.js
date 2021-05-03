@@ -18,7 +18,11 @@ const importTable = async ({
     lr.on("line", async (line) => {
       try {
         if (!tableColumns) {
-          tableColumns = line.split(",").map((column) => column.trim());
+          tableColumns = line
+            .split(",")
+            .map((column) =>
+              column.replace("*", "").replace("(YYYY-MM-DD)", "").trim()
+            );
         } else {
           lr.pause();
           const rowObj = await getRowObjToBeInserted(
@@ -59,15 +63,17 @@ const getRowObjToBeInserted = async (
 ) => {
   const insertObj = tableColumns.reduce(
     (insertObj, columnName, columnIndex) => {
+      const columnValue = rowToInsert.split(",")[columnIndex];
       if (
         !checkIfValueCanBeInsertedInGivenColumn(
           columnsWhereValueCanBeInserted,
           columnName
-        )
+        ) ||
+        columnValue.trim() === ""
       ) {
         return insertObj;
       }
-      insertObj[columnName] = rowToInsert.split(",")[columnIndex];
+      insertObj[columnName] = columnValue;
       return insertObj;
     },
     { ...defaultFieldsToInsert }

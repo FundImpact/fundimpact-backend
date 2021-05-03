@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/countries/export-table",
+      "handler": "country.exportTable",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/countries/:id",
       "handler": "country.findOne",
       "config": {
