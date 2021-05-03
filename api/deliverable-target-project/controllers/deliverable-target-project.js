@@ -96,10 +96,10 @@ module.exports = {
             `concat(deliverable_target_project.target_value, ' ', deliverable_unit_org.name) as target`
           ),
           strapi.connections.default.raw(
-            `concat(sum(deliverable_tracking_lineitem.value), ' ', deliverable_unit_org.name) as achieved`
+            `concat(sum(case when COALESCE(deliverable_tracking_lineitem.deleted, false) <> true then deliverable_tracking_lineitem.value else 0 end), ' ', deliverable_unit_org.name) as achieved`
           ),
           strapi.connections.default.raw(
-            `sum(deliverable_tracking_lineitem.value) / deliverable_target_project.target_value * 100 as progress`
+            `sum(case when COALESCE(deliverable_tracking_lineitem.deleted, false) <> true then deliverable_tracking_lineitem.value else 0 end) / deliverable_target_project.target_value * 100 as progress`
           ),
         ])
         .where(
@@ -108,7 +108,7 @@ module.exports = {
             : {
                 project: params.projectId,
                 ["deliverable_target_project.deleted"]: false,
-                ["deliverable_tracking_lineitem.deleted"]: false,
+                // ["deliverable_tracking_lineitem.deleted"]: false,
               }
         )
         .stream();

@@ -154,10 +154,10 @@ module.exports = {
                 `concat(impact_target_project.target_value, ' ', impact_units_org.name) as target`
               ),
               strapi.connections.default.raw(
-                `concat(sum(impact_tracking_lineitem.value), ' ', impact_units_org.name) as achieved`
+                `concat(sum(case when COALESCE(impact_tracking_lineitem.deleted, false) <> true then impact_tracking_lineitem.value else 0 end), ' ', impact_units_org.name) as achieved`
               ),
               strapi.connections.default.raw(
-                `sum(impact_tracking_lineitem.value) / impact_target_project.target_value * 100 as progress`
+                `sum(case when COALESCE(impact_tracking_lineitem.deleted, false) <> true then impact_tracking_lineitem.value else 0 end) / impact_target_project.target_value * 100 as progress`
               ),
               "sustainable_development_goal.icon as sdg",
             ])
@@ -167,7 +167,7 @@ module.exports = {
                 : {
                     project: params.projectId,
                     ["impact_target_project.deleted"]: false,
-                    ["impact_tracking_lineitem.deleted"]: false,
+                    // ["impact_tracking_lineitem.deleted"]: false,
                   }
             )
             .stream();
