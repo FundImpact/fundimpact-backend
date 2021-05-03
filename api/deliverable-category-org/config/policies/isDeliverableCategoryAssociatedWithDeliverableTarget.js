@@ -3,12 +3,12 @@ const checkIfDeliverableCategoryBelongToDeliverableTargetProject = async (
 ) => {
   const knex = strapi.connections.default;
   const deliverableTargetProjects = await knex("deliverable_target_project")
-    .join("deliverable_category_unit", {
-      "deliverable_category_unit.id":
-        "deliverable_target_project.deliverable_category_unit",
+    .join("deliverable_category_org", {
+      "deliverable_category_org.id":
+        "deliverable_target_project.deliverable_category_org",
     })
     .where({
-      "deliverable_category_unit.deliverable_category_org": deliverableCategoryId,
+      "deliverable_category_org.id": deliverableCategoryId,
       "deliverable_target_project.deleted": false,
     });
   if (deliverableTargetProjects.length) {

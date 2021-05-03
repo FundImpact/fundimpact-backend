@@ -51,11 +51,8 @@ module.exports = {
         .leftJoin("financial_year", {
           ["financial_year.id"]: "deliverable_tracking_lineitem.financial_year",
         })
-        .join("deliverable_category_unit", {
-          [`deliverable_target_project.deliverable_category_unit`]: "deliverable_category_unit.id",
-        })
         .join("deliverable_unit_org", {
-          [`deliverable_category_unit.deliverable_units_org`]: "deliverable_unit_org.id",
+          [`deliverable_target_project.deliverable_unit_org`]: "deliverable_unit_org.id",
         })
         .leftJoin("annual_year", {
           ["annual_year.id"]: "deliverable_tracking_lineitem.annual_year",

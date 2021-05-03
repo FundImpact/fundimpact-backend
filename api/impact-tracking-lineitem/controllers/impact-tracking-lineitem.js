@@ -48,11 +48,8 @@ module.exports = {
         .join("impact_target_project", {
           [`impact_tracking_lineitem.impact_target_project`]: "impact_target_project.id",
         })
-        .join("impact_category_unit", {
-          [`impact_target_project.impact_category_unit`]: "impact_category_unit.id",
-        })
         .join("impact_units_org", {
-          [`impact_category_unit.impact_units_org`]: "impact_units_org.id",
+          [`impact_target_project.impact_units_org`]: "impact_units_org.id",
         })
         .leftJoin("financial_year", {
           ["financial_year.id"]: "impact_tracking_lineitem.financial_year",

@@ -55,7 +55,13 @@ module.exports = {
       }
       const sendHeaderWhereValuesCanBeWritten = query.header;
       const tableColumns = sendHeaderWhereValuesCanBeWritten
-        ? ["name *", "description", "target_value *", "deliverable_category_unit *"]
+        ? [
+            "name *",
+            "description",
+            "target_value *",
+            "deliverable_category_org *",
+            "deliverable_unit_org *",
+          ]
         : ["id", "name", "category", "target", "achieved", "progress"];
       const deliverableTargetTransformOpts = {
         highWaterMark: 16384,
@@ -72,14 +78,11 @@ module.exports = {
       ctx.set("Content-Type", "text/csv");
       const deliverableTargetProjectStream = strapi.connections
         .default("deliverable_target_project")
-        .join("deliverable_category_unit", {
-          [`deliverable_target_project.deliverable_category_unit`]: "deliverable_category_unit.id",
-        })
         .join("deliverable_category_org", {
-          [`deliverable_category_unit.deliverable_category_org`]: "deliverable_category_org.id",
+          [`deliverable_target_project.deliverable_category_org`]: "deliverable_category_org.id",
         })
         .join("deliverable_unit_org", {
-          [`deliverable_category_unit.deliverable_units_org`]: "deliverable_unit_org.id",
+          [`deliverable_target_project.deliverable_unit_org`]: "deliverable_unit_org.id",
         })
         .leftJoin("deliverable_tracking_lineitem", {
           ["deliverable_target_project.id"]:
@@ -138,16 +141,20 @@ module.exports = {
         "name",
         "description",
         "target_value",
-        "deliverable_category_unit",
+        "deliverable_category_org",
+        "deliverable_unit_org",
       ];
       const validateRowToBeInserted = async (rowObj) =>
-        await validateRowToBeInsertedInDeliverableTargetProject(rowObj, ctx.locals.organizationId);
+        await validateRowToBeInsertedInDeliverableTargetProject(
+          rowObj,
+          ctx.locals.organizationId
+        );
 
       await importTable({
         columnsWhereValueCanBeInserted,
         ctx,
         tableName: "deliverable_target_project",
-        defaultFieldsToInsert: { project: params.projectId, deleted: false, },
+        defaultFieldsToInsert: { project: params.projectId, deleted: false },
         validateRowToBeInserted,
       });
       return { message: "Deliverable Target Created", done: true };
@@ -161,11 +168,15 @@ module.exports = {
 const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
   userProjects.some((userProject) => userProject == projectId);
 
-const validateRowToBeInsertedInDeliverableTargetProject = async (rowObj, organizationId) => {
+const validateRowToBeInsertedInDeliverableTargetProject = async (
+  rowObj,
+  organizationId
+) => {
   const requiredColumns = [
     "name",
     "target_value",
-    "deliverable_category_unit",
+    "deliverable_category_org",
+    "deliverable_unit_org",
   ];
 
   for (let column of requiredColumns) {
@@ -178,21 +189,36 @@ const validateRowToBeInsertedInDeliverableTargetProject = async (rowObj, organiz
     return { valid: false, errorMessage: "target_value is not a number" };
   }
 
-  const deliberableCategoryUnit = await strapi.connections
-    .default("deliverable_category_org")
-    .join("deliverable_category_unit", {
-      "deliverable_category_org.id":
-        "deliverable_category_unit.deliverable_category_org",
-    })
-    .where({
-      "deliverable_category_org.organization": organizationId,
-      "deliverable_category_unit.id": rowObj.deliverable_category_unit,
-    });
-
-    if (!deliberableCategoryUnit.length) {
+  if (
+    !(await isRowIdPresentInTable({
+      rowId: rowObj.deliverable_category_org,
+      strapi,
+      tableName: "deliverable_category_org",
+      where: {
+        organization: organizationId,
+        deleted: false
+      },
+    }))
+  ) {
     return {
       valid: false,
-      errorMessage: "deliverable_category_unit not valid",
+      errorMessage: "deliverable_category_org not valid",
+    };
+  }
+  if (
+    !(await isRowIdPresentInTable({
+      rowId: rowObj.deliverable_unit_org,
+      strapi,
+      tableName: "deliverable_unit_org",
+      where: {
+        organization: organizationId,
+        deleted: false
+      },
+    }))
+  ) {
+    return {
+      valid: false,
+      errorMessage: "deliverable_unit_org not valid",
     };
   }
 

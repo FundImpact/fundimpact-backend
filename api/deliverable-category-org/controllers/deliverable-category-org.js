@@ -17,8 +17,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select dc.id, dc.name ,count(dtp.project) 
             from deliverable_category_org dc 
-            INNER JOIN deliverable_category_unit dcu  ON dc.id = dcu.deliverable_category_org 
-            INNER JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit  
+            INNER JOIN deliverable_target_project dtp ON dc.id = dtp.deliverable_category_org  
             where dc.id IN (${ctx.query.deliverable_category_org})
             and dc.deleted = false
             and dtp.deleted = false
@@ -33,8 +32,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select du.id, du.name , count(dtp.project) 
             from deliverable_unit_org du 
-            INNER JOIN deliverable_category_unit dcu ON du.id = dcu.deliverable_units_org 
-            INNER JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit 
+            INNER JOIN deliverable_target_project dtp ON du.id = dtp.deliverable_unit_org 
             where du.id = ${ctx.query.deliverable_unit_org} 
             and du.deleted = false
             and dtp.deleted = false
@@ -49,8 +47,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select count(dtp.project) 
             from deliverable_category_org dco 
-            JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
-            JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id  
+            JOIN deliverable_target_project dtp ON dtp.deliverable_category_org = dco.id  
             where organization = ${ctx.query.organization}
             and dtp.deleted = false
             `)
@@ -154,8 +151,7 @@ module.exports = {
             let data = await strapi.connections.default.raw(`WITH cte AS( select dtp.id , dtp.target_value as sum_dtp ,  
             sum(dtl.value) as sum_dtl 
             from deliverable_category_org dco 
-            JOIN deliverable_category_unit dcu ON  dco.id = dcu.deliverable_category_org 
-            JOIN deliverable_target_project dtp ON dtp.deliverable_category_unit = dcu.id 
+            JOIN deliverable_target_project dtp ON dtp.deliverable_category_org = dco.id 
             JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project  
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id
@@ -176,8 +172,7 @@ module.exports = {
     deliverable_category_project_count :  async ctx => {
         try {
             let data = await strapi.connections.default.raw(`select dco.id , dco.name , count(dtp.project) from deliverable_category_org dco 
-            JOIN deliverable_category_unit dcu ON dco.id = dcu.deliverable_category_org 
-            JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit 
+            JOIN deliverable_target_project dtp ON dco.id = dtp.deliverable_category_org 
             where organization = ${ctx.query.organization} 
             and dco.deleted = false
             and dtp.deleted = false
@@ -193,8 +188,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`
             select dco.id , dco.name , sum(dtl.value) from deliverable_category_org dco 
-            JOIN deliverable_category_unit dcu ON dco.id = dcu.deliverable_category_org 
-            JOIN deliverable_target_project dtp ON dcu.id = dtp.deliverable_category_unit 
+            JOIN deliverable_target_project dtp ON dco.id = dtp.deliverable_category_org 
             JOIN deliverable_tracking_lineitem dtl ON dtp.id = dtl.deliverable_target_project
             LEFT JOIN financial_year fy ON dtl.financial_year = fy.id
             LEFT JOIN annual_year ay ON dtl.annual_year = ay.id

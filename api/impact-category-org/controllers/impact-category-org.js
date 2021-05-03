@@ -17,8 +17,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select ic.id, ic.name ,count(itp.project) 
             from impact_category_org ic 
-            INNER JOIN impact_category_unit icu ON ic.id = icu.impact_category_org 
-            INNER JOIN impact_target_project itp ON icu.id = itp.impact_category_unit  
+            INNER JOIN impact_target_project itp ON ic.id = itp.impact_category_org  
             where ic.id = ${ctx.query.impact_category_org} 
             and ic.deleted = false
             and itp.deleted = false
@@ -32,8 +31,7 @@ module.exports = {
     projectCountImpUnit :  async ctx => {
         try {
             let data = await strapi.connections.default.raw(`select iu.id, iu.name , count(itp.project) from impact_units_org iu 
-            INNER JOIN impact_category_unit icu ON iu.id = icu.impact_units_org 
-            INNER JOIN  impact_target_project itp ON icu.id = itp.impact_category_unit  
+            INNER JOIN  impact_target_project itp ON iu.id = itp.impact_units_org  
             where iu.id = ${ctx.query.impact_unit_org}
             and iu.deleted = false
             and itp.deleted = false
@@ -48,8 +46,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select count(itp.project) 
             from impact_category_org ico 
-            JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
-            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id  
+            JOIN impact_target_project itp ON itp.impact_category_org = ico.id  
             where organization = ${ctx.query.organization}
             and itp.deleted = false
             `)
@@ -152,8 +149,7 @@ module.exports = {
             let data = await strapi.connections.default.raw(`WITH cte AS( 
             select itp.id , itp.target_value as sum_itp , sum(itl.value) as sum_itl 
             from impact_category_org ico 
-            JOIN impact_category_unit icu ON  ico.id = icu.impact_category_org 
-            JOIN impact_target_project itp ON itp.impact_category_unit = icu.id 
+            JOIN impact_target_project itp ON itp.impact_category_org = ico.id 
             JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project  
             LEFT JOIN financial_year fy ON itl.financial_year = fy.id
             LEFT JOIN annual_year ay ON itl.annual_year = ay.id
@@ -175,8 +171,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select ico.id , ico.name , count(itp.project) 
             from impact_category_org ico 
-            JOIN impact_category_unit icu ON ico.id = icu.impact_category_org 
-            JOIN impact_target_project itp ON icu.id = itp.impact_category_unit 
+            JOIN impact_target_project itp ON ico.id = itp.impact_category_org 
             where organization = ${ctx.query.organization} 
             and ico.deleted = false
             and itp.deleted = false
@@ -192,8 +187,7 @@ module.exports = {
         try {
             let data = await strapi.connections.default.raw(`select ico.id , ico.name , sum(itl.value) 
             from impact_category_org ico 
-            JOIN impact_category_unit icu ON ico.id = icu.impact_category_org 
-            JOIN impact_target_project itp ON icu.id = itp.impact_category_unit 
+            JOIN impact_target_project itp ON ico.id = itp.impact_category_org 
             JOIN impact_tracking_lineitem itl ON itp.id = itl.impact_target_project
             LEFT JOIN financial_year fy ON itl.financial_year = fy.id
             LEFT JOIN annual_year ay ON itl.annual_year = ay.id

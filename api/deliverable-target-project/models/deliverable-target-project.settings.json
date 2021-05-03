@@ -21,12 +21,15 @@
     "project": {
       "model": "project"
     },
-    "deliverable_category_unit": {
-      "model": "deliverable-category-unit"
-    },
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "deliverable_category_org": {
+      "model": "deliverable-category-org"
+    },
+    "deliverable_unit_org": {
+      "model": "deliverable-units-org"
     }
   }
 }

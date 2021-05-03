@@ -1,14 +1,11 @@
-const checkIfImpactUnitBelongToImpactTargetProject = async (
-  impactUnitId
-) => {
+const checkIfImpactUnitBelongToImpactTargetProject = async (impactUnitId) => {
   const knex = strapi.connections.default;
   const impactTargetProjects = await knex("impact_target_project ")
-    .join("impact_category_unit", {
-      "impact_category_unit.id":
-        "impact_target_project.impact_category_unit",
+    .join("impact_units_org", {
+      "impact_units_org.id": "impact_target_project.impact_units_org",
     })
     .where({
-      "impact_category_unit.impact_units_org": impactUnitId,
+      "impact_units_org.id": impactUnitId,
       "impact_target_project.deleted": false,
     });
   if (impactTargetProjects.length) {
@@ -27,9 +24,7 @@ module.exports = async (ctx, next) => {
         ctx.request.body.id
       );
       if (impactUnitBelongToImpactTargetProject) {
-        throw new Error(
-          "Impact unit associated with impact target"
-        );
+        throw new Error("Impact unit associated with impact target");
       }
     }
     return await next();
