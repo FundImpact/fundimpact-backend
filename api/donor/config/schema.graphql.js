@@ -32,6 +32,7 @@ module.exports = {
       },
       updateOrgDonor: {
         resolverOf: "application::donor.donor.update",
+        policies: ["application::donor.isDonorAssociatedWithOtherTable"],
         resolver: async (obj, options, { context }) => {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);

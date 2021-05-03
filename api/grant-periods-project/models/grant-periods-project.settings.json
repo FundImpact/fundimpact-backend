@@ -29,6 +29,10 @@
     },
     "donor": {
       "model": "donor"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

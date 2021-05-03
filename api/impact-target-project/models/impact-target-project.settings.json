@@ -21,11 +21,18 @@
     "project": {
       "model": "project"
     },
-    "impact_category_unit": {
-      "model": "impact-category-unit"
-    },
     "sustainable_development_goal": {
       "model": "sustainable-development-goals"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
+    },
+    "impact_category_org": {
+      "model": "impact-category-org"
+    },
+    "impact_units_org": {
+      "model": "impact-units-org"
     }
   }
 }

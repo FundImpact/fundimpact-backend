@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/impact-tracking-lineitems/export-table/:impactTargetsProjectId",
+      "handler": "impact-tracking-lineitem.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/impact-tracking-lineitems/:id",
       "handler": "impact-tracking-lineitem.findOne",
       "config": {
@@ -30,6 +38,14 @@
       "handler": "impact-tracking-lineitem.create",
       "config": {
         "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/impact-tracking-lineitems/import-table/:impactTargetProjectId",
+      "handler": "impact-tracking-lineitem.createImpactTrackingLineitemFromCsv",
+      "config": {
+        "policies": ["addFilter"]
       }
     },
     {

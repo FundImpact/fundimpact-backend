@@ -18,6 +18,22 @@
     },
     {
       "method": "GET",
+      "path": "/sustainable-development-goals/export-table",
+      "handler": "sustainable-development-goals.exportTable",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sustainable-development-goals/count",
+      "handler": "sustainable-development-goals.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/sustainable-development-goals/:id",
       "handler": "sustainable-development-goals.findOne",
       "config": {

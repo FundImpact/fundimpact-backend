@@ -9,8 +9,10 @@ module.exports = async (ctx, next) => {
       projects = userProjects.map(m => m.project)
     }
     Object.assign(ctx.query, {
-      project_in: projects.map(m => m.id)
+      project_in: projects.map(m => m.id),
+      deleted: false
     });
+    ctx.locals = { organizationId: orgs[0].id };
     return await next();
   } catch (err) {
     ctx.badRequest(`Error occured - ${err.message}`);

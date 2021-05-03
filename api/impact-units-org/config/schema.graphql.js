@@ -32,6 +32,7 @@ module.exports = {
       },
       updateImpactUnitsOrgInput:{
         resolverOf: "application::impact-units-org.impact-units-org.update",
+        policies: ['application::impact-units-org.isImpactUnitAssociatedWithImpactTarget'],
         resolver:  async (obj, options, { context }) => {
           context.params = _.toPlainObject(options);
           context.request.body = _.toPlainObject(options.input);

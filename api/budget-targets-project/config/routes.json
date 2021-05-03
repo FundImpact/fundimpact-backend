@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/budget-targets-projects/export-table/:projectId",
+      "handler": "budget-targets-project.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/budget-targets-projects/:id",
       "handler": "budget-targets-project.findOne",
       "config": {
@@ -30,6 +38,14 @@
       "handler": "budget-targets-project.create",
       "config": {
         "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/budget-targets-projects/import-table/:projectId",
+      "handler": "budget-targets-project.createBudgetTargetProjectFromCsv",
+      "config": {
+        "policies": ["addFilter"]
       }
     },
     {

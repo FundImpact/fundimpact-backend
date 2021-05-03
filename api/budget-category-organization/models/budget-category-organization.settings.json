@@ -22,6 +22,10 @@
     "organization": {
       "model": "organization",
       "via": "budget_category_organizations"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

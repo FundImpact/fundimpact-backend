@@ -31,6 +31,7 @@ module.exports = {
             },
             updateDeliverableUnitOrg:{
                 resolverOf: 'application::deliverable-units-org.deliverable-units-org.update',
+                policies: ['application::deliverable-units-org.isDeliverableUnitAssociatedWithDeliverableTarget'],
                 resolver: async (obj, options, {context }) => {
                     context.params = _.toPlainObject(options);
                     context.request.body = _.toPlainObject(options.input);

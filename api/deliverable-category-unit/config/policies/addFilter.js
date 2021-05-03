@@ -8,6 +8,7 @@ module.exports = async (ctx, next) => {
             deliverable_category_org_in: deliverableCategoryOrg.map(m => m.id),
             deliverable_units_org_in : deliverableUnitsOrg.map(m => m.id)
         });
+        ctx.locals = { organization_in: orgs.map(org => org.id ) }
         return await next();
     } catch (err) {
         ctx.badRequest(`Error occured - ${err.message}`);

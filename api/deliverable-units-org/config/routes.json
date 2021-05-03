@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/deliverable-units-orgs/export-table",
+      "handler": "deliverable-units-org.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/deliverable-units-orgs/:id",
       "handler": "deliverable-units-org.findOne",
       "config": {
@@ -30,6 +38,14 @@
       "handler": "deliverable-units-org.create",
       "config": {
         "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/deliverable-units-orgs/import-table",
+      "handler": "deliverable-units-org.createDeliverableUnitOrgFromCsv",
+      "config": {
+        "policies": ["addFilter"]
       }
     },
     {

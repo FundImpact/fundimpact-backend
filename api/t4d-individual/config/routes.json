@@ -18,10 +18,26 @@
     },
     {
       "method": "GET",
+      "path": "/t-4-d-individuals/export-table",
+      "handler": "t4d-individual.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/t-4-d-individuals/:id",
       "handler": "t4d-individual.findOne",
       "config": {
         "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/t-4-d-individuals/export-table/:projectId",
+      "handler": "t4d-individual.exportTable",
+      "config": {
+        "policies": ["addFilter"]
       }
     },
     {
@@ -30,6 +46,22 @@
       "handler": "t4d-individual.create",
       "config": {
         "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/t-4-d-individuals/import-table",
+      "handler": "t4d-individual.createT4dIndividualFromCsv",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/t-4-d-individuals/import-table/:projectId",
+      "handler": "t4d-individual.createT4dIndividualFromCsv",
+      "config": {
+        "policies": ["addFilter"]
       }
     },
     {

@@ -18,10 +18,26 @@
     },
     {
       "method": "GET",
+      "path": "/donors/export-table",
+      "handler": "donor.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/donors/:id",
       "handler": "donor.findOne",
       "config": {
         "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/donors/export-table/:projectId",
+      "handler": "donor.exportTable",
+      "config": {
+        "policies": ["addFilter"]
       }
     },
     {
@@ -30,6 +46,14 @@
       "handler": "donor.create",
       "config": {
         "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/donors/import-table",
+      "handler": "donor.createDonorFromCsv",
+      "config": {
+        "policies": ["addFilter"]
       }
     },
     {

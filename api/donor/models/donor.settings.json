@@ -28,6 +28,10 @@
     },
     "country": {
       "model": "country"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

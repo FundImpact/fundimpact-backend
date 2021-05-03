@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/grant-periods-projects/export-table/:projectId",
+      "handler": "grant-periods-project.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/grant-periods-projects/:id",
       "handler": "grant-periods-project.findOne",
       "config": {
@@ -30,6 +38,14 @@
       "handler": "grant-periods-project.create",
       "config": {
         "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/grant-periods-projects/import-table/:projectId",
+      "handler": "grant-periods-project.createGrantPeriodsProjectFromCsv",
+      "config": {
+        "policies": ["addFilter"]
       }
     },
     {

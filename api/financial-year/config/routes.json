@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/financial-years/export-table/:countryId",
+      "handler": "financial-year.exportTable",
+      "config": {
+        "policies": ["addFilter"]
+      }
+    },
+    {
+      "method": "GET",
       "path": "/financial-years/:id",
       "handler": "financial-year.findOne",
       "config": {

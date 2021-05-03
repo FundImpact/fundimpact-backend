@@ -52,35 +52,35 @@
       "via": "organizations"
     },
     "account": {
-      "model": "account",
-      "via": "organizations"
+      "via": "organizations",
+      "model": "account"
     },
     "currency": {
       "model": "currency"
     },
     "budget_category_organizations": {
-      "collection": "budget-category-organization",
-      "via": "organization"
+      "via": "organization",
+      "collection": "budget-category-organization"
     },
     "deliverable_category_orgs": {
-      "collection": "deliverable-category-org",
-      "via": "organization"
+      "via": "organization",
+      "collection": "deliverable-category-org"
     },
     "deliverable_units_orgs": {
-      "collection": "deliverable-units-org",
-      "via": "organization"
+      "via": "organization",
+      "collection": "deliverable-units-org"
     },
     "donors": {
       "via": "organization",
       "collection": "donor"
     },
     "impact_category_orgs": {
-      "collection": "impact-category-org",
-      "via": "organization"
+      "via": "organization",
+      "collection": "impact-category-org"
     },
     "impact_units_orgs": {
-      "collection": "impact-units-org",
-      "via": "organization"
+      "via": "organization",
+      "collection": "impact-units-org"
     },
     "projects": {
       "collection": "project",
