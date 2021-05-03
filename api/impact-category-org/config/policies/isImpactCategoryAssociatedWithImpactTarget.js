@@ -3,12 +3,11 @@ const checkIfImpactCategoryBelongToImpactTargetProject = async (
 ) => {
   const knex = strapi.connections.default;
   const impactTargetProjects = await knex("impact_target_project ")
-    .join("impact_category_unit", {
-      "impact_category_unit.id":
-        "impact_target_project.impact_category_unit",
+    .join("impact_category_org", {
+      "impact_category_org.id": "impact_target_project.impact_category_org",
     })
     .where({
-      "impact_category_unit.impact_category_org": impactCategoryId,
+      "impact_category_org.id": impactCategoryId,
       "impact_target_project.deleted": false,
     });
   if (impactTargetProjects.length) {
@@ -27,9 +26,7 @@ module.exports = async (ctx, next) => {
         ctx.request.body.id
       );
       if (impactCategoryBelongToImpactTargetProject) {
-        throw new Error(
-          "Impact category associated with impact target"
-        );
+        throw new Error("Impact category associated with impact target");
       }
     }
     return await next();

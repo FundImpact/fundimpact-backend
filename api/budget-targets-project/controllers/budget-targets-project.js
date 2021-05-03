@@ -291,7 +291,7 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
       rowId: rowObj.budget_category_organization,
       strapi,
       tableName: "budget_category_organizations",
-      where: { organization: organizationId },
+      where: { organization: organizationId, deleted: false },
     }))
   ) {
     return {
@@ -301,7 +301,12 @@ const validateRowToBeInsertedInBudgetTargetProject = async (
   }
   const projectDonor = await strapi.connections
     .default("project_donor")
-    .where({ donor: rowObj.donor, project: projectId });
+    .join("donors", { "donors.id": "project_donor.donor" })
+    .where({
+      donor: rowObj.donor,
+      project: projectId,
+      "donors.deleted": false,
+    });
   if (!projectDonor.length) {
     return {
       valid: false,

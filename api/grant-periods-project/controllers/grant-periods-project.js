@@ -128,7 +128,12 @@ const validateRowToBeInsertedInGrantPeriodProject = async (
   }
   const projectDonor = await strapi.connections
     .default("project_donor")
-    .where({ donor: rowObj.donor, project: projectId });
+    .join("donors", { "donors.id": "project_donor.donor" })
+    .where({
+      donor: rowObj.donor,
+      project: projectId,
+      "donors.deleted": false,
+    });
   if (!projectDonor.length) {
     return { valid: false, errorMessage: "donor not valid" };
   }

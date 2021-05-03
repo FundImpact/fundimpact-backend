@@ -3,12 +3,12 @@ const checkIfDeliverableUnitBelongToDeliverableTargetProject = async (
 ) => {
   const knex = strapi.connections.default;
   const deliverableTargetProjects = await knex("deliverable_target_project ")
-    .join("deliverable_category_unit", {
-      "deliverable_category_unit.id":
-        "deliverable_target_project.deliverable_category_unit",
+    .join("deliverable_unit_org", {
+      "deliverable_unit_org.id":
+        "deliverable_target_project.deliverable_unit_org",
     })
     .where({
-      "deliverable_category_unit.deliverable_units_org": deliverableUnitId,
+      "deliverable_unit_org.id": deliverableUnitId,
       "deliverable_target_project.deleted": false,
     });
   if (deliverableTargetProjects.length) {
@@ -27,9 +27,7 @@ module.exports = async (ctx, next) => {
         ctx.request.body.id
       );
       if (deliverableUnitBelongToDeliverableTargetProject) {
-        throw new Error(
-          "Deliverable unit associated with deiverable target"
-        );
+        throw new Error("Deliverable unit associated with deiverable target");
       }
     }
     return await next();
