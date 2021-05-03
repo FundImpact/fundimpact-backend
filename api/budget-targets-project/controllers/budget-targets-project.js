@@ -195,10 +195,10 @@ module.exports = {
               "budget_category_organizations.name as budget category",
               "budget_targets_project.total_target_amount as total target amount",
               strapi.connections.default.raw(
-                `sum(budget_tracking_lineitem.amount) as spent`
+                `sum(case when COALESCE(budget_tracking_lineitem.deleted, false) <> true then budget_tracking_lineitem.amount else 0 end) as spent`
               ),
               strapi.connections.default.raw(
-                `sum(budget_tracking_lineitem.amount) / budget_targets_project.total_target_amount * 100 as progress`
+                `sum(case when COALESCE(budget_tracking_lineitem.deleted, false) <> true then budget_tracking_lineitem.amount else 0 end) / budget_targets_project.total_target_amount * 100 as progress`
               ),
             ])
             .where(
@@ -207,7 +207,6 @@ module.exports = {
                 : {
                     project: params.projectId,
                     ["budget_targets_project.deleted"]: false,
-                    ["budget_tracking_lineitem.deleted"]: false,
                   }
             )
             .stream();
