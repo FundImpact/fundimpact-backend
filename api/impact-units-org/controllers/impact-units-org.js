@@ -32,17 +32,17 @@ module.exports = {
   },
   createImpactUnitOrgFromCsv: async (ctx) => {
     try {
-      const { query } = ctx;
       const columnsWhereValueCanBeInserted = ["name", "code", "description"];
+      const { query } = ctx;
       const validateRowToBeInserted = (rowObj) => {
         if (!rowObj.name) {
-          return { valid: false, errorMessage: "name not present" };
+          return { errorMessage: "name not present", valid: false };
         }
         return { valid: true };
       };
       await importTable({
-        columnsWhereValueCanBeInserted,
         ctx,
+        columnsWhereValueCanBeInserted,
         tableName: "impact_units_org",
         defaultFieldsToInsert: {
           organization: query.organization_in[0],
