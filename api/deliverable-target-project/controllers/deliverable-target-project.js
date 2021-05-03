@@ -151,10 +151,10 @@ module.exports = {
         );
 
       await importTable({
-        columnsWhereValueCanBeInserted,
         ctx,
         tableName: "deliverable_target_project",
         defaultFieldsToInsert: { project: params.projectId, deleted: false },
+        columnsWhereValueCanBeInserted,
         validateRowToBeInserted,
       });
       return { message: "Deliverable Target Created", done: true };
