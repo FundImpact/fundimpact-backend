@@ -7,6 +7,14 @@
       "config": {
           "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/configuration/fetch-roles-from-one-env-and-submit-in-other-env",
+      "handler": "configuration.fetchRolesFromOneEnvAndSubmitInOtherEnv",
+      "config": {
+          "policies": []
+      }
     }
   ]
 }
