@@ -1,16 +1,24 @@
 const checkIfRequestIsToDeleteGrantPeriod = (requestBody) =>
   requestBody.input.deleted;
 
-const checkIfGrantPeriodBelongToBudgetLineItem= async (grantPeriodId) => {
+const checkIfGrantPeriodBelongToBudgetLineItem = async (grantPeriodId) => {
   const knex = strapi.connections.default;
-  const budgetTrackingLineItem = await knex("budget_tracking_lineitem").where({
-    grant_periods_project: grantPeriodId,
-  });
+  const budgetTrackingLineItem = await knex("budget_tracking_lineitem")
+    .join("budget_targets_project", {
+      ["budget_targets_project.id"]:
+        "budget_tracking_lineitem.budget_targets_project",
+    })
+    .where({
+      grant_periods_project: grantPeriodId,
+      ["budget_tracking_lineitem.deleted"]: false,
+      ["budget_targets_project.deleted"]: false,
+    });
   if (budgetTrackingLineItem.length) {
     return true;
   }
   return false;
 };
+
 const checkIfGrantPeriodBelongToDeliverableLineItem = async (grantPeriodId) => {
   const knex = strapi.connections.default;
   const deliverableLineItemFyDonor = await knex(
@@ -22,6 +30,7 @@ const checkIfGrantPeriodBelongToDeliverableLineItem = async (grantPeriodId) => {
     "deliverable_tracking_lineitem"
   ).where({
     grant_periods_project: grantPeriodId,
+    deleted: false,
   });
   if (deliverableLineItemFyDonor.length || deliverableTrackingLineItem.length) {
     return true;
@@ -35,6 +44,7 @@ const checkIfGrantPeriodBelongToImpactLineItem = async (grantPeriodId) => {
   });
   const impactTrackingLineItem = await knex("impact_tracking_lineitem").where({
     grant_periods_project: grantPeriodId,
+    deleted: false,
   });
   if (impactLineItemFyDonor.length || impactTrackingLineItem.length) {
     return true;
