@@ -19,7 +19,7 @@ module.exports = {
     totalSpendAmountByProject: async ctx => {
         try {
             console.log( ctx.params.where);
-            let budget_targets_projectIds = await strapi.query("budget-targets-project").find({project : ctx.params.where.project})
+            let budget_targets_projectIds = await strapi.query("budget-targets-project").find({project : ctx.params.where.project, _limit: 1000 })
             let sumData  = 0;
             budget_targets_projectIds = budget_targets_projectIds.filter(m => !m.deleted).map(m => m.id);
             if(budget_targets_projectIds.length > 0){
