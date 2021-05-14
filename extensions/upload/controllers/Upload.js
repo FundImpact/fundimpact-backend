@@ -43,7 +43,6 @@ module.exports = {
     try {
       const {
         params: { project },
-        request,
       } = ctx;
       const knex = strapi.connections.default;
       const budgetTargetLineItems = await knex("budget_targets_project")
@@ -52,7 +51,11 @@ module.exports = {
           "budget_tracking_lineitem.budget_targets_project":
             "budget_targets_project.id",
         })
-        .where("budget_targets_project.project", project);
+        .where({
+          "budget_targets_project.project": project,
+          "budget_targets_project.deleted": false,
+          "budget_tracking_lineitem.deleted": false,
+        });
       const deliverableTargetLineItems = await knex(
         "deliverable_target_project"
       )
@@ -61,14 +64,22 @@ module.exports = {
           "deliverable_tracking_lineitem.deliverable_target_project":
             "deliverable_target_project.id",
         })
-        .where("deliverable_target_project.project", project);
+        .where({
+          "deliverable_target_project.project": project,
+          "deliverable_target_project.deleted": false,
+          "deliverable_tracking_lineitem.deleted": false,
+        });
       const impactTargetLineItems = await knex("impact_target_project")
         .select("impact_tracking_lineitem.id")
         .join("impact_tracking_lineitem", {
           "impact_tracking_lineitem.impact_target_project":
             "impact_target_project.id",
         })
-        .where("impact_target_project.project", project);
+        .where({
+          "impact_target_project.project": project,
+          "impact_target_project.deleted": false,
+          "impact_tracking_lineitem.deleted": false,
+        });
       const budgetTargetLineItemsTableNameAndId = budgetTargetLineItems.map(
         (budgetTargetLineItem) => [
           "budget_tracking_lineitem",
@@ -87,6 +98,24 @@ module.exports = {
         ]
       );
       const attachments = await knex("upload_file")
+        .select(
+          "upload_file.id",
+          "name",
+          "size",
+          "caption",
+          "url",
+          "ext",
+          "created_at",
+          knex.raw(
+            `case 
+              when related_type = 'budget_tracking_lineitem' then 'Budget Expenditure'
+              when related_type = 'impact_tracking_lineitem' then 'Impact Achievements'
+              when related_type = 'deliverable_tracking_lineitem' then 'Deliverable Achievements'
+              when related_type = 'projects' then 'Projects'
+            end as related_type`
+          ),
+          "related_id"
+        )
         .join("upload_file_morph", {
           "upload_file.id": "upload_file_morph.upload_file_id",
         })
