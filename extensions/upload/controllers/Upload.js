@@ -111,7 +111,7 @@ module.exports = {
               when related_type = 'budget_tracking_lineitem' then 'Budget Expenditure'
               when related_type = 'impact_tracking_lineitem' then 'Impact Achievements'
               when related_type = 'deliverable_tracking_lineitem' then 'Deliverable Achievements'
-              when related_type = 'projects' then 'Projects'
+              when related_type = 'projects' then 'Project'
             end as related_type`
           ),
           "related_id"
