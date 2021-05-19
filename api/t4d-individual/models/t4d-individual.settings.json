@@ -13,8 +13,8 @@
       "type": "string"
     },
     "t4d_project_individuals": {
-      "collection": "t4d-project-individual",
-      "via": "t4d_individual"
+      "via": "t4d_individual",
+      "collection": "t4d-project-individual"
     },
     "organization": {
       "model": "organization",

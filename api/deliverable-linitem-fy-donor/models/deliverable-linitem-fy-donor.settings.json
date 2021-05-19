@@ -20,6 +20,10 @@
     },
     "financial_year": {
       "model": "financial-year"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

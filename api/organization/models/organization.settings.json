@@ -83,8 +83,8 @@
       "collection": "impact-units-org"
     },
     "projects": {
-      "collection": "project",
-      "via": "organization"
+      "via": "organization",
+      "collection": "project"
     },
     "roles": {
       "via": "organization",
