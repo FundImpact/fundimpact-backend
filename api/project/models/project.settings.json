@@ -47,12 +47,16 @@
       "via": "project"
     },
     "t4d_project_individuals": {
-      "collection": "t4d-project-individual",
-      "via": "project"
+      "via": "project",
+      "collection": "t4d-project-individual"
     },
     "organization": {
-      "via": "projects",
-      "model": "organization"
+      "model": "organization",
+      "via": "projects"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -10,12 +10,16 @@
   },
   "attributes": {
     "t4d_individual": {
-      "via": "t4d_project_individuals",
-      "model": "t4d-individual"
+      "model": "t4d-individual",
+      "via": "t4d_project_individuals"
     },
     "project": {
-      "via": "t4d_project_individuals",
-      "model": "project"
+      "model": "project",
+      "via": "t4d_project_individuals"
+    },
+    "deleted": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
