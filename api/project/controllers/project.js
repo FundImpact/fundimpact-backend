@@ -7,6 +7,8 @@
 
 const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
+const { tables } = require("../../../utils/tables");
+const { deleteAllTheTablesInAProject } = require("../services/project");
 
 module.exports = {
   exportTable: async (ctx) => {
@@ -46,4 +48,51 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
+  update: async (ctx) => {
+    try {
+      const {
+        request: { body },
+        params,
+      } = ctx;
+      //TODO write rollbacks
+      if (checkIfUserWantToDeleteProject(body)) {
+        await deleteAllTheTablesInAProject(params.id);
+      }
+      const knex = strapi.connections.default;
+      const updatedProject = await knex(tables.projects)
+        .where({ id: params.id })
+        .modify(function (queryBuilder) {
+          const updateObj = {};
+          if (body.name) {
+            updateObj.name = body.name;
+          }
+          if ("short_name" in body) {
+            updateObj.short_name = body.short_name;
+          }
+          if ("description" in body) {
+            updateObj.description = body.description;
+          }
+          if ("deleted" in body) {
+            updateObj.deleted = body.deleted;
+          }
+          queryBuilder.update(updateObj, [
+            "id",
+            "name",
+            "short_name",
+            "description",
+            "workspace",
+            "organization",
+            "created_at",
+            "updated_at",
+            "deleted",
+          ]);
+        });
+      return updatedProject && updatedProject[0];
+    } catch (err) {
+      strapi.log.error(err);
+      return ctx.throw(400, err);
+    }
+  },
 };
+
+const checkIfUserWantToDeleteProject = (requestBody) => !!requestBody.deleted;
