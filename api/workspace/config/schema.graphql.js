@@ -16,7 +16,7 @@ module.exports = {
     }
   `,
   query: `
-    orgWorkspaces(where: JSON): [Workspace]
+    orgWorkspaces(sort:String,where: JSON): [Workspace]
   `,
   mutation: `
         createOrgWorkspace(input: OrgWorkspaceInput): OrgWorkspace!,
