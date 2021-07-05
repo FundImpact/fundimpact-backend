@@ -3,7 +3,7 @@ PORT=8080
 DB_CLIENT="postgres"
 DB_HOST="192.168.1.95"
 DB_PORT="5432"
-DB_NAME="fundimpact_update"
+DB_NAME="fundimpact_demo"
 DB_USERNAME="postgres"
 DB_PASSWORD="postgres_p"
 

@@ -46,7 +46,7 @@ jobs:
       - name: replace value email
         run: sed -i -e s/emailpass/$EMAILPAS/g .env
       
-      - name: replace value
+      - name: replace value s3
         run: sed -i -e s/bucketaccess/$S3PRODACCESS/g .env
         
       - name: replace value key
