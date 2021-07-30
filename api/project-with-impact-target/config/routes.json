@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/project-with-impact-targets",
+      "handler": "project-with-impact-target.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/project-with-impact-targets/count",
+      "handler": "project-with-impact-target.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/project-with-impact-targets/:id",
+      "handler": "project-with-impact-target.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/project-with-impact-targets",
+      "handler": "project-with-impact-target.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/project-with-impact-targets/:id",
+      "handler": "project-with-impact-target.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/project-with-impact-targets/:id",
+      "handler": "project-with-impact-target.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

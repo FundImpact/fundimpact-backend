@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "project_with_deliverable_targets",
+  "info": {
+    "name": "Project With Deliverable Target"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "deliverable_target_project": {
+      "model": "deliverable-target-project"
+    },
+    "project": {
+      "model": "project"
+    }
+  }
+}

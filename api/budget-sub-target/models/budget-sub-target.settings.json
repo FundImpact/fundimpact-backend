@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "budget_sub_targets",
+  "info": {
+    "name": "Budget Sub Target"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "project": {
+      "model": "project"
+    },
+    "budget_targets_project": {
+      "model": "budget-targets-project"
+    },
+    "target_value": {
+      "type": "float"
+    },
+    "timeperiod_start": {
+      "type": "date"
+    },
+    "timeperiod_end": {
+      "type": "date"
+    },
+    "donor": {
+      "model": "donor"
+    },
+    "grant_periods_project": {
+      "model": "grant-periods-project"
+    },
+    "financial_year_org": {
+      "model": "year-tag"
+    },
+    "financial_year_donor": {
+      "model": "year-tag"
+    },
+    "annual_year": {
+      "model": "year-tag"
+    }
+  }
+}

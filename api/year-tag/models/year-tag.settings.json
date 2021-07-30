@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "year_tags",
+  "info": {
+    "name": "year_tag"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "annual",
+        "financial"
+      ]
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    }
+  }
+}
