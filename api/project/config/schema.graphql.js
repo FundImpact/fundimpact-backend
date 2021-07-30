@@ -12,7 +12,7 @@ module.exports = {
   definition: /* GraphQL */ `
   `,
   query: `
-    orgProject(where: JSON): [Project]
+    orgProject(sort:String,where: JSON): [Project]
     orgProjectCount(where: JSON): JSON
   `,
   mutation: `
