@@ -44,6 +44,21 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "impact_sub_target": {
+      "model": "impact-sub-target"
+    },
+    "timeperiod_start": {
+      "type": "date"
+    },
+    "timeperiod_end": {
+      "type": "date"
+    },
+    "financial_year_org": {
+      "model": "year-tag"
+    },
+    "financial_year_donor": {
+      "type": "date"
     }
   }
 }

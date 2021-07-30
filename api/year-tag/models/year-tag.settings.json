@@ -21,6 +21,9 @@
     },
     "end_date": {
       "type": "date"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

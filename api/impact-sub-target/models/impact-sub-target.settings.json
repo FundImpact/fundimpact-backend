@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "impact_sub_targets",
+  "info": {
+    "name": "Impact Sub Target"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "impact_target_project": {
+      "model": "impact-target-project"
+    },
+    "project": {
+      "model": "project"
+    },
+    "target_value": {
+      "type": "float"
+    },
+    "timeperiod_start": {
+      "type": "date"
+    },
+    "timeperiod_end": {
+      "model": "account"
+    },
+    "donor": {
+      "model": "donor"
+    },
+    "grant_periods_project": {
+      "model": "grant-periods-project"
+    },
+    "financial_year_org": {
+      "model": "year-tag"
+    },
+    "financial_year_donor": {
+      "model": "year-tag"
+    },
+    "annual_year": {
+      "model": "year-tag"
+    }
+  }
+}
