@@ -33,7 +33,7 @@
     "financial_year_org": {
       "model": "year-tag"
     },
-    "year_tag": {
+    "financial_year_donor": {
       "model": "year-tag"
     },
     "annual_year": {
