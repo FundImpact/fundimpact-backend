@@ -21,9 +21,6 @@
     "timeperiod_start": {
       "type": "date"
     },
-    "timeperiod_end": {
-      "model": "account"
-    },
     "donor": {
       "model": "donor"
     },
@@ -38,6 +35,9 @@
     },
     "annual_year": {
       "model": "year-tag"
+    },
+    "timeperiod_end": {
+      "type": "date"
     }
   }
 }
