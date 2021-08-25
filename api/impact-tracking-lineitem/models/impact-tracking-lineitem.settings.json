@@ -16,7 +16,7 @@
       "model": "impact-target-project"
     },
     "annual_year": {
-      "model": "annual-year"
+      "model": "year-tag"
     },
     "grant_periods_project": {
       "model": "grant-periods-project"
