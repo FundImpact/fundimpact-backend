@@ -93,6 +93,52 @@ module.exports = {
       return ctx.throw(400, err);
     }
   },
+  manageProjectTarget: async (ctx) => {
+    try {
+      let { formType, target, projects } = ctx.request.body;
+  
+      if (formType == "budget") {
+        await strapi
+          .query("project-with-budget-target")
+          .delete({ budget_targets_project: target });
+        if (projects.length > 0) {
+          for (let e of projects) {
+            await strapi
+              .query("project-with-budget-target")
+              .create({ budget_targets_project: target, project: e });
+          }
+        }
+      } else if (formType == "impact") {
+        await strapi
+          .query("project-with-impact-target")
+          .delete({ impact_target_project: target });
+        if (projects.length > 0) {
+          for (let e of projects) {
+            await strapi
+              .query("project-with-impact-target")
+              .create({ impact_target_project: target, project: e });
+          }
+        }
+      } else if (formType == "deliverable") {
+        await strapi
+          .query("project-with-deliverable-target")
+          .delete({ deliverable_target_project: target });
+        if (projects.length > 0) {
+          for (let e of projects) {
+            await strapi
+              .query("project-with-deliverable-target")
+              .create({ deliverable_target_project: target, project: e });
+          }
+        }
+      }
+      return ctx.send({success:true,message:'Updated Successfully'})
+
+    } catch (error) {
+      console.log(error);
+      return ctx.badRequest(null, error.message);
+    }
+  }
+
 };
 
 const checkIfUserWantToDeleteProject = (requestBody) => !!requestBody.deleted;
