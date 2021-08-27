@@ -33,6 +33,10 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "project_with_budget_targets": {
+      "collection": "project-with-budget-target",
+      "via": "budget_targets_project"
     }
   }
 }
