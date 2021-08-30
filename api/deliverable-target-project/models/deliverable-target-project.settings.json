@@ -42,6 +42,9 @@
         "impact"
       ],
       "default": "deliverable"
+    },
+    "sustainable_development_goal": {
+      "model": "sustainable-development-goals"
     }
   }
 }
