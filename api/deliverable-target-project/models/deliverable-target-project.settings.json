@@ -34,6 +34,14 @@
     "project_with_deliverable_targets": {
       "collection": "project-with-deliverable-target",
       "via": "deliverable_target_project"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "deliverable",
+        "impact"
+      ],
+      "default": "deliverable"
     }
   }
 }
