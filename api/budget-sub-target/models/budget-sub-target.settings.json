@@ -18,6 +18,10 @@
     "target_value": {
       "type": "float"
     },
+    "deleted": {
+      "type": "boolean",
+      "default": false
+    },
     "timeperiod_start": {
       "type": "date"
     },

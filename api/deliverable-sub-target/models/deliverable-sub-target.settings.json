@@ -15,6 +15,10 @@
     "deliverable_target_project": {
       "model": "deliverable-target-project"
     },
+    "deleted": {
+      "type": "boolean",
+      "default": false
+    },
     "target_value": {
       "type": "float"
     },
