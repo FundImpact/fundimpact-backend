@@ -27,7 +27,7 @@ module.exports = {
       let budget_sub_targets_projectIds = await strapi
         .query("budget-sub-target")
         .find({ project: ctx.params.where.project, _limit: 1000 });
-      console.log('budget-sub-target',budget_sub_targets_projectIds)  
+      console.log('budget-sub-target',budget_sub_targets_projectIds.length,budget_sub_targets_projectIds)  
       let sumData = 0;
       budget_sub_targets_projectIds = budget_sub_targets_projectIds
         .filter((m) => !m.deleted)
