@@ -42,6 +42,9 @@
     },
     "annual_year": {
       "model": "year-tag"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }
