@@ -15,9 +15,6 @@
     "description": {
       "type": "richtext"
     },
-    "target_value": {
-      "type": "float"
-    },
     "project": {
       "model": "project"
     },
