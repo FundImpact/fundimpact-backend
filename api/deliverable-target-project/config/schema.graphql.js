@@ -25,7 +25,7 @@ module.exports = {
                 context.request.body = _.toPlainObject(options.input);
                 return await strapi.services['deliverable-target-project'].totalDeliverableAmount(context);
             },
-            resolver: async (obj, options, { context }) => {
+            deliverableAchieved: async (obj, options, { context }) => {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
                 return await strapi.services['deliverable-target-project'].totalDeliverableAchieved(context);
