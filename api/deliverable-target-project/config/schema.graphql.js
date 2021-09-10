@@ -25,16 +25,21 @@ module.exports = {
                 context.request.body = _.toPlainObject(options.input);
                 return await strapi.services['deliverable-target-project'].totalDeliverableAmount(context);
             },
-            deliverableAchieved: {
-                policies: ['application::deliverable-target-project.addFilter'],
-                resolverOf: 'application::deliverable-target-project.deliverable-target-project.totalDeliverableAchieved',
-                resolver: async (obj, options, { context }) => {
-                  context.params = _.toPlainObject(options);
-                  context.request.body = _.toPlainObject(options.input);
-                  //return await strapi.controllers['deliverable-target-project'].deliverable_achieved(context);
-                  return await strapi.services['deliverable-target-project'].totalDeliverableAchieved(context);
-                }
-            },
+            resolver: async (obj, options, { context }) => {
+                context.params = _.toPlainObject(options);
+                context.request.body = _.toPlainObject(options.input);
+                return await strapi.services['deliverable-target-project'].totalDeliverableAchieved(context);
+            }
+            // deliverableAchieved: {
+            //     policies: ['application::deliverable-target-project.addFilter'],
+            //     resolverOf: 'application::deliverable-target-project.deliverable-target-project.totalDeliverableAchieved',
+            //     resolver: async (obj, options, { context }) => {
+            //       context.params = _.toPlainObject(options);
+            //       context.request.body = _.toPlainObject(options.input);
+            //       //return await strapi.controllers['deliverable-target-project'].deliverable_achieved(context);
+            //       return await strapi.services['deliverable-target-project'].totalDeliverableAchieved(context);
+            //     }
+            // },
         },
         Mutation: {
             createDeliverableTarget: {
