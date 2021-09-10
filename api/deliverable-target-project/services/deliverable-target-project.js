@@ -28,7 +28,7 @@ module.exports = {
             let data = await strapi.connections.default.raw(`SELECT deliverable_sub_targets.id as dst_id FROM deliverable_sub_targets 
             INNER JOIN deliverable_target_project dtp on dtp.id = deliverable_sub_targets.deliverable_target_project
             where deliverable_sub_targets.project = ${ctx.params.where.project} and dtp.type = '${type}' and COALESCE(deliverable_sub_targets.deleted, false) <> true`)
-            console.log(data.length);
+            console.log('=================>',data.length);
             if(data.length >0){
                 let arrayofIDS = data.map((x)=>{ return `'${x.dst_id}''` })
                 let sumData = await strapi.connections.default.raw(`SELECT SUM(value) FROM deliverable_tracking_lineitem 
