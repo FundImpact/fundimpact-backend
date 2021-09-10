@@ -31,7 +31,8 @@ module.exports = {
                 resolver: async (obj, options, { context }) => {
                   context.params = _.toPlainObject(options);
                   context.request.body = _.toPlainObject(options.input);
-                  return await strapi.controllers['deliverable-target-project'].deliverable_achieved(context);
+                  //return await strapi.controllers['deliverable-target-project'].deliverable_achieved(context);
+                  return await strapi.services['deliverable-target-project'].totalDeliverableAchieved(context);
                 }
             },
         },
