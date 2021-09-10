@@ -10,7 +10,9 @@ module.exports = {
         try {
 
             console.log(ctx.params.where.deliverable_target_project.type)
-            let sumData = await strapi.connections.default.raw(`SELECT SUM(target_value) FROM deliverable_sub_targets where project = (${ctx.params.where.project}) and deliverable_target_project.type = (${ctx.params.where.deliverable_target_project.type})   and COALESCE(deleted, false) <> true`)
+            let sumData = await strapi.connections.default.raw(`SELECT SUM(target_value) FROM deliverable_sub_targets 
+            INNER JOIN deliverable_target_project on deliverable_target_project.id = deliverable_sub_targets.deliverable_target_project
+            where deliverable_sub_targets.project = (${ctx.params.where.project}) and deliverable_target_project.type = (${ctx.params.where.deliverable_target_project.type})   and COALESCE(deleted, false) <> true`)
             return sumData.rows && sumData.rows.length > 0 && sumData.rows[0].sum != null ? sumData.rows[0].sum : 0;
         } catch (error) {
             console.log(error)
