@@ -9,6 +9,7 @@ const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
 const { tables } = require("../../../utils/tables");
 const { deleteAllTheTablesInAProject } = require("../services/project");
+const deliverableType = ['deliverable','impact','outcome','activity','output']
 
 module.exports = {
   exportTable: async (ctx) => {
@@ -108,18 +109,8 @@ module.exports = {
               .create({ budget_targets_project: target, project: e });
           }
         }
-      } else if (formType == "impact") {
-        await strapi
-          .query("project-with-impact-target")
-          .delete({ impact_target_project: target });
-        if (projects.length > 0) {
-          for (let e of projects) {
-            await strapi
-              .query("project-with-impact-target")
-              .create({ impact_target_project: target, project: e });
-          }
-        }
-      } else if (formType == "deliverable") {
+      } 
+      else if (deliverableType.indexOf(formType) > -1 ) {
         await strapi
           .query("project-with-deliverable-target")
           .delete({ deliverable_target_project: target });
