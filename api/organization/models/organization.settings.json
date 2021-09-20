@@ -25,6 +25,9 @@
     "theme": {
       "type": "json"
     },
+    "deliverable_type": {
+      "type": "json"
+    },
     "logo": {
       "model": "file",
       "via": "related",
