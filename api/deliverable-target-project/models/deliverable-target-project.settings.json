@@ -36,7 +36,10 @@
       "type": "enumeration",
       "enum": [
         "deliverable",
-        "impact"
+        "impact",
+        "outcome",
+        "activity",
+        "output"
       ],
       "default": "deliverable"
     },

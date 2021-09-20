@@ -15,16 +15,6 @@
     },
     "project": {
       "model": "project"
-    },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "deliverable",
-        "impact",
-        "outcome",
-        "activity",
-        "output"
-      ]
     }
   }
 }
