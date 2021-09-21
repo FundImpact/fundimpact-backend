@@ -45,6 +45,9 @@
     },
     "name": {
       "type": "string"
+    },
+    "target_value_qualitative": {
+      "type": "string"
     }
   }
 }

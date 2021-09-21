@@ -29,8 +29,8 @@
       "model": "deliverable-units-org"
     },
     "project_with_deliverable_targets": {
-      "collection": "project-with-deliverable-target",
-      "via": "deliverable_target_project"
+      "via": "deliverable_target_project",
+      "collection": "project-with-deliverable-target"
     },
     "type": {
       "type": "enumeration",
@@ -45,6 +45,29 @@
     },
     "sustainable_development_goal": {
       "model": "sustainable-development-goals"
+    },
+    "value": {
+      "type": "decimal"
+    },
+    "value_qualitative": {
+      "type": "string"
+    },
+    "sub_target_required": {
+      "type": "boolean"
+    },
+    "is_qualitative": {
+      "type": "boolean"
+    },
+    "value_calculation": {
+      "type": "enumeration",
+      "enum": [
+        "AVG",
+        "SUM"
+      ],
+      "default": "SUM"
+    },
+    "value_qualitative_option": {
+      "type": "json"
     }
   }
 }

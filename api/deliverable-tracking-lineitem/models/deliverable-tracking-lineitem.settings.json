@@ -59,6 +59,9 @@
     },
     "financial_year_donor": {
       "model": "year-tag"
+    },
+    "value_qualitative": {
+      "type": "string"
     }
   }
 }
