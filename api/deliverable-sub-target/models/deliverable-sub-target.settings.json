@@ -19,7 +19,7 @@
       "type": "boolean",
       "default": false
     },
-    "old_target_value": {
+    "target_value": {
       "type": "float"
     },
     "timeperiod_start": {
