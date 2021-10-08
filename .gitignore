@@ -82,7 +82,8 @@ ssl
 nbproject
 public/uploads/*
 !public/uploads/.gitkeep
-
+package-lock.json
+yarn.lock
 ############################
 # Node.js
 ############################
