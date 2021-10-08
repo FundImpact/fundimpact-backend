@@ -10,8 +10,8 @@
   },
   "attributes": {
     "deliverable_target_project": {
-      "model": "deliverable-target-project",
-      "via": "project_with_deliverable_targets"
+      "via": "project_with_deliverable_targets",
+      "model": "deliverable-target-project"
     },
     "project": {
       "model": "project"

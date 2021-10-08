@@ -29,8 +29,8 @@
       "model": "deliverable-units-org"
     },
     "project_with_deliverable_targets": {
-      "via": "deliverable_target_project",
-      "collection": "project-with-deliverable-target"
+      "collection": "project-with-deliverable-target",
+      "via": "deliverable_target_project"
     },
     "type": {
       "type": "enumeration",
@@ -68,6 +68,9 @@
     },
     "value_qualitative_option": {
       "type": "json"
+    },
+    "parent_id": {
+      "type": "integer"
     }
   }
 }
