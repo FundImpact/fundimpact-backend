@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "villages",
+  "collectionName": "grampanchayats",
   "info": {
-    "name": "Village"
+    "name": "grampanchayat"
   },
   "options": {
     "increments": true,
@@ -14,19 +14,20 @@
       "required": true
     },
     "code": {
-      "type": "string"
+      "type": "string",
+      "required": true
+    },
+    "block": {
+      "model": "block",
+      "via": "grampanchayats"
     },
     "is_active": {
       "type": "boolean",
       "default": true
     },
-    "block": {
-      "model": "block",
-      "via": "villages"
-    },
-    "grampanchayat": {
-      "model": "grampanchayat",
-      "via": "villages"
+    "villages": {
+      "via": "grampanchayat",
+      "collection": "village"
     }
   }
 }
