@@ -25,6 +25,14 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "project_id": {
+      "via": "deliverable_category_orgs",
+      "model": "project"
+    },
+    "deliverable_type_id": {
+      "model": "deliverable-type",
+      "via": "deliverable_category_orgs"
     }
   }
 }

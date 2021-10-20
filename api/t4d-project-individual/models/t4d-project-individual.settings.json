@@ -14,8 +14,8 @@
       "via": "t4d_project_individuals"
     },
     "project": {
-      "model": "project",
-      "via": "t4d_project_individuals"
+      "via": "t4d_project_individuals",
+      "model": "project"
     },
     "deleted": {
       "type": "boolean",
