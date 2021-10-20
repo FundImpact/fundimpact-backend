@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/deliverable-types",
+      "handler": "deliverable-type.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/deliverable-types/count",
+      "handler": "deliverable-type.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/deliverable-types/:id",
+      "handler": "deliverable-type.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/deliverable-types",
+      "handler": "deliverable-type.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/deliverable-types/:id",
+      "handler": "deliverable-type.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/deliverable-types/:id",
+      "handler": "deliverable-type.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "geo_regions",
+  "info": {
+    "name": "geo_regions"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "project_id": {
+      "model": "project",
+      "via": "geo_regions"
+    },
+    "organization_id": {
+      "model": "organization",
+      "via": "geo_regions"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "geo_region_mappers": {
+      "via": "geo_region_id",
+      "collection": "geo-region-mapper"
+    }
+  }
+}
