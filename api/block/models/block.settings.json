@@ -27,6 +27,10 @@
     "villages": {
       "via": "block",
       "collection": "village"
+    },
+    "grampanchayats": {
+      "via": "block",
+      "collection": "grampanchayat"
     }
   }
 }
