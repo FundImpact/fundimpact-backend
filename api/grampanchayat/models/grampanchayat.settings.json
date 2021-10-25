@@ -17,17 +17,13 @@
       "type": "string",
       "required": true
     },
-    "block": {
-      "model": "block",
+    "district": {
+      "model": "district",
       "via": "grampanchayats"
     },
     "is_active": {
       "type": "boolean",
       "default": true
-    },
-    "villages": {
-      "via": "grampanchayat",
-      "collection": "village"
     }
   }
 }

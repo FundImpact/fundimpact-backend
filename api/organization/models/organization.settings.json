@@ -109,10 +109,6 @@
     "t_4_d_individuals": {
       "via": "organization",
       "collection": "t4d-individual"
-    },
-    "geo_regions": {
-      "via": "organization_id",
-      "collection": "geo-regions"
     }
   }
 }

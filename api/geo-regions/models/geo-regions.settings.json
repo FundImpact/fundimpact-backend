@@ -9,7 +9,7 @@
     "timestamps": true
   },
   "attributes": {
-    "label": {
+    "name": {
       "type": "string",
       "required": true
     },
@@ -17,18 +17,14 @@
       "model": "project",
       "via": "geo_regions"
     },
-    "organization_id": {
-      "model": "organization",
-      "via": "geo_regions"
-    },
     "is_active": {
       "type": "boolean",
       "default": true,
       "required": true
     },
-    "geo_region_mappers": {
-      "via": "geo_region_id",
-      "collection": "geo-region-mapper"
+    "budget_sub_targets": {
+      "via": "geo_region",
+      "collection": "budget-sub-target"
     }
   }
 }
