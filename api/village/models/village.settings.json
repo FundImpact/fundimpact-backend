@@ -23,11 +23,6 @@
     "block": {
       "model": "block",
       "via": "villages"
-    },
-    "grampanchayat": {
-      "model": "grampanchayat",
-      "via": "villages"
     }
   }
 }
-

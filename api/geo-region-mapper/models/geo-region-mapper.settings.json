@@ -13,10 +13,6 @@
       "type": "string",
       "required": true
     },
-    "geo_region_id": {
-      "model": "geo-regions",
-      "via": "geo_region_mappers"
-    },
     "geography_id": {
       "type": "string",
       "required": true
