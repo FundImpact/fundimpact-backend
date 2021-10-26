@@ -45,10 +45,6 @@
     },
     "name": {
       "type": "string"
-    },
-    "geo_region": {
-      "model": "geo-regions",
-      "via": "budget_sub_targets"
     }
   }
 }
