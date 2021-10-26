@@ -20,8 +20,8 @@
       "type": "boolean"
     },
     "country": {
-      "model": "country",
-      "via": "states"
+      "via": "states",
+      "model": "country"
     },
     "districts": {
       "via": "state",

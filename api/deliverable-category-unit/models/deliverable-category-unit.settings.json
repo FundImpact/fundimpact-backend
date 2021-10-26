@@ -21,8 +21,8 @@
       "required": false
     },
     "deliverable_type_id": {
-      "model": "deliverable-type",
-      "via": "deliverable_category_units"
+      "via": "deliverable_category_units",
+      "model": "deliverable-type"
     }
   }
 }
