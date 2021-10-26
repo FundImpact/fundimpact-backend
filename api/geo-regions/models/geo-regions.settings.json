@@ -21,6 +21,10 @@
       "type": "boolean",
       "default": true,
       "required": true
+    },
+    "budget_sub_targets": {
+      "via": "geo_region",
+      "collection": "budget-sub-target"
     }
   }
 }
