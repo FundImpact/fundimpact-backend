@@ -19,12 +19,24 @@
       "default": true
     },
     "deliverable_category_orgs": {
-      "via": "deliverable_type_id",
-      "collection": "deliverable-category-org"
+      "collection": "deliverable-category-org",
+      "via": "deliverable_type_id"
     },
     "deliverable_category_units": {
-      "via": "deliverable_type_id",
-      "collection": "deliverable-category-unit"
+      "collection": "deliverable-category-unit",
+      "via": "deliverable_type_id"
+    },
+    "deliverable_type": {
+      "model": "deliverable-type",
+      "via": "deliverable_types"
+    },
+    "deliverable_types": {
+      "collection": "deliverable-type",
+      "via": "deliverable_type"
+    },
+    "weight": {
+      "required": false,
+      "type": "biginteger"
     }
   }
 }

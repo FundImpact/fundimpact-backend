@@ -18,19 +18,20 @@
       "type": "string"
     },
     "isActive": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
     "states": {
-      "via": "country",
-      "collection": "state"
+      "collection": "state",
+      "via": "country"
     },
     "currencies": {
-      "via": "country",
-      "collection": "currency"
+      "collection": "currency",
+      "via": "country"
     },
     "financial_years": {
-      "via": "country",
-      "collection": "financial-year"
+      "collection": "financial-year",
+      "via": "country"
     }
   }
 }

@@ -31,8 +31,8 @@
       "model": "project"
     },
     "deliverable_type_id": {
-      "model": "deliverable-type",
-      "via": "deliverable_category_orgs"
+      "via": "deliverable_category_orgs",
+      "model": "deliverable-type"
     }
   }
 }
