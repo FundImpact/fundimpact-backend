@@ -47,8 +47,8 @@
       "type": "string"
     },
     "geo_region": {
-      "model": "geo-regions",
-      "via": "budget_sub_targets"
+      "via": "budget_sub_targets",
+      "model": "geo-regions"
     }
   }
 }
