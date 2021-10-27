@@ -23,8 +23,11 @@
       "required": true
     },
     "budget_sub_targets": {
-      "via": "geo_region",
-      "collection": "budget-sub-target"
+      "collection": "budget-sub-target",
+      "via": "geo_region"
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }
