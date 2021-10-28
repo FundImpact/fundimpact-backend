@@ -23,6 +23,10 @@
     "block": {
       "model": "block",
       "via": "villages"
+    },
+    "geo_regions": {
+      "via": "village_id",
+      "collection": "geo-regions"
     }
   }
 }

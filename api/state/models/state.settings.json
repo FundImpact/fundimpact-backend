@@ -26,6 +26,10 @@
     "districts": {
       "via": "state",
       "collection": "district"
+    },
+    "geo_regions": {
+      "via": "state_id",
+      "collection": "geo-regions"
     }
   }
 }
