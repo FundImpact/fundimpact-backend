@@ -22,12 +22,32 @@
       "default": true,
       "required": true
     },
-    "budget_sub_targets": {
-      "collection": "budget-sub-target",
-      "via": "geo_region"
-    },
     "description": {
       "type": "richtext"
+    },
+    "country_id": {
+      "model": "country",
+      "via": "geo_regions"
+    },
+    "state_id": {
+      "model": "state",
+      "via": "geo_regions"
+    },
+    "district_id": {
+      "model": "district",
+      "via": "geo_regions"
+    },
+    "block_id": {
+      "model": "block",
+      "via": "geo_regions"
+    },
+    "village_id": {
+      "model": "village",
+      "via": "geo_regions"
+    },
+    "gp_id": {
+      "model": "grampanchayat",
+      "via": "geo_regions"
     }
   }
 }
