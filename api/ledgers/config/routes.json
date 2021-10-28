@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/ledgers",
+      "handler": "ledgers.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ledgers/count",
+      "handler": "ledgers.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ledgers/:id",
+      "handler": "ledgers.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/ledgers",
+      "handler": "ledgers.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/ledgers/:id",
+      "handler": "ledgers.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/ledgers/:id",
+      "handler": "ledgers.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

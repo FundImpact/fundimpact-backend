@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "voucher_types",
+  "info": {
+    "name": "voucher_types"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "u_id": {
+      "type": "uid",
+      "required": true
+    },
+    "tally_id": {
+      "type": "biginteger"
+    },
+    "company_id": {
+      "type": "biginteger"
+    },
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "group_id": {
+      "type": "integer"
+    },
+    "vouchers": {
+      "via": "vch_type_id",
+      "collection": "vouchers"
+    }
+  }
+}

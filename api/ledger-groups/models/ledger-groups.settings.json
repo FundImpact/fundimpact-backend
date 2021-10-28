@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ledger_groups",
+  "info": {
+    "name": "ledger_groups"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "u_id": {
+      "type": "uid",
+      "required": true
+    },
+    "tally_id": {
+      "type": "integer"
+    },
+    "company_id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "group_id": {
+      "type": "string"
+    }
+  }
+}
