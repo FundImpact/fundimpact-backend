@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/budget-sub-targets",
+      "handler": "budget-sub-target.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-sub-targets/count",
+      "handler": "budget-sub-target.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/budget-sub-targets/:id",
+      "handler": "budget-sub-target.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/budget-sub-targets",
+      "handler": "budget-sub-target.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/budget-sub-targets/:id",
+      "handler": "budget-sub-target.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/budget-sub-targets/:id",
+      "handler": "budget-sub-target.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

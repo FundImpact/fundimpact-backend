@@ -33,6 +33,10 @@
     },
     "impact_units_org": {
       "model": "impact-units-org"
+    },
+    "project_with_impact_targets": {
+      "collection": "project-with-impact-target",
+      "via": "impact_target_project"
     }
   }
 }

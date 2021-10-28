@@ -19,6 +19,10 @@
       "type": "boolean",
       "default": true,
       "required": false
+    },
+    "deliverable_type_id": {
+      "via": "deliverable_category_units",
+      "model": "deliverable-type"
     }
   }
 }

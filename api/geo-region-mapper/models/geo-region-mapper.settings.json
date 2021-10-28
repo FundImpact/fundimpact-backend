@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "geo_region_mappers",
+  "info": {
+    "name": "geo_region_mapper"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "geography_type": {
+      "type": "string",
+      "required": true
+    },
+    "geography_id": {
+      "type": "string",
+      "required": true
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "required": false
+    }
+  }
+}

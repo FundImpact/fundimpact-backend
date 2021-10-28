@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vouchers",
+  "info": {
+    "name": "vouchers"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "u_id": {
+      "type": "uid",
+      "required": true
+    },
+    "company_id": {
+      "type": "biginteger"
+    },
+    "vch_id": {
+      "type": "integer",
+      "required": true
+    },
+    "vch_type_id": {
+      "model": "voucher-types",
+      "via": "vouchers"
+    },
+    "vch_no": {
+      "type": "string"
+    },
+    "vch_date": {
+      "type": "datetime"
+    },
+    "vch_type": {
+      "type": "string"
+    },
+    "vch_refno": {
+      "type": "string"
+    },
+    "vch_refdt": {
+      "type": "string"
+    },
+    "vch_canceled": {
+      "type": "boolean"
+    }
+  }
+}

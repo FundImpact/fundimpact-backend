@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cost_centre_allocations",
+  "info": {
+    "name": "cost_centre_allocations"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "uuid": {
+      "type": "uid",
+      "required": true
+    },
+    "voucher_id": {
+      "type": "integer"
+    },
+    "voucher_ledger_id": {
+      "type": "uid",
+      "required": false
+    },
+    "company_id": {
+      "type": "integer"
+    },
+    "cost_category_name": {
+      "type": "string"
+    },
+    "cost_category_id": {
+      "type": "integer"
+    },
+    "cost_centre_name": {
+      "type": "string"
+    },
+    "cost_centre_id": {
+      "type": "integer"
+    },
+    "debit_amount": {
+      "type": "decimal"
+    },
+    "credit_amount": {
+      "type": "decimal"
+    }
+  }
+}

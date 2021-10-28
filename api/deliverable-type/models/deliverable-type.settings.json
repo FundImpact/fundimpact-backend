@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deliverable_types",
+  "info": {
+    "name": "deliverable_type"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "deliverable_category_orgs": {
+      "collection": "deliverable-category-org",
+      "via": "deliverable_type_id"
+    },
+    "deliverable_category_units": {
+      "collection": "deliverable-category-unit",
+      "via": "deliverable_type_id"
+    },
+    "deliverable_type": {
+      "model": "deliverable-type",
+      "via": "deliverable_types"
+    },
+    "deliverable_types": {
+      "collection": "deliverable-type",
+      "via": "deliverable_type"
+    },
+    "weight": {
+      "required": false,
+      "type": "biginteger"
+    }
+  }
+}

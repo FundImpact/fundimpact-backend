@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "voucher_ledgers",
+  "info": {
+    "name": "voucher_ledgers"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "uuid": {
+      "type": "uid",
+      "required": true
+    },
+    "voucher_id": {
+      "type": "integer"
+    },
+    "company_id": {
+      "type": "integer"
+    },
+    "ledger_name": {
+      "type": "string"
+    },
+    "ledger_id": {
+      "type": "integer"
+    },
+    "debit_amount": {
+      "type": "decimal"
+    },
+    "credit_amount": {
+      "type": "decimal"
+    }
+  }
+}

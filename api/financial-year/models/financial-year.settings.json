@@ -22,8 +22,8 @@
       "type": "datetime"
     },
     "country": {
-      "model": "country",
-      "via": "financial_years"
+      "via": "financial_years",
+      "model": "country"
     }
   }
 }

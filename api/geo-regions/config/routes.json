@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/geo-regions",
+      "handler": "geo-regions.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/geo-regions/count",
+      "handler": "geo-regions.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/geo-regions/:id",
+      "handler": "geo-regions.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/geo-regions",
+      "handler": "geo-regions.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/geo-regions/:id",
+      "handler": "geo-regions.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/geo-regions/:id",
+      "handler": "geo-regions.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
