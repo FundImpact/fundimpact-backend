@@ -19,8 +19,7 @@
     },
     "is_active": {
       "type": "boolean",
-      "default": true,
-      "required": true
+      "default": true
     },
     "description": {
       "type": "richtext"
