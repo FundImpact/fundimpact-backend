@@ -24,6 +24,10 @@
     },
     "name": {
       "type": "string"
+    },
+    "fund_receipt_projects": {
+      "via": "year_tag",
+      "collection": "fund-receipt-project"
     }
   }
 }

@@ -27,9 +27,6 @@
     "reporting_date": {
       "type": "datetime"
     },
-    "financial_year": {
-      "model": "financial-year"
-    },
     "attachments": {
       "collection": "file",
       "via": "related",

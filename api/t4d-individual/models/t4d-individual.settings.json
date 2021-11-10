@@ -17,8 +17,8 @@
       "collection": "t4d-project-individual"
     },
     "organization": {
-      "model": "organization",
-      "via": "t_4_d_individuals"
+      "via": "t_4_d_individuals",
+      "model": "organization"
     },
     "deleted": {
       "type": "boolean",

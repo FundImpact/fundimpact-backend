@@ -51,8 +51,8 @@
       "via": "project"
     },
     "organization": {
-      "model": "organization",
-      "via": "projects"
+      "via": "projects",
+      "model": "organization"
     },
     "deleted": {
       "type": "boolean",
@@ -60,10 +60,6 @@
     },
     "budget_category_organizations": {
       "collection": "budget-category-organization",
-      "via": "project_id"
-    },
-    "deliverable_category_orgs": {
-      "collection": "deliverable-category-org",
       "via": "project_id"
     },
     "logframe_tracker": {

@@ -20,8 +20,8 @@
       "type": "string"
     },
     "organization": {
-      "model": "organization",
-      "via": "donors"
+      "via": "donors",
+      "model": "organization"
     },
     "currency": {
       "model": "currency"

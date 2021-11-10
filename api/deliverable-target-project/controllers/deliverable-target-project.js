@@ -9,7 +9,7 @@ const { isRowIdPresentInTable } = require("../../../utils");
 const {
   getQueryForDeliverableTargetProjectTargetValueSumForEachProject,
   getQueryForDeliverableTracklineValueSumForEachProject,
-} = require("../../deliverable-category-org/services/deliverable-category-org");
+} = require("../../category/services/category");
 
 const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
@@ -53,19 +53,19 @@ module.exports = {
       let data = await strapi.connections.default.raw(`SELECT deliverable_sub_targets.id as dst_id FROM deliverable_sub_targets 
       INNER JOIN deliverable_target_project dtp on dtp.id = deliverable_sub_targets.deliverable_target_project
       where deliverable_sub_targets.project = ${ctx.params.where.project} and dtp.type = '${type}' and COALESCE(deliverable_sub_targets.deleted, false) <> true`)
-      console.log('=================>',data.length);
-      if(data.length >0){
-        let arrayofIDS = data.map((x)=>{ return `'${x.id}'` })
+      console.log('=================>', data.length);
+      if (data.length > 0) {
+        let arrayofIDS = data.map((x) => { return `'${x.id}'` })
         arrayofIDS.join(',')
         let sumData = await strapi.connections.default.raw(`SELECT SUM(value) FROM deliverable_tracking_lineitem 
         where deliverable_sub_target IN(${arrayofIDS}) and COALESCE(deleted, false) <> true`)
         return sumData.rows && sumData.rows.length > 0 && sumData.rows[0].sum != null ? sumData.rows[0].sum : 0;
       }
       return 0
-       
+
     } catch (error) {
       console.log(error)
-      return ctx.badRequest(null, error.message);  
+      return ctx.badRequest(null, error.message);
     }
   },
   exportTable: async (ctx) => {
@@ -79,12 +79,12 @@ module.exports = {
       const sendHeaderWhereValuesCanBeWritten = query.header;
       const tableColumns = sendHeaderWhereValuesCanBeWritten
         ? [
-            "name *",
-            "description",
-            "target_value *",
-            "deliverable_category_org *",
-            "deliverable_unit_org *",
-          ]
+          "name *",
+          "description",
+          "target_value *",
+          "deliverable_category_org *",
+          "deliverable_unit_org *",
+        ]
         : ["id", "name", "category", "target", "achieved", "progress"];
       const deliverableTargetTransformOpts = {
         highWaterMark: 16384,
@@ -132,10 +132,10 @@ module.exports = {
           sendHeaderWhereValuesCanBeWritten
             ? false
             : {
-                project: params.projectId,
-                ["deliverable_target_project.deleted"]: false,
-                // ["deliverable_tracking_lineitem.deleted"]: false,
-              }
+              project: params.projectId,
+              ["deliverable_target_project.deleted"]: false,
+              // ["deliverable_tracking_lineitem.deleted"]: false,
+            }
         )
         .stream();
       deliverableTargetProjectStream

@@ -27,12 +27,6 @@
     "reporting_date": {
       "type": "datetime"
     },
-    "fy_org": {
-      "model": "financial-year"
-    },
-    "fy_donor": {
-      "model": "financial-year"
-    },
     "attachments": {
       "collection": "file",
       "via": "related",

@@ -55,44 +55,36 @@
       "via": "organizations"
     },
     "account": {
-      "via": "organizations",
-      "model": "account"
+      "model": "account",
+      "via": "organizations"
     },
     "currency": {
       "model": "currency"
     },
     "budget_category_organizations": {
-      "via": "organization",
-      "collection": "budget-category-organization"
+      "collection": "budget-category-organization",
+      "via": "organization"
     },
-    "deliverable_category_orgs": {
-      "via": "organization",
-      "collection": "deliverable-category-org"
+    "category": {
+      "model": "category",
+      "via": "organizations"
     },
-    "deliverable_units_orgs": {
-      "via": "organization",
-      "collection": "deliverable-units-org"
+    "unit": {
+      "model": "unit",
+      "via": "organizations"
     },
     "donors": {
-      "via": "organization",
-      "collection": "donor"
-    },
-    "impact_category_orgs": {
-      "via": "organization",
-      "collection": "impact-category-org"
-    },
-    "impact_units_orgs": {
-      "via": "organization",
-      "collection": "impact-units-org"
+      "collection": "donor",
+      "via": "organization"
     },
     "projects": {
-      "via": "organization",
-      "collection": "project"
+      "collection": "project",
+      "via": "organization"
     },
     "roles": {
-      "via": "organization",
       "plugin": "users-permissions",
-      "collection": "role"
+      "collection": "role",
+      "via": "organization"
     },
     "workspaces": {
       "collection": "workspace",
@@ -107,8 +99,8 @@
       "model": "country"
     },
     "t_4_d_individuals": {
-      "via": "organization",
-      "collection": "t4d-individual"
+      "collection": "t4d-individual",
+      "via": "organization"
     }
   }
 }
