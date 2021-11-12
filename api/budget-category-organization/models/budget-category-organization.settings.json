@@ -26,6 +26,10 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "project_id": {
+      "via": "budget_category_organizations",
+      "model": "project"
     }
   }
 }

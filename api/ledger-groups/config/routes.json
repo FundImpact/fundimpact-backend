@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/ledger-groups",
+      "handler": "ledger-groups.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ledger-groups/count",
+      "handler": "ledger-groups.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ledger-groups/:id",
+      "handler": "ledger-groups.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/ledger-groups",
+      "handler": "ledger-groups.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/ledger-groups/:id",
+      "handler": "ledger-groups.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/ledger-groups/:id",
+      "handler": "ledger-groups.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

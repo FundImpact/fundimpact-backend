@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ledgers",
+  "info": {
+    "name": "ledgers"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "u_id": {
+      "type": "uid",
+      "required": true
+    },
+    "tally_id": {
+      "type": "integer"
+    },
+    "company_id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "group_id": {
+      "type": "integer"
+    },
+    "country": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "contact_person": {
+      "type": "string"
+    },
+    "mobile_number": {
+      "type": "string"
+    },
+    "pan_number": {
+      "type": "string"
+    },
+    "gst_number": {
+      "type": "string"
+    },
+    "op_balance": {
+      "type": "string"
+    },
+    "debit_amount": {
+      "type": "decimal"
+    },
+    "credit_amount": {
+      "type": "decimal"
+    }
+  }
+}

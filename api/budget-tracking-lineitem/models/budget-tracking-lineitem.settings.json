@@ -13,7 +13,7 @@
       "model": "budget-targets-project"
     },
     "annual_year": {
-      "model": "annual-year"
+      "model": "year-tag"
     },
     "grant_periods_project": {
       "model": "grant-periods-project"
@@ -47,6 +47,21 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "budget_sub_target": {
+      "model": "budget-sub-target"
+    },
+    "timeperiod_start": {
+      "type": "date"
+    },
+    "timeperiod_end": {
+      "type": "date"
+    },
+    "financial_year_org": {
+      "model": "year-tag"
+    },
+    "financial_year_donor": {
+      "model": "year-tag"
     }
   }
 }

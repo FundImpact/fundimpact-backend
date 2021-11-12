@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "project_with_budget_targets",
+  "info": {
+    "name": "Project With Budget Target"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "budget_targets_project": {
+      "model": "budget-targets-project"
+    },
+    "project": {
+      "model": "project"
+    }
+  }
+}

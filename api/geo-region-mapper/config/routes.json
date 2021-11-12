@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/geo-region-mappers",
+      "handler": "geo-region-mapper.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/geo-region-mappers/count",
+      "handler": "geo-region-mapper.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/geo-region-mappers/:id",
+      "handler": "geo-region-mapper.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/geo-region-mappers",
+      "handler": "geo-region-mapper.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/geo-region-mappers/:id",
+      "handler": "geo-region-mapper.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/geo-region-mappers/:id",
+      "handler": "geo-region-mapper.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

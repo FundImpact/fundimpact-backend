@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cost_centers",
+  "info": {
+    "name": "cost_centers"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "u_id": {
+      "type": "uid",
+      "required": true
+    },
+    "tally_id": {
+      "type": "integer"
+    },
+    "company_id": {
+      "type": "integer"
+    },
+    "cost_category_id": {
+      "type": "integer"
+    },
+    "cost_category": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "group_id": {
+      "type": "integer"
+    }
+  }
+}

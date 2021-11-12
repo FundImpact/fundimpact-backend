@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cost_categories",
+  "info": {
+    "name": "cost_categories"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "u_id": {
+      "type": "uid",
+      "required": true
+    },
+    "tally_id": {
+      "type": "integer"
+    },
+    "company_id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "group_id": {
+      "type": "integer"
+    }
+  }
+}

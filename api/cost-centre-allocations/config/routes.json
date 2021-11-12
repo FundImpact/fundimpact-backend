@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/cost-centre-allocations",
+      "handler": "cost-centre-allocations.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/cost-centre-allocations/count",
+      "handler": "cost-centre-allocations.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/cost-centre-allocations/:id",
+      "handler": "cost-centre-allocations.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/cost-centre-allocations",
+      "handler": "cost-centre-allocations.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/cost-centre-allocations/:id",
+      "handler": "cost-centre-allocations.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/cost-centre-allocations/:id",
+      "handler": "cost-centre-allocations.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "grampanchayats",
+  "info": {
+    "name": "grampanchayat"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "district": {
+      "model": "district",
+      "via": "grampanchayats"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "geo_regions": {
+      "via": "gp_id",
+      "collection": "geo-regions"
+    }
+  }
+}

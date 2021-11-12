@@ -45,6 +45,29 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
+  totalDeliverableAchieved: async ctx => {
+    try {
+
+      console.log(ctx.request.body);
+      let type = ctx.params.where.deliverable_target_project.type;
+      let data = await strapi.connections.default.raw(`SELECT deliverable_sub_targets.id as dst_id FROM deliverable_sub_targets 
+      INNER JOIN deliverable_target_project dtp on dtp.id = deliverable_sub_targets.deliverable_target_project
+      where deliverable_sub_targets.project = ${ctx.params.where.project} and dtp.type = '${type}' and COALESCE(deliverable_sub_targets.deleted, false) <> true`)
+      console.log('=================>',data.length);
+      if(data.length >0){
+        let arrayofIDS = data.map((x)=>{ return `'${x.id}'` })
+        arrayofIDS.join(',')
+        let sumData = await strapi.connections.default.raw(`SELECT SUM(value) FROM deliverable_tracking_lineitem 
+        where deliverable_sub_target IN(${arrayofIDS}) and COALESCE(deleted, false) <> true`)
+        return sumData.rows && sumData.rows.length > 0 && sumData.rows[0].sum != null ? sumData.rows[0].sum : 0;
+      }
+      return 0
+       
+    } catch (error) {
+      console.log(error)
+      return ctx.badRequest(null, error.message);  
+    }
+  },
   exportTable: async (ctx) => {
     try {
       const { res, params, query } = ctx;

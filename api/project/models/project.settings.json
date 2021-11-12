@@ -47,8 +47,8 @@
       "via": "project"
     },
     "t4d_project_individuals": {
-      "via": "project",
-      "collection": "t4d-project-individual"
+      "collection": "t4d-project-individual",
+      "via": "project"
     },
     "organization": {
       "model": "organization",
@@ -57,6 +57,21 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "budget_category_organizations": {
+      "collection": "budget-category-organization",
+      "via": "project_id"
+    },
+    "deliverable_category_orgs": {
+      "collection": "deliverable-category-org",
+      "via": "project_id"
+    },
+    "logframe_tracker": {
+      "type": "boolean"
+    },
+    "geo_regions": {
+      "via": "project_id",
+      "collection": "geo-regions"
     }
   }
 }

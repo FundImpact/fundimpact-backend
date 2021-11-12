@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "year_tags_countries",
+  "info": {
+    "name": "Year Tags Country"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "country": {
+      "model": "country"
+    },
+    "year_tag": {
+      "model": "year-tag"
+    }
+  }
+}
