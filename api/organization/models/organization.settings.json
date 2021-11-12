@@ -66,12 +66,12 @@
       "via": "organization"
     },
     "category": {
-      "model": "category",
-      "via": "organizations"
+      "via": "organizations",
+      "model": "category"
     },
     "unit": {
-      "model": "unit",
-      "via": "organizations"
+      "via": "organizations",
+      "model": "unit"
     },
     "donors": {
       "collection": "donor",

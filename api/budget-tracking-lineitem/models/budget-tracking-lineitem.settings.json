@@ -56,6 +56,10 @@
     },
     "financial_year_donor": {
       "model": "year-tag"
+    },
+    "geo_region_id": {
+      "model": "geo-regions",
+      "via": "budget_tracking_lineitems"
     }
   }
 }

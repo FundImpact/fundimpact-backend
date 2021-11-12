@@ -23,12 +23,12 @@
       "default": false
     },
     "category": {
-      "model": "category",
-      "via": "deliverable_target_projects"
+      "via": "deliverable_target_projects",
+      "model": "category"
     },
     "unit": {
-      "model": "unit",
-      "via": "deliverable_target_projects"
+      "via": "deliverable_target_projects",
+      "model": "unit"
     },
     "project_with_deliverable_targets": {
       "collection": "project-with-deliverable-target",

@@ -68,6 +68,10 @@
     "geo_regions": {
       "via": "project_id",
       "collection": "geo-regions"
+    },
+    "categories": {
+      "via": "project_id",
+      "collection": "category"
     }
   }
 }

@@ -22,12 +22,16 @@
       "type": "string"
     },
     "deliverable_target_projects": {
-      "via": "category",
-      "collection": "deliverable-target-project"
+      "collection": "deliverable-target-project",
+      "via": "category"
     },
     "organizations": {
-      "via": "category",
-      "collection": "organization"
+      "collection": "organization",
+      "via": "category"
+    },
+    "project_id": {
+      "model": "project",
+      "via": "categories"
     }
   }
 }
