@@ -47,6 +47,22 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/year-tags/donor_wise_year_tag/:id",
+      "handler": "year-tag.donerWiseYearTag",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/year-tags/organization_wise_year_tag/:id",
+      "handler": "year-tag.organizationWiseYearTag",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
