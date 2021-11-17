@@ -23,6 +23,17 @@
     },
     "sustainable_development_goal": {
       "model": "sustainable-development-goals"
+    },
+    "deliverable_target_projects": {
+      "collection": "deliverable-target-project",
+      "via": "unit"
+    },
+    "organizations": {
+      "collection": "organization",
+      "via": "unit"
+    },
+    "project_id": {
+      "model": "project"
     }
   }
 }

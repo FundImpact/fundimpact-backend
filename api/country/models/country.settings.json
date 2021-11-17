@@ -29,10 +29,6 @@
       "collection": "currency",
       "via": "country"
     },
-    "financial_years": {
-      "collection": "financial-year",
-      "via": "country"
-    },
     "geo_regions": {
       "via": "country_id",
       "collection": "geo-regions"

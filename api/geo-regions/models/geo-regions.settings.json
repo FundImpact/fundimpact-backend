@@ -47,6 +47,18 @@
     "gp_id": {
       "model": "grampanchayat",
       "via": "geo_regions"
+    },
+    "budget_sub_targets": {
+      "via": "geo_region_id",
+      "collection": "budget-sub-target"
+    },
+    "deliverable_sub_targets": {
+      "via": "geo_region_id",
+      "collection": "deliverable-sub-target"
+    },
+    "budget_tracking_lineitems": {
+      "via": "geo_region_id",
+      "collection": "budget-tracking-lineitem"
     }
   }
 }

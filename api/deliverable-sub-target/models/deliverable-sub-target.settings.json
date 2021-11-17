@@ -48,6 +48,10 @@
     },
     "target_value_qualitative": {
       "type": "string"
+    },
+    "geo_region_id": {
+      "model": "geo-regions",
+      "via": "deliverable_sub_targets"
     }
   }
 }

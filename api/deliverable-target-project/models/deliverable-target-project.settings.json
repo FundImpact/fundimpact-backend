@@ -22,11 +22,13 @@
       "type": "boolean",
       "default": false
     },
-    "deliverable_category_org": {
-      "model": "deliverable-category-org"
+    "category": {
+      "via": "deliverable_target_projects",
+      "model": "category"
     },
-    "deliverable_unit_org": {
-      "model": "deliverable-units-org"
+    "unit": {
+      "via": "deliverable_target_projects",
+      "model": "unit"
     },
     "project_with_deliverable_targets": {
       "collection": "project-with-deliverable-target",

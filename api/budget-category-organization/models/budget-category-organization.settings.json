@@ -20,8 +20,8 @@
       "type": "richtext"
     },
     "organization": {
-      "model": "organization",
-      "via": "budget_category_organizations"
+      "via": "budget_category_organizations",
+      "model": "organization"
     },
     "deleted": {
       "type": "boolean",
