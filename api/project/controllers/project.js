@@ -76,6 +76,12 @@ module.exports = {
           if ("deleted" in body) {
             updateObj.deleted = body.deleted;
           }
+          if ("deleted" in body) {
+            updateObj.deleted = body.deleted;
+          }
+          if("logframe_tracker" in body){
+            updateObj.logframe_tracker = body.logframe_tracker;
+          }
           queryBuilder.update(updateObj, [
             "id",
             "name",
@@ -86,6 +92,7 @@ module.exports = {
             "created_at",
             "updated_at",
             "deleted",
+            "logframe_tracker"
           ]);
         });
       return updatedProject && updatedProject[0];
