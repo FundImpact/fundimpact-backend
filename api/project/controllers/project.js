@@ -140,8 +140,6 @@ module.exports = {
   },
   find: async (ctx) => {
     return await strapi.services["project"].find({ 'deleted': false });
-    // const knex = strapi.connections.default;
-    // return await knex("projects").where({ 'projects.deleted': null }).orWhere({ 'projects.deleted': false });
   },
 };
 
