@@ -28,7 +28,8 @@
       "type": "boolean",
       "default": false
     },
-    "year_tag":{
+    "year_tag": {
+      "via": "fund_receipt_projects",
       "model": "year-tag"
     },
     "donor": {

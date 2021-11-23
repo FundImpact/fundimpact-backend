@@ -37,7 +37,7 @@ module.exports = async (ctx, next) => {
     };
     return await next();
   } catch (err) {
-    console.erro("error",err);
+    console.error("error",err);
     ctx.badRequest(`Error occured - ${err.message}`);
   }
 };

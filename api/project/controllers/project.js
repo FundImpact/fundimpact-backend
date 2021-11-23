@@ -82,6 +82,8 @@ module.exports = {
           if ("logframe_tracker" in body) {
             updateObj.logframe_tracker = body.logframe_tracker;
           }
+          console.log("body", updateObj)
+
           queryBuilder.update(updateObj, [
             "id",
             "name",
@@ -137,12 +139,10 @@ module.exports = {
     }
   },
   find: async (ctx) => {
-    const knex = strapi.connections.default;
-    return await knex("projects")
-      .join("workspaces", {
-        [`projects.workspace`]: "workspaces.id",
-      }).where({ 'projects.deleted': null }).orWhere({ 'projects.deleted': null });
-  }
+    return await strapi.services["project"].find({ 'deleted': false });
+    // const knex = strapi.connections.default;
+    // return await knex("projects").where({ 'projects.deleted': null }).orWhere({ 'projects.deleted': false });
+  },
 };
 
 const checkIfUserWantToDeleteProject = (requestBody) => !!requestBody.deleted;

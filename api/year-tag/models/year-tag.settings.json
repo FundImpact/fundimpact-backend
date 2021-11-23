@@ -26,8 +26,11 @@
       "type": "string"
     },
     "fund_receipt_projects": {
-      "via": "year_tag",
-      "collection": "fund-receipt-project"
+      "collection": "fund-receipt-project",
+      "via": "year_tag"
+    },
+    "country_id": {
+      "type": "string"
     }
   }
 }
