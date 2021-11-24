@@ -1,7 +1,11 @@
+const _ = require('lodash');
 module.exports = {
+    definition: ``,
     query: `
       yearTagCount(where: JSON): Int!
-    `,
+      yearTagDonor(id: ID):[YearTag]
+      yearTagOrganization(id: ID):[YearTag]`,
+    mutation: ``,
     resolver: {
         Query: {
             yearTagCount: {
@@ -11,6 +15,12 @@ module.exports = {
                     return await strapi.api['year-tag'].services['year-tag'].count(options.where || {});
                 },
             },
+            yearTagDonor: {
+                resolver: 'application::year-tag.year-tag.donerWiseYearTag'
+            },
+            yearTagOrganization: {
+                resolver: 'application::year-tag.year-tag.organizationWiseYearTag'
+            }
         },
     },
 };

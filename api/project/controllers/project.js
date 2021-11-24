@@ -9,7 +9,7 @@ const JSONStream = require("JSONStream");
 const { Transform } = require("json2csv");
 const { tables } = require("../../../utils/tables");
 const { deleteAllTheTablesInAProject } = require("../services/project");
-const deliverableType = ['deliverable','impact','outcome','activity','output']
+const deliverableType = ['deliverable', 'impact', 'outcome', 'activity', 'output']
 
 module.exports = {
   exportTable: async (ctx) => {
@@ -76,9 +76,14 @@ module.exports = {
           if ("deleted" in body) {
             updateObj.deleted = body.deleted;
           }
-          if("logframe_tracker" in body){
+          if ("deleted" in body) {
+            updateObj.deleted = body.deleted;
+          }
+          if ("logframe_tracker" in body) {
             updateObj.logframe_tracker = body.logframe_tracker;
           }
+          console.log("body", updateObj)
+
           queryBuilder.update(updateObj, [
             "id",
             "name",
@@ -101,7 +106,7 @@ module.exports = {
   manageProjectTarget: async (ctx) => {
     try {
       let { formType, target, projects } = ctx.request.body;
-  
+
       if (formType == "budget") {
         await strapi
           .query("project-with-budget-target")
@@ -113,8 +118,8 @@ module.exports = {
               .create({ budget_targets_project: target, project: e });
           }
         }
-      } 
-      else if (deliverableType.indexOf(formType) > -1 ) {
+      }
+      else if (deliverableType.indexOf(formType) > -1) {
         await strapi
           .query("project-with-deliverable-target")
           .delete({ deliverable_target_project: target });
@@ -126,14 +131,16 @@ module.exports = {
           }
         }
       }
-      return ctx.send({success:true,message:'Updated Successfully'})
+      return ctx.send({ success: true, message: 'Updated Successfully' })
 
     } catch (error) {
       console.log(error);
       return ctx.badRequest(null, error.message);
     }
-  }
-
+  },
+  // find: async (ctx) => {
+  //   return await strapi.services["project"].find({ 'deleted': false });
+  // }
 };
 
 const checkIfUserWantToDeleteProject = (requestBody) => !!requestBody.deleted;

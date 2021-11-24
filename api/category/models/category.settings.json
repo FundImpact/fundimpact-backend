@@ -22,8 +22,8 @@
       "type": "string"
     },
     "deliverable_target_projects": {
-      "collection": "deliverable-target-project",
-      "via": "category"
+      "via": "category",
+      "collection": "deliverable-target-project"
     },
     "organizations": {
       "collection": "organization",

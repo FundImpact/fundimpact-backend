@@ -23,27 +23,16 @@
       "default": false
     },
     "category": {
-      "via": "deliverable_target_projects",
-      "model": "category"
+      "model": "category",
+      "via": "deliverable_target_projects"
     },
     "unit": {
-      "via": "deliverable_target_projects",
-      "model": "unit"
+      "model": "unit",
+      "via": "deliverable_target_projects"
     },
     "project_with_deliverable_targets": {
-      "collection": "project-with-deliverable-target",
-      "via": "deliverable_target_project"
-    },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "deliverable",
-        "impact",
-        "outcome",
-        "activity",
-        "output"
-      ],
-      "default": "deliverable"
+      "via": "deliverable_target_project",
+      "collection": "project-with-deliverable-target"
     },
     "sustainable_development_goal": {
       "model": "sustainable-development-goals"
@@ -73,6 +62,10 @@
     },
     "parent_id": {
       "type": "integer"
+    },
+    "type": {
+      "model": "deliverable-type",
+      "via": "deliverable_target_projects"
     }
   }
 }

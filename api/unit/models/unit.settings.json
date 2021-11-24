@@ -25,8 +25,8 @@
       "model": "sustainable-development-goals"
     },
     "deliverable_target_projects": {
-      "collection": "deliverable-target-project",
-      "via": "unit"
+      "via": "unit",
+      "collection": "deliverable-target-project"
     },
     "organizations": {
       "collection": "organization",
