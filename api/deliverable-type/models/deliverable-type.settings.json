@@ -18,7 +18,6 @@
       "type": "boolean",
       "default": true
     },
-   
     "deliverable_type": {
       "model": "deliverable-type",
       "via": "deliverable_types"
@@ -30,6 +29,10 @@
     "weight": {
       "required": false,
       "type": "biginteger"
+    },
+    "deliverable_target_projects": {
+      "via": "type",
+      "collection": "deliverable-target-project"
     }
   }
 }

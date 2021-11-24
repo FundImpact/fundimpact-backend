@@ -30,6 +30,10 @@
     "project_id": {
       "via": "budget_category_organizations",
       "model": "project"
+    },
+    "project_with_deliverable_targets": {
+      "via": "category",
+      "collection": "project-with-deliverable-target"
     }
   }
 }
