@@ -30,7 +30,7 @@
       "via": "year_tag"
     },
     "country_id": {
-      "type": "string"
+      "type": "json"
     }
   }
 }
