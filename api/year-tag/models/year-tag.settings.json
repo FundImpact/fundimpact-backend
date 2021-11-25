@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "year_tags",
+  "info": {
+    "name": "year_tag"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "annual",
+        "financial"
+      ]
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "name": {
+      "type": "string"
+    },
+    "fund_receipt_projects": {
+      "collection": "fund-receipt-project",
+      "via": "year_tag"
+    },
+    "country_id": {
+      "type": "json"
+    }
+  }
+}

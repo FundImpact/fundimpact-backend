@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "project_with_deliverable_targets",
+  "info": {
+    "name": "Project With Deliverable Target"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "deliverable_target_project": {
+      "model": "deliverable-target-project",
+      "via": "project_with_deliverable_targets"
+    },
+    "project": {
+      "model": "project"
+    },
+    "parent": {
+      "model": "project-with-deliverable-target"
+    },
+    "value_qualitative": {
+      "type": "string"
+    },
+    "category": {
+      "model": "budget-category-organization",
+      "via": "project_with_deliverable_targets"
+    }
+  }
+}

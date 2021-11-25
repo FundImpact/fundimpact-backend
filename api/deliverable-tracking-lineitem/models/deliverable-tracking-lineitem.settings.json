@@ -19,16 +19,13 @@
       "type": "richtext"
     },
     "annual_year": {
-      "model": "annual-year"
+      "model": "year-tag"
     },
     "grant_periods_project": {
       "model": "grant-periods-project"
     },
     "reporting_date": {
       "type": "datetime"
-    },
-    "financial_year": {
-      "model": "financial-year"
     },
     "attachments": {
       "collection": "file",
@@ -44,6 +41,24 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "deliverable_sub_target": {
+      "model": "deliverable-sub-target"
+    },
+    "timeperiod_start": {
+      "type": "date"
+    },
+    "timeperiod_end": {
+      "type": "date"
+    },
+    "financial_year_org": {
+      "model": "year-tag"
+    },
+    "financial_year_donor": {
+      "model": "year-tag"
+    },
+    "value_qualitative": {
+      "type": "string"
     }
   }
 }

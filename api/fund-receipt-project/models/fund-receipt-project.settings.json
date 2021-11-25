@@ -18,17 +18,8 @@
     "reporting_date": {
       "type": "date"
     },
-    "annual_year": {
-      "model": "annual-year"
-    },
     "grant_periods_project": {
       "model": "grant-periods-project"
-    },
-    "fy_org": {
-      "model": "financial-year"
-    },
-    "fy_donor": {
-      "model": "financial-year"
     },
     "project_donor": {
       "model": "project-donor"
@@ -36,6 +27,10 @@
     "deleted": {
       "type": "boolean",
       "default": false
+    },
+    "year_tag": {
+      "via": "fund_receipt_projects",
+      "model": "year-tag"
     },
     "donor": {
       "model": "donor"

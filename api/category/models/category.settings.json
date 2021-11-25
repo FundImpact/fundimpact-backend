@@ -20,6 +20,18 @@
     },
     "type": {
       "type": "string"
+    },
+    "deliverable_target_projects": {
+      "via": "category",
+      "collection": "deliverable-target-project"
+    },
+    "organizations": {
+      "collection": "organization",
+      "via": "category"
+    },
+    "project_id": {
+      "model": "project",
+      "via": "categories"
     }
   }
 }

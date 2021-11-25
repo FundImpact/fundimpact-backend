@@ -18,8 +18,8 @@
       "required": true
     },
     "country": {
-      "model": "country",
-      "via": "currencies"
+      "via": "currencies",
+      "model": "country"
     }
   }
 }

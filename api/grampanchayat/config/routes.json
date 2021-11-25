@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/grampanchayats",
+      "handler": "grampanchayat.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/grampanchayats/count",
+      "handler": "grampanchayat.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/grampanchayats/:id",
+      "handler": "grampanchayat.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/grampanchayats",
+      "handler": "grampanchayat.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/grampanchayats/:id",
+      "handler": "grampanchayat.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/grampanchayats/:id",
+      "handler": "grampanchayat.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

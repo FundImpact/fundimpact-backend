@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/voucher-ledgers",
+      "handler": "voucher-ledgers.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/voucher-ledgers/count",
+      "handler": "voucher-ledgers.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/voucher-ledgers/:id",
+      "handler": "voucher-ledgers.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/voucher-ledgers",
+      "handler": "voucher-ledgers.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/voucher-ledgers/:id",
+      "handler": "voucher-ledgers.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/voucher-ledgers/:id",
+      "handler": "voucher-ledgers.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

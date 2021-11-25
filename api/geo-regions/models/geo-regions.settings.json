@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "geo_regions",
+  "info": {
+    "name": "geo_regions"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": false
+    },
+    "project_id": {
+      "model": "project",
+      "via": "geo_regions"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "country_id": {
+      "model": "country",
+      "via": "geo_regions"
+    },
+    "state_id": {
+      "model": "state",
+      "via": "geo_regions"
+    },
+    "district_id": {
+      "model": "district",
+      "via": "geo_regions"
+    },
+    "block_id": {
+      "model": "block",
+      "via": "geo_regions"
+    },
+    "village_id": {
+      "model": "village",
+      "via": "geo_regions"
+    },
+    "gp_id": {
+      "model": "grampanchayat",
+      "via": "geo_regions"
+    },
+    "budget_sub_targets": {
+      "via": "geo_region_id",
+      "collection": "budget-sub-target"
+    },
+    "deliverable_sub_targets": {
+      "via": "geo_region_id",
+      "collection": "deliverable-sub-target"
+    },
+    "budget_tracking_lineitems": {
+      "via": "geo_region_id",
+      "collection": "budget-tracking-lineitem"
+    }
+  }
+}

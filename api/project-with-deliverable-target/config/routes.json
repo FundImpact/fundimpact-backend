@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/project-with-deliverable-targets",
+      "handler": "project-with-deliverable-target.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/project-with-deliverable-targets/count",
+      "handler": "project-with-deliverable-target.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/project-with-deliverable-targets/:id",
+      "handler": "project-with-deliverable-target.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/project-with-deliverable-targets",
+      "handler": "project-with-deliverable-target.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/project-with-deliverable-targets/:id",
+      "handler": "project-with-deliverable-target.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/project-with-deliverable-targets/:id",
+      "handler": "project-with-deliverable-target.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
