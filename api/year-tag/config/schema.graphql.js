@@ -4,7 +4,8 @@ module.exports = {
     query: `
       yearTagCount(where: JSON): Int!
       yearTagDonor(id: ID):[YearTag]
-      yearTagOrganization(id: ID):[YearTag]`,
+      yearTagOrganization(id: ID):[YearTag]
+      yearTagFind(sort:String,where: JSON): [Project]`,
     mutation: ``,
     resolver: {
         Query: {
@@ -20,6 +21,9 @@ module.exports = {
             },
             yearTagOrganization: {
                 resolver: 'application::year-tag.year-tag.organizationWiseYearTag'
+            },
+            yearTagFind:{
+                resolver: 'application::year-tag.year-tag.find'
             }
         },
     },
