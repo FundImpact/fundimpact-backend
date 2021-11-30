@@ -22,9 +22,9 @@ module.exports = {
         where org.id=${id} and type !='annual'`)
         return data.rows && data.rows.length > 0 ? data.rows : [];
     },
-    find: async (ctx)=>{
-        const { id } = ctx.params;
-        let data = await strapi.connections.default.raw(`select * from year_tags`)
-        return data.rows && data.rows.length > 0 ? data.rows : [];
-    }
+    // find: async (ctx)=>{
+    //     const { id } = ctx.params;
+    //     let data = await strapi.connections.default.raw(`select * from year_tags`)
+    //     return data.rows && data.rows.length > 0 ? data.rows : [];
+    // }
 };

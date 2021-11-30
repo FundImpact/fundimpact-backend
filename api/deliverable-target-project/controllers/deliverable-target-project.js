@@ -47,8 +47,6 @@ module.exports = {
   },
   totalDeliverableAchieved: async ctx => {
     try {
-
-      console.log(ctx.request.body);
       let type = ctx.params.where.deliverable_target_project.type;
       let data = await strapi.connections.default.raw(`SELECT deliverable_sub_targets.id as dst_id FROM deliverable_sub_targets 
       INNER JOIN deliverable_target_project dtp on dtp.id = deliverable_sub_targets.deliverable_target_project

@@ -14,8 +14,9 @@ module.exports = {
   create: async (ctx) => {
     try {
       const { request: { body }, params, } = ctx;
+      console.log("body",body)
       let entity = await strapi.services["budget-targets-project"].create(body);
-      // let data = sanitizeEntity(entity, { model: strapi.models['budget-targets-project'] });
+      console.log("entity",entity)
       if (entity.id) {
         let object = {
           budget_targets_project: entity.id,
