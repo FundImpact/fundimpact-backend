@@ -138,9 +138,6 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
-  // find: async (ctx) => {
-  //   return await strapi.services["project"].find({ 'deleted': false });
-  // }
 };
 
 const checkIfUserWantToDeleteProject = (requestBody) => !!requestBody.deleted;

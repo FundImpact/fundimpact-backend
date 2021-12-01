@@ -9,7 +9,7 @@ module.exports = {
   spendAmount: async (ctx) => {
     try {
       let sumData = await strapi.connections.default.raw(
-        `SELECT SUM(amount) FROM budget_tracking_lineitem where budget_targets_project = ${ctx.params.where.budgetTargetsProject} and COALESCE(deleted, false) <> true`
+        `SELECT SUM(amount) FROM budget_tracking_lineitem where budget_sub_target = ${ctx.params.where.budgetTargetsProject} and COALESCE(deleted, false) <> true`
       );
       return sumData.rows &&
         sumData.rows.length > 0 &&
@@ -23,11 +23,9 @@ module.exports = {
   },
   totalSpendAmountByProject: async (ctx) => {
     try {
-      console.log(ctx.params.where);
       let budget_sub_targets_projectIds = await strapi
         .query("budget-sub-target")
         .find({ project: ctx.params.where.project, _limit: 1000 });
-      console.log('budget-sub-target',budget_sub_targets_projectIds.length,budget_sub_targets_projectIds)  
       let sumData = 0;
       budget_sub_targets_projectIds = budget_sub_targets_projectIds
         .filter((m) => !m.deleted)

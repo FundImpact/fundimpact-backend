@@ -49,6 +49,9 @@
     "geo_region_id": {
       "model": "geo-regions",
       "via": "budget_sub_targets"
+    },
+    "btlAmount": {
+      "type": "float"
     }
   }
 }
