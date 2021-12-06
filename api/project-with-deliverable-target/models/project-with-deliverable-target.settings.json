@@ -10,14 +10,11 @@
   },
   "attributes": {
     "deliverable_target_project": {
-      "model": "deliverable-target-project",
-      "via": "project_with_deliverable_targets"
+      "via": "project_with_deliverable_targets",
+      "model": "deliverable-target-project"
     },
     "project": {
       "model": "project"
-    },
-    "parent": {
-      "model": "project-with-deliverable-target"
     },
     "value_qualitative": {
       "type": "string"
@@ -25,6 +22,9 @@
     "category": {
       "model": "budget-category-organization",
       "via": "project_with_deliverable_targets"
+    },
+    "parent": {
+      "model": "project-with-deliverable-target"
     }
   }
 }

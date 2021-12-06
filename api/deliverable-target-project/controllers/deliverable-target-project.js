@@ -184,6 +184,19 @@ module.exports = {
       return ctx.badRequest(null, error.message);
     }
   },
+  
+  // find: async (ctx) => {
+  //   const { query } = ctx;
+  //   // console.log("query", query)
+  //   let dtProject = await strapi.query("deliverable-target-project").find(query);
+  //   if (dtProject && dtProject.length) {
+  //     let ids = dtProject.map(e => e.id);
+  //     ids.push(355)
+  //     console.log(`select parent from project_with_deliverable_targets WHERE parent IN (${ids})`)
+  //     let parentData = await strapi.connections.default.raw(`select parent from project_with_deliverable_targets WHERE parent IN (${ids})`);
+  //     console.log("parentData",parentData)
+  //   }
+  // }
 };
 
 const isProjectIdAvailableInUserProjects = (userProjects, projectId) =>
