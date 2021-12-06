@@ -65,7 +65,7 @@
       "via": "deliverable_target_projects"
     },
     "parent": {
-      "model": "deliverable-target-project"
+      "type": "integer"
     }
   }
 }
