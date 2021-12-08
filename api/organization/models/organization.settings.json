@@ -101,6 +101,22 @@
     "t_4_d_individuals": {
       "collection": "t4d-individual",
       "via": "organization"
+    },
+    "categories": {
+      "via": "organization_id",
+      "collection": "category"
+    },
+    "geo_regions": {
+      "via": "organization_id",
+      "collection": "geo-regions"
+    },
+    "year_tags": {
+      "via": "organization_id",
+      "collection": "year-tag"
+    },
+    "units": {
+      "via": "organization_id",
+      "collection": "unit"
     }
   }
 }

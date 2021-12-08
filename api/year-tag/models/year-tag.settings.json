@@ -31,6 +31,10 @@
     },
     "country_id": {
       "type": "json"
+    },
+    "organization_id": {
+      "model": "organization",
+      "via": "year_tags"
     }
   }
 }

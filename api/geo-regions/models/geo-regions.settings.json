@@ -49,16 +49,20 @@
       "via": "geo_regions"
     },
     "budget_sub_targets": {
-      "via": "geo_region_id",
-      "collection": "budget-sub-target"
+      "collection": "budget-sub-target",
+      "via": "geo_region_id"
     },
     "deliverable_sub_targets": {
-      "via": "geo_region_id",
-      "collection": "deliverable-sub-target"
+      "collection": "deliverable-sub-target",
+      "via": "geo_region_id"
     },
     "budget_tracking_lineitems": {
-      "via": "geo_region_id",
-      "collection": "budget-tracking-lineitem"
+      "collection": "budget-tracking-lineitem",
+      "via": "geo_region_id"
+    },
+    "organization_id": {
+      "model": "organization",
+      "via": "geo_regions"
     }
   }
 }

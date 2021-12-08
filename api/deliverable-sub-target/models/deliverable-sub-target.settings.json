@@ -50,8 +50,8 @@
       "type": "string"
     },
     "geo_region_id": {
-      "model": "geo-regions",
-      "via": "deliverable_sub_targets"
+      "via": "deliverable_sub_targets",
+      "model": "geo-regions"
     }
   }
 }
