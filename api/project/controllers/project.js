@@ -82,8 +82,10 @@ module.exports = {
           if ("logframe_tracker" in body) {
             updateObj.logframe_tracker = body.logframe_tracker;
           }
-          console.log("body", updateObj)
-
+          if ("workspace" in body) {
+            updateObj.workspace = body.workspace;
+          }
+          
           queryBuilder.update(updateObj, [
             "id",
             "name",
