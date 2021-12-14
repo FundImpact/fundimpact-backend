@@ -7,6 +7,7 @@ module.exports = {
     deliverableTrackingLineItemTotalValue(where : JSON) : Float!
     deliverableTrackingLineitemCount(where : JSON) : Float!
     deliverableTrackingTotalSpendAmount(where : JSON) : Float!
+    deliverableTotalAchivedValueTargetValue(where : JSON) : JSON!
   `,
     mutation: `
         createDeliverableTrackingLineitemDetail(input: DeliverableTrackingLineitemInput): DeliverableTrackingLineitem!,
@@ -31,6 +32,11 @@ module.exports = {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
                 return await strapi.services['deliverable-tracking-lineitem'].totalValue(context);
+            },
+            deliverableTotalAchivedValueTargetValue: async (obj, options, { context }) => {
+                context.params = _.toPlainObject(options);
+                context.request.body = _.toPlainObject(options.input);
+                return await strapi.services['deliverable-tracking-lineitem'].totalAchivedValueTargetValue(context);
             },
 
             deliverableTrackingTotalSpendAmount: async (obj, options, { context }) => {
