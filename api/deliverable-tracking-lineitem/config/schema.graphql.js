@@ -4,6 +4,7 @@ module.exports = {
     query: `
     deliverableTrackingLineitemList(sort: String , limit: Int, start: Int, where : JSON): [DeliverableTrackingLineitem]
     deliverableTrackingTotalValue(where : JSON) : Float!
+    deliverableTrackingLineItemTotalValue(where : JSON) : Float!
     deliverableTrackingLineitemCount(where : JSON) : Float!
     deliverableTrackingTotalSpendAmount(where : JSON) : Float!
   `,
@@ -21,29 +22,35 @@ module.exports = {
                 policies: ['application::deliverable-tracking-lineitem.addFilter'],
                 resolver: 'application::deliverable-tracking-lineitem.deliverable-tracking-lineitem.count'
             },
-            deliverableTrackingTotalValue : async (obj, options, {context }) => {
+            deliverableTrackingTotalValue: async (obj, options, { context }) => {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
                 return await strapi.services['deliverable-tracking-lineitem'].totalAchivedValue(context);
             },
+            deliverableTrackingLineItemTotalValue: async (obj, options, { context }) => {
+                context.params = _.toPlainObject(options);
+                context.request.body = _.toPlainObject(options.input);
+                return await strapi.services['deliverable-tracking-lineitem'].totalValue(context);
+            },
+
             deliverableTrackingTotalSpendAmount: async (obj, options, { context }) => {
                 context.params = _.toPlainObject(options);
                 context.request.body = _.toPlainObject(options.input);
                 return await strapi.services['deliverable-tracking-lineitem'].totalSpendAmountByProject(context);
-              },
+            },
         },
         Mutation: {
-            createDeliverableTrackingLineitemDetail:{
+            createDeliverableTrackingLineitemDetail: {
                 resolverOf: 'application::deliverable-tracking-lineitem.deliverable-tracking-lineitem.create',
-                resolver:  async (obj, options, {context }) => {
+                resolver: async (obj, options, { context }) => {
                     context.params = _.toPlainObject(options);
                     context.request.body = _.toPlainObject(options.input);
                     return await strapi.controllers['deliverable-tracking-lineitem'].create(context);
                 }
             },
-            updateDeliverableTrackingLineitemDetail:{
+            updateDeliverableTrackingLineitemDetail: {
                 resolverOf: 'application::deliverable-tracking-lineitem.deliverable-tracking-lineitem.update',
-                resolver:  async (obj, options, {context }) => {
+                resolver: async (obj, options, { context }) => {
                     context.params = _.toPlainObject(options);
                     context.request.body = _.toPlainObject(options.input);
                     return await strapi.controllers['deliverable-tracking-lineitem'].update(context);

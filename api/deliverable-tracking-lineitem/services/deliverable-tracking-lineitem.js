@@ -15,6 +15,19 @@ module.exports = {
             return ctx.badRequest(null, error.message);
         }
     },
+    totalValue: async ctx => {
+        try {
+            let totalAmt = await strapi.connections.default.raw(`SELECT SUM(value) as value FROM deliverable_tracking_lineitem dtl
+            inner join deliverable_sub_targets dst ON dst.id = dtl.deliverable_sub_target
+            where dst.deliverable_target_project=${ctx.params.where.deliverable_target_project} AND dst.project=${ctx.params.where.project} and dtl.deleted=false
+            `)
+            console.log("totalAmt.rows[0]",totalAmt.rows[0])
+            return totalAmt.rows && totalAmt.rows.length > 0 ? totalAmt.rows[0].value : 0;
+        } catch (error) {
+            console.log(error)
+            return ctx.badRequest(null, error.message);
+        }
+    },
     totalSpendAmountByProject: async ctx => {
         try {
             let deliverable_target_projectIds = await strapi.query("deliverable-target-project").find({ project: ctx.params.where.project, _limit: 1000  });
