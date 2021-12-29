@@ -22,14 +22,19 @@ module.exports = {
     }
   },
   totalSpendAmountByProject: async (ctx) => {
+    console.log("sdsd");
     try {
-      let budget_sub_targets_projectIds = await strapi
-        .query("budget-sub-target")
-        .find({ project: ctx.params.where.project, _limit: 1000 });
+      let dataProject = await strapi.connections.default.raw(
+        `SELECT bst.* FROM budget_sub_targets bst inner join budget_targets_project btp on btp.id=bst.budget_targets_project
+         where btp.project=432 and btp.deleted=false and bst.deleted=false`
+      );
+     let budget_sub_targets_projectIds = dataProject.rows && dataProject.rows.length > 0 ? dataProject.rows : [];
+      // let budget_sub_targets_projectIds = await strapi
+      //   .query("budget-sub-target")
+      //   .find({ project: ctx.params.where.project, _limit: 1000 });
       let sumData = 0;
-      budget_sub_targets_projectIds = budget_sub_targets_projectIds
-        .filter((m) => !m.deleted)
-        .map((m) => m.id);
+      budget_sub_targets_projectIds = budget_sub_targets_projectIds.length ?  budget_sub_targets_projectIds.map((m) => m.id) :[];
+
       if (budget_sub_targets_projectIds.length > 0) {
         budget_sub_targets_projectIds = budget_sub_targets_projectIds
           .map((x) => "'" + x + "'")
