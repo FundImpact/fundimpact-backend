@@ -20,7 +20,7 @@ module.exports = {
             let totalAmt = await strapi.connections.default.raw(`
             select SUM(dstli.value) as value from deliverable_target_project dtp 
             left join (SELECT * FROM  deliverable_sub_targets  WHERE deleted=false) as dst ON dtp.id=dst.deliverable_target_project
-            left join (SELECT SUM(id) as value, deliverable_sub_target FROM  deliverable_tracking_lineitem WHERE deleted=false group by deliverable_sub_target) as dstli ON dst.id=dstli.deliverable_sub_target
+            left join (SELECT SUM(value) as value, deliverable_sub_target FROM  deliverable_tracking_lineitem WHERE deleted=false group by deliverable_sub_target) as dstli ON dst.id=dstli.deliverable_sub_target
             where type='${ctx.params.where.type}' and dtp.project=${ctx.params.where.project} and dtp.id=${ctx.params.where.deliverable_target_project} and dtp.deleted=false`)
             return totalAmt.rows && totalAmt.rows.length > 0 && totalAmt.rows[0].value !== null ? totalAmt.rows[0].value : 0;
         } catch (error) {
